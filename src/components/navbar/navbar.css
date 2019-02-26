@@ -1,0 +1,40 @@
+
+.logo {
+    height: 35px;
+}
+
+.profile.nav-link{
+    padding: 0;
+    heigth: 100%;
+
+}
+.profile-img {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+    width: 29px;
+    height: 29px;
+    background-color: white;
+}
+
+
+.left-inner-addon{
+    position: relative;
+}
+
+.left-inner-addon i {
+    position: absolute;
+    padding: 7px 9px;
+    background: transparent;
+    pointer-events: none;
+    left: 0;
+    color: #4582ec;
+}
+
+.left-inner-addon input {
+    padding-left: 30px;
+    border-radius: 20px;
+    border: 0;
+    height: 27px;
+    line-height: 27px;
+}

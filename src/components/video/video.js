@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './mainpage.css';
+import './video.css';
 
-class MainPage extends Component {
+export default class Video extends Component {
     render() {
         return (
             <div className="main-container container bg-white">
@@ -10,5 +10,3 @@ class MainPage extends Component {
         );
     }
 }
-
-export default MainPage;

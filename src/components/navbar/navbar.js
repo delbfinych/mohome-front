@@ -16,7 +16,7 @@ const NavBar = () => {
                 <LeftNavBar/>
 
                 <Link to="/" className="mx-auto d-block text-center order-0 order-md-1 w-25">
-                    <img src="/temp_content/brand.png" className="logo" alt="Mo home"/>
+                    <img src="/temp_content/brand.png" className="logo" alt="Mohome"/>
                 </Link>
 
                 <RightNavBar/>

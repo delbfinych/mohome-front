@@ -1,6 +1,20 @@
 
-.main-container {
-    height: 87vh;
-    margin-top: 35px;
-    border-radius: 10px;
+.photo-section-container {
+    font-size: 15px;
+    width: 100%;
 }
+
+
+.albums-count{
+    color: #747474;
+    margin-left: 5px;
+}
+
+.add-photos-button {
+    display: inline-block;
+    margin-left: 25px;
+}
+.add-album-button {
+    display: inline-block;
+}
+

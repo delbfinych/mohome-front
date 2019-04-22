@@ -1,4 +1,4 @@
-## Mohome fron
+## Mohome front
 
-temp page
-
+SPA for Mohome project.
+Tech: React

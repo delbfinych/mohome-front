@@ -1,4 +1,4 @@
-## Mohome fron
+## Mohome front
 
-temp page
+Single page app using React
 

@@ -1,8 +1,23 @@
 import React, { Component } from "react";
 import "./photo.css";
+import { withApiService } from "../hoc";
 
-export default class Photo extends Component {
+class Photo extends Component {
+  state = {
+    album: [],
+    isExpanded: false
+  };
+  onExpandToggle = () => {
+    this.setState(state => {
+      return { isExpanded: !state.isExpanded };
+    });
+  };
+  componentDidMount() {
+    this.props.getAlbum().then(res => this.setState({ album: res.ids }));
+  }
+
   render() {
+    const { album, isExpanded } = this.state;
     return (
       <div className="photo-section-container container">
         <div className="albums-container">
@@ -22,7 +37,42 @@ export default class Photo extends Component {
               </div>
             </div>
           </div>
-          <div className="albums-panel panel" />
+          <div className="albums-panel">
+            <div className="container">
+              <div className="row">
+                {album.slice(0, 4).map(e => (
+                  <PhotoItem
+                    key={e.id}
+                    title={e.title}
+                    count={e.count}
+                    preview={this.props.getPhoto(e.photo_ids[0])}
+                  />
+                ))}
+                {album.length > 4 ? (
+                  <button
+                    title={isExpanded ? "hide" : "expand"}
+                    className={"album-expand-btn"}
+                    onClick={this.onExpandToggle}
+                  >
+                    <span>{isExpanded ? "-" : "+"}</span>
+                  </button>
+                ) : null}
+
+                {isExpanded
+                  ? album
+                      .slice(4)
+                      .map(e => (
+                        <PhotoItem
+                          key={e.id}
+                          title={e.title}
+                          count={e.count}
+                          preview={this.props.getPhoto(e.photo_ids[0])}
+                        />
+                      ))
+                  : null}
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="added-photos-container">
@@ -37,3 +87,28 @@ export default class Photo extends Component {
     );
   }
 }
+
+const PhotoItem = ({ title, count, preview }) => {
+  return (
+    <div className="album-photo col-3">
+      <div className={"album-photo-item"}>
+        <img src={preview} alt="" />
+        <div className="album-overlay">
+          <div className="album-info">
+            <span className={"album-title"}>{title}</span>
+            <span className={"album-count"}>{count}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const mapMethodToProps = service => {
+  return {
+    getPhoto: service.getPhoto,
+    getAlbum: service.getAlbum
+  };
+};
+
+export default withApiService(mapMethodToProps)(Photo);

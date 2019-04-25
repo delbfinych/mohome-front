@@ -19,23 +19,23 @@ html {
   display: inline-block;
 }
 .album-photo {
-  max-height: 150px;
+  height: 150px;
 }
 .albums-panel {
-  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
   background-color: white;
   height: auto;
   width: 100%;
   position: relative;
-  padding-bottom: 20px;
+  padding: 7px;
 }
 
-.albums-panel .container{
-  padding: 15px;
+.albums-panel .container {
 }
 
-.album-photo.col-3 {
-  margin: 0 0 15px;
+.album-photo {
+  padding: 0 7px;
+  margin: 7px 0;
 }
 .album-photo-item {
   border-radius: 5px;
@@ -43,31 +43,31 @@ html {
   overflow: hidden;
   width: 100%;
   height: 100%;
-  background-color:  #e5edf4;
+  background-color: #e5edf4;
   position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 35%;
 }
 
-.albums-panel.opened {
-  height: auto;
-}
 .album-expand-btn {
   color: #4582ec;
   font-size: 2rem;
   border: none;
   background-color: white;
-  outline: none !important;
-  border-radius: 50%;
-  height: 30px;
-  width: 30px;
-  position: absolute;
-  bottom: 0;
-  right: calc(50% - 15px);
+  border-radius: 0 0 5px 5px;
+  border-top: 1px solid #e7e8ec;
+  width: 100%;
+  height: 50px;
+  position: relative;
+  cursor: pointer;
   display: flex;
   justify-content: center;
 }
+.album-expand-btn:hover {
+  background-color: #f1f2f6;
+}
 .album-expand-btn span {
-  position: absolute;
-  top: -48%;
 }
 .album-overlay {
   position: absolute;
@@ -87,8 +87,18 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  margin: 5px;
+  padding: 35px 5px 5px 5px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.53) 100%
+  );
 }
 .album-photo-item img {
   width: 100%;
+}
+.album-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

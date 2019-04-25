@@ -48,16 +48,6 @@ class Photo extends Component {
                     preview={this.props.getPhoto(e.photo_ids[0])}
                   />
                 ))}
-                {album.length > 4 ? (
-                  <button
-                    title={isExpanded ? "Hide" : "Expand"}
-                    className={"album-expand-btn"}
-                    onClick={this.onExpandToggle}
-                  >
-                      <span>{isExpanded ? <i class="zmdi zmdi-chevron-up"></i>: <i className="zmdi zmdi-chevron-down"></i>}</span>
-                  </button>
-                ) : null}
-
                 {isExpanded
                   ? album
                       .slice(4)
@@ -73,6 +63,21 @@ class Photo extends Component {
               </div>
             </div>
           </div>
+          {album.length > 4 ? (
+            <div
+              onClick={this.onExpandToggle}
+              title={isExpanded ? "Hide" : "Expand"}
+              className="album-expand-btn"
+            >
+              <span>
+                {isExpanded ? (
+                  <i className="zmdi zmdi-chevron-up" />
+                ) : (
+                  <i className="zmdi zmdi-chevron-down" />
+                )}
+              </span>
+            </div>
+          ) : null}
         </div>
 
         <div className="added-photos-container">
@@ -89,15 +94,17 @@ class Photo extends Component {
 }
 
 const PhotoItem = ({ title, count, preview }) => {
+  const style = {
+    "background-image": `url(${preview})`
+  };
   return (
     <div className="album-photo col-3">
-      <div className={"album-photo-item"}>
-        <img src={preview} alt="" />
-        <div className="album-overlay">
-          <div className="album-info">
-            <span className={"album-title"}>{title}</span>
-            <span className={"album-count"}>{count}</span>
-          </div>
+      <div style={style} className={"album-photo-item"}>
+        <div className="album-info">
+          <span title={title} className={"album-title"}>
+            {title}
+          </span>
+          <span className={"album-count"}>{count}</span>
         </div>
       </div>
     </div>

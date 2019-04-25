@@ -50,11 +50,11 @@ class Photo extends Component {
                 ))}
                 {album.length > 4 ? (
                   <button
-                    title={isExpanded ? "hide" : "expand"}
+                    title={isExpanded ? "Hide" : "Expand"}
                     className={"album-expand-btn"}
                     onClick={this.onExpandToggle}
                   >
-                    <span>{isExpanded ? "-" : "+"}</span>
+                      <span>{isExpanded ? <i class="zmdi zmdi-chevron-up"></i>: <i className="zmdi zmdi-chevron-down"></i>}</span>
                   </button>
                 ) : null}
 

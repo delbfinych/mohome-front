@@ -30,15 +30,20 @@ html {
   padding-bottom: 20px;
 }
 
-.album-photo {
-  margin: 15px 0;
+.albums-panel .container{
+  padding: 15px;
+}
+
+.album-photo.col-3 {
+  margin: 0 0 15px;
 }
 .album-photo-item {
-  cursor: pointer;
   border-radius: 5px;
+  cursor: pointer;
+  overflow: hidden;
   width: 100%;
   height: 100%;
-  background-color: yellow;
+  background-color:  #e5edf4;
   position: relative;
 }
 
@@ -71,7 +76,8 @@ html {
   right: 0;
   left: 0;
   z-index: 100;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 .album-info {
   color: white;
@@ -85,5 +91,4 @@ html {
 }
 .album-photo-item img {
   width: 100%;
-  height: 100%;
 }

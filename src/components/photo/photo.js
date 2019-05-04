@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import "./photo.css";
 import { withApiService } from "../hoc";
-
+import placeholder from "../../img/camera_big.png";
 class Photo extends Component {
   state = {
-    album: [],
+    album: [1, 2, 3, 4, 5],
     isExpanded: false
   };
   onExpandToggle = () => {
@@ -13,7 +13,7 @@ class Photo extends Component {
     });
   };
   componentDidMount() {
-    this.props.getAlbum().then(res => this.setState({ album: res.ids }));
+    this.props.getAlbums().then(res => console.log(res));
   }
 
   render() {
@@ -45,24 +45,10 @@ class Photo extends Component {
             <div className="container">
               <div className="row">
                 {album.slice(0, 4).map(e => (
-                  <PhotoItem
-                    key={e.id}
-                    title={e.title}
-                    count={e.count}
-                    preview={this.props.getPhoto(e.photo_ids[0])}
-                  />
+                  <PhotoItem preview={placeholder} />
                 ))}
                 {isExpanded
-                  ? album
-                      .slice(4)
-                      .map(e => (
-                        <PhotoItem
-                          key={e.id}
-                          title={e.title}
-                          count={e.count}
-                          preview={this.props.getPhoto(e.photo_ids[0])}
-                        />
-                      ))
+                  ? album.slice(4).map(e => <PhotoItem preview={placeholder} />)
                   : null}
               </div>
             </div>
@@ -99,7 +85,7 @@ class Photo extends Component {
 
 const PhotoItem = ({ title, count, preview }) => {
   const style = {
-    "background-image": `url(${preview})`
+    backgroundImage: `url(${preview})`
   };
   return (
     <div className="album-photo col-3">
@@ -117,8 +103,9 @@ const PhotoItem = ({ title, count, preview }) => {
 
 const mapMethodToProps = service => {
   return {
-    getPhoto: service.getPhoto,
-    getAlbum: service.getAlbum
+    // getPhoto: service.getPhoto,
+    getAlbums: service.getAlbums,
+    createAlbum: service.createAlbum
   };
 };
 

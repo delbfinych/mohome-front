@@ -2,12 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/app";
 import { ApiServiceProvider } from "./components/api-service-context";
-import { MohomeApiService, TestService } from "./services";
+import { MohomeApiService } from "./services";
+import { BrowserRouter as Router } from "react-router-dom";
+const apiService = new MohomeApiService();
 
-const apiService = new TestService();
 ReactDOM.render(
-    <ApiServiceProvider value={apiService}>
-        <App />
-    </ApiServiceProvider>,
-    document.getElementById("root")
+  <ApiServiceProvider value={apiService}>
+    <Router>
+      <App />
+    </Router>
+  </ApiServiceProvider>,
+  document.getElementById("root")
 );

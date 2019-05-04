@@ -1,12 +1,20 @@
-body{
-    background-color: #e5edf4;
+body {
+  background-color: #e5edf4;
 }
 
-
-
 .panel {
-    overflow: auto;
-    height: 20vh;
-    border-radius: 5px;
-    background-color: white;
+  overflow: auto;
+  height: 20vh;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.form {
+  margin: 0 auto;
+  width: 400px;
+}
+.form input {
+}
+input.invalid {
+  border: 1px solid red;
 }

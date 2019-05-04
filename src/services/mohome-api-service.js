@@ -32,11 +32,11 @@ export default class MohomeApiService {
     });
   };
   createAlbum = async body => {
-    const token = cookies.get("id_token");
+    await this._updateToken();
     return axios.post(this._apiBase + "/Photo/Album", JSON.stringify(body), {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token
+        Authorization: "Bearer " + cookies.get("id_token")
       }
     });
   };

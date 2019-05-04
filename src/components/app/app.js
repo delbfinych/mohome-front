@@ -11,11 +11,12 @@ import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import "./app.css";
 const cookies = new Cookies();
 export default class App extends Component {
-  componentDidUpdate() {
-    console.log(12);
-  }
-
   render() {
+    // temporarily
+    window.logout = () => {
+      cookies.remove("id_token");
+      this.forceUpdate();
+    };
     return (
       <div>
         <NavBar />

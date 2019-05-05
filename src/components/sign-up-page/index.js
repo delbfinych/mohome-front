@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { withApiService } from "../hoc";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 class SignUp extends Component {
   state = {
@@ -13,13 +15,12 @@ class SignUp extends Component {
   };
   validate = () => {
     const { username, email, password } = this.state;
-
     let errors = [];
 
     if (!/^\w{3,20}$/.test(username)) {
       errors.push(
-        "The field username must be a string with a minimum length of 3 and a maximum length of 20 and it" +
-          "must contain only letters, numbers and underscores"
+        `The Username field  must be a latin string with a minimum length of 3 and a maximum length of 20 and it
+          must contain only letters, numbers and underscores`
       );
       this.setState({ usernameOk: false });
     } else {
@@ -39,8 +40,7 @@ class SignUp extends Component {
 
     if (!/^\w{4,20}$/.test(password)) {
       errors.push(
-        "The field password must be a string with a minimum length of 4 and a maximum length of 20 and it" +
-          "must contain only letters, numbers and underscores"
+        `The Password field  must be a latin string with a minimum length of 4 and a maximum length of 20 and it must contain only letters, numbers and underscores`
       );
       this.setState({ passwordOk: false });
     } else {
@@ -48,24 +48,31 @@ class SignUp extends Component {
     }
 
     this.setState({ errors });
-    return !errors.length;
   };
 
   onSubmit = e => {
     e.preventDefault();
     const { errors, usernameOk, emailOk, passwordOk, ...body } = this.state;
-    if (this.validate())
+    if (!errors.length)
       this.props
         .signUp(body)
         .then(res => {
-          this.props.history.push("/sign-in");
+          cookies.set("id_token", res.data.response.accessToken);
+          cookies.set("expiresIn", res.data.response.expiresIn);
+          cookies.set("refreshToken", res.data.response.refreshToken);
+          this.props.history.push("/");
         })
-        .catch(err => console.log(err.response));
+        .catch(err => {
+          this.setState({ errors: [err.message] });
+        });
   };
   onChange(e, type) {
-    this.setState({
-      [type]: e.target.value
-    });
+    this.setState(
+      {
+        [type]: e.target.value
+      },
+      this.validate
+    );
   }
   render() {
     const {
@@ -85,11 +92,7 @@ class SignUp extends Component {
             <input
               id={"username"}
               className={`form-control ${!usernameOk ? "is-invalid" : ""}`}
-              onBlur={this.validate}
-              onChange={e => {
-                this.onChange(e, "username");
-                this.validate();
-              }}
+              onChange={e => this.onChange(e, "username")}
               value={username}
               type={"text"}
               placeholder={"username"}
@@ -100,11 +103,7 @@ class SignUp extends Component {
             <input
               id={"email"}
               className={`form-control ${!emailOk ? "is-invalid" : ""}`}
-              onBlur={this.validate}
-              onChange={e => {
-                this.onChange(e, "email");
-                this.validate();
-              }}
+              onChange={e => this.onChange(e, "email")}
               value={email}
               type={"text"}
               placeholder={"name@exmaple.com"}
@@ -115,11 +114,7 @@ class SignUp extends Component {
             <input
               id={"password"}
               className={`form-control ${!passwordOk ? "is-invalid" : ""}`}
-              onBlur={this.validate}
-              onChange={e => {
-                this.onChange(e, "password");
-                this.validate();
-              }}
+              onChange={e => this.onChange(e, "password")}
               value={password}
               type={"password"}
               placeholder={"password"}
@@ -127,7 +122,7 @@ class SignUp extends Component {
           </div>
           <div className={"form-group"}>
             {errors.map(e => (
-              <div className={"form-text"} key={e}>
+              <div className={"form-text form-text__error"} key={e}>
                 {e}
               </div>
             ))}

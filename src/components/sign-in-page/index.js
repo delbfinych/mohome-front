@@ -29,40 +29,38 @@ class SignIn extends Component {
 
     if (!/^\w{4,20}$/.test(password)) {
       errors.push(
-        "The field password must be a string with a minimum length of 3 and a maximum length of 20 and it" +
-          "must contain only letters, numbers and underscores"
+        `The Password field  must be a latin string with a minimum length of 3 and a maximum length of 20 and it 
+          must contain only letters, numbers and underscores`
       );
       this.setState({ passwordOk: false });
     }
 
     this.setState({ errors });
-    return !errors.length;
   };
 
   onSubmit = e => {
     e.preventDefault();
-    const { email, password: PasswordHash } = this.state;
-    if (this.validate())
+    const { email, password: PasswordHash, errors } = this.state;
+    if (!errors.length)
       this.props
         .signIn({ email, PasswordHash })
         .then(res => {
-          console.log(res);
           cookies.set("id_token", res.data.response.accessToken);
           cookies.set("expiresIn", res.data.response.expiresIn);
           cookies.set("refreshToken", res.data.response.refreshToken);
           this.props.history.push("/");
         })
         .catch(err => {
-          if (err.response.status === 401)
-            this.setState({ errors: ["Authentication failed"] });
-            console.log(err.response);
-          console.log(err.response);
+          this.setState({ errors: [err.message] });
         });
   };
   onChange(e, type) {
-    this.setState({
-      [type]: e.target.value
-    });
+    this.setState(
+      {
+        [type]: e.target.value
+      },
+      this.validate
+    );
   }
   render() {
     const { email, password, emailOk, passwordOk, errors } = this.state;
@@ -74,11 +72,7 @@ class SignIn extends Component {
             <input
               id={"email"}
               className={`form-control ${!emailOk ? "is-invalid" : ""}`}
-              onBlur={this.validate}
-              onChange={e => {
-                this.onChange(e, "email");
-                this.validate();
-              }}
+              onChange={e => this.onChange(e, "email")}
               value={email}
               type={"text"}
               placeholder={"name@exmaple.com"}
@@ -89,11 +83,7 @@ class SignIn extends Component {
             <input
               id={"password"}
               className={`form-control ${!passwordOk ? "is-invalid  " : ""}`}
-              onBlur={this.validate}
-              onChange={e => {
-                this.onChange(e, "password");
-                this.validate();
-              }}
+              onChange={e => this.onChange(e, "password")}
               value={password}
               type={"password"}
               placeholder={"password"}
@@ -101,13 +91,13 @@ class SignIn extends Component {
           </div>
           <div className={"form-group"}>
             {errors.map(e => (
-              <div className={"form-text"} key={e}>
+              <div className={"form-text form-text__error"} key={e}>
                 {e}
               </div>
             ))}
           </div>
           <button className={"btn btn-primary"} type={"submit"}>
-            Sign Up
+            Sign In
           </button>
           <div>
             Don't have an account?

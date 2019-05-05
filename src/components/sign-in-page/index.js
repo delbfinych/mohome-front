@@ -55,6 +55,8 @@ class SignIn extends Component {
         .catch(err => {
           if (err.response.status === 401)
             this.setState({ errors: ["Authentication failed"] });
+            console.log(err.response);
+          console.log(err.response);
         });
   };
   onChange(e, type) {

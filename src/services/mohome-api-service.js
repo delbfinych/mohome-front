@@ -3,16 +3,16 @@ import CryptoJs from "crypto-js";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 export default class MohomeApiService {
-  _apiBase = "http://localhost/Api";
+  _apiBase = "http://213.141.130.153/Api";
   signIn = async body => {
-        body.PasswordHash = CryptoJs.SHA256(body.PasswordHash).toString(
-            CryptoJs.enc.Hex
-        );
-        return axios.post(this._apiBase + "/Token/Sign-in", JSON.stringify(body), {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
+    body.PasswordHash = CryptoJs.SHA256(body.PasswordHash).toString(
+      CryptoJs.enc.Hex
+    );
+    return axios.post(this._apiBase + "/Token/Sign-in", JSON.stringify(body), {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
   };
   signUp = async body => {
     body.password = CryptoJs.SHA256(body.password).toString(CryptoJs.enc.Hex);

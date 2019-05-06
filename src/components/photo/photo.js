@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./photo.css";
 import { withApiService } from "../hoc";
-
+import placeholder from "../../img/camera_big.png";
 class Photo extends Component {
   state = {
     album: [],
@@ -12,10 +12,22 @@ class Photo extends Component {
       return { isExpanded: !state.isExpanded };
     });
   };
-  componentDidMount() {
-    this.props.getAlbum().then(res => this.setState({ album: res.ids }));
-  }
+  onAlbumAdded = () => {
+    let name = prompt("Введите название альбома", "Стандартное имя");
+    this.props
+      .createAlbum({ albumName: name, description: "default value" })
+      .then(this._updateAlbum);
+  };
 
+  componentDidMount() {
+    this._updateAlbum();
+  }
+  _updateAlbum = () => {
+    this.props.getAlbums().then(res => {
+      this.setState({ album: res.data.response });
+      console.log(this.state.album);
+    });
+  };
   render() {
     const { album, isExpanded } = this.state;
     return (
@@ -24,11 +36,11 @@ class Photo extends Component {
           <div className="albums-bar  left-right-bar">
             <div className="albums-bar-left">
               <div className="albums-title">
-                My albums <span className="albums-count">0</span>
+                My albums <span className="albums-count">{album.length}</span>
               </div>
             </div>
             <div className="albums-bar-right">
-              <div className="add-album-button">
+              <div onClick={this.onAlbumAdded} className="add-album-button">
                 <i className="zmdi zmdi-collection-folder-image zmdi-hc-lg" />{" "}
                 Add new album
               </div>
@@ -37,31 +49,39 @@ class Photo extends Component {
               </div>
             </div>
           </div>
-          <div className="albums-panel">
-            <div className="container">
-              <div className="row">
-                {album.slice(0, 4).map(e => (
-                  <PhotoItem
-                    key={e.id}
-                    title={e.title}
-                    count={e.count}
-                    preview={this.props.getPhoto(e.photo_ids[0])}
-                  />
-                ))}
-                {isExpanded
-                  ? album
-                      .slice(4)
-                      .map(e => (
-                        <PhotoItem
-                          key={e.id}
-                          title={e.title}
-                          count={e.count}
-                          preview={this.props.getPhoto(e.photo_ids[0])}
-                        />
-                      ))
-                  : null}
+          <div
+            className={`albums-panel ${
+              album.length > 4 ? "able-to-expanded" : ""
+            }`}
+          >
+            {album.length > 0 ? (
+              <div className="container">
+                <div className="row">
+                  {album.slice(0, 4).map(e => (
+                    <PhotoItem
+                      key={e.albumId}
+                      title={e.name}
+                      preview={e.coverPhotoPath}
+                    />
+                  ))}
+                  {isExpanded
+                    ? album
+                        .slice(4)
+                        .map(e => (
+                          <PhotoItem
+                            key={e.albumId}
+                            title={e.name}
+                            preview={e.coverPhotoPath}
+                          />
+                        ))
+                    : null}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className={"albums-panel-empty"}>
+                <div>No albums found ...</div>
+              </div>
+            )}
           </div>
           {album.length > 4 ? (
             <div
@@ -95,13 +115,19 @@ class Photo extends Component {
 
 const PhotoItem = ({ title, count, preview }) => {
   const style = {
-    "background-image": `url(${preview})`
+    backgroundImage: `url(${preview ? preview : placeholder})`
   };
   return (
     <div className="album-photo col-3">
-      <div style={style} className={"album-photo-item"}>
-        <div className="album-info">
-          <span title={title} className={"album-title"}>
+      <div
+        style={style}
+        className={`album-photo-item ${preview ? "" : "photos_album_no_cover"}`}
+      >
+        <div className={`album-info ${preview ? "" : "album-info-wo_shadow"}`}>
+          <span
+            title={title}
+            className={`album-title ${preview ? "" : "album-title_black"}`}
+          >
             {title}
           </span>
           <span className={"album-count"}>{count}</span>
@@ -113,8 +139,8 @@ const PhotoItem = ({ title, count, preview }) => {
 
 const mapMethodToProps = service => {
   return {
-    getPhoto: service.getPhoto,
-    getAlbum: service.getAlbum
+    getAlbums: service.getAlbums,
+    createAlbum: service.createAlbum
   };
 };
 

@@ -6,37 +6,56 @@ html {
   width: 100vw;
   overflow-x: hidden;
 }
+.left-right-bar {
+  color: #4582ec;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
 .albums-count {
   color: #747474;
   margin-left: 5px;
 }
-
+.albums-bar-left {
+  margin-right: 10px;
+}
 .add-photos-button {
+  cursor: pointer;
   display: inline-block;
-  margin-left: 25px;
 }
 .add-album-button {
+  margin-right: 25px;
   display: inline-block;
+  cursor: pointer;
 }
 .album-photo {
   height: 150px;
 }
 .albums-panel {
-  border-radius: 5px 5px 0 0;
   background-color: white;
-  height: auto;
+  min-height: 178px;
   width: 100%;
   position: relative;
   padding: 7px;
+  border-radius: 5px;
 }
-
-.albums-panel .container {
+.albums-panel.able-to-expanded {
+  border-radius: 5px 5px 0 0;
+}
+.albums-panel-empty {
+  height: 164px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .album-photo {
   padding: 0 7px;
   margin: 7px 0;
 }
+
 .album-photo-item {
   border-radius: 5px;
   cursor: pointer;
@@ -49,7 +68,10 @@ html {
   background-size: cover;
   background-position: center 35%;
 }
-
+.photos_album_no_cover {
+  background-size: 60px 48px;
+  background-position: center 57px;
+}
 .album-expand-btn {
   color: #4582ec;
   font-size: 2rem;
@@ -94,6 +116,9 @@ html {
     rgba(0, 0, 0, 0.53) 100%
   );
 }
+.album-info-wo_shadow {
+  background: none;
+}
 .album-photo-item img {
   width: 100%;
 }
@@ -101,4 +126,7 @@ html {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.album-title_black {
+  color: black;
 }

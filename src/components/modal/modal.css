@@ -35,6 +35,9 @@
   left: 50%;
   transform: translate(-50%, -50%) !important;
 }
+.modal-backdrop {
+  opacity: 0.6 !important;
+}
 @media all and (max-width: 600px) {
   .modal-dialog {
     margin: 0;

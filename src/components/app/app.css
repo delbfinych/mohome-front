@@ -33,4 +33,5 @@ input.invalid {
 }
 input.form-control {
   height: 30px;
+  border-radius: 5px;
 }

@@ -86,8 +86,8 @@ html {
   background-position: center 35%;
 }
 .photos_album_no_cover {
-  background-size: 60px 48px;
-  background-position: center 50px;
+  background-size: 30% 30%;
+  background-position: center 50%;
 }
 .album-expand-btn {
   color: #4582ec;

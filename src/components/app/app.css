@@ -21,7 +21,16 @@ body {
 input.invalid {
   border: 1px solid red;
 }
+.form-control.is-invalid {
+  background-image: url("../../img/error.png");
+  background-size: unset;
+}
+.form-control.is-valid {
+  background-image: url("../../img/success.png");
+  background-size: unset;
+}
 .form-text__error {
+  background-color: red;
   color: red;
 }
 .form-control {
@@ -34,4 +43,68 @@ input.invalid {
 input.form-control {
   height: 30px;
   border-radius: 5px;
+}
+.sign-in-form,
+.sign-up-form {
+  border-radius: 5px;
+  background-color: white;
+  padding: 20px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.sign-in-form__label,
+.sign-up-form__label {
+  color: #0b8df4;
+}
+
+.sign-up-form__label:after {
+  color: #cb2431;
+  content: "*";
+  padding-left: 5px;
+}
+.user-input-error {
+  font-size: 13px;
+  color: #cb2431;
+}
+.create-account-callout {
+  font-weight: bold;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 20px;
+  color: #656c7f;
+}
+.sign-page-logo {
+  display: block;
+  margin: 40px auto 20px auto;
+}
+.logo-text {
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  color: #4582ec;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.form-control-validation {
+  background-image: url("../../img/validationSpinner.gif");
+  background-repeat: no-repeat;
+  background-position: center right calc(0.375em + 0.25rem);
+}
+.error {
+  background-color: #ffdce0;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 10px;
+  color: #86181d;
+  position: relative;
+}
+.error i {
+  cursor: pointer;
+  position: absolute;
+  right: 5%;
+  top: 20%;
+  opacity: 0.6;
+}
+.error i:hover {
+  opacity: 1;
 }

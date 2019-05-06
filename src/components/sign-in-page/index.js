@@ -1,9 +1,12 @@
 import React from "react";
 import { SignInForm } from "../forms";
+import { Logo } from "../../constants";
 const SignIn = () => {
   return (
     <div>
-      <SignInForm  />
+      <img className="sign-page-logo" height={"60px"} src={Logo} alt="" />
+      <div className={"logo-text"}>Sign in to Mohome</div>
+      <SignInForm />
     </div>
   );
 };

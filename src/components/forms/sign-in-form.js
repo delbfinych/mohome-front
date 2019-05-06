@@ -9,43 +9,20 @@ class SignInForm extends Component {
   state = {
     email: "",
     password: "",
-    passwordOk: true,
-    emailOk: true,
-    errors: []
-  };
-  validate = () => {
-    const { email, password } = this.state;
-    this.setState({
-      passwordOk: true,
-      emailOk: true
-    });
-    let errors = [];
-    if (
-      !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        email
-      )
-    ) {
-      errors.push("The Email field is not a valid e-mail address.");
-      this.setState({ emailOk: false });
-    }
-
-    if (!/^\w{4,20}$/.test(password)) {
-      errors.push(
-        `The Password field  must be a latin string with a minimum length of 3 and a maximum length of 20 and it 
-          must contain only letters, numbers and underscores`
-      );
-      this.setState({ passwordOk: false });
-    }
-
-    this.setState({ errors });
+    isLoading: false,
+    authError: false
   };
 
   onSubmit = e => {
     e.preventDefault();
-    const { email, password: PasswordHash, errors } = this.state;
-    if (!errors.length)
+    const { password, email } = this.state;
+    this.setState({ authError: false, isLoading: true });
+    setTimeout(() => {
       this.props
-        .signIn({ email, PasswordHash })
+        .signIn({
+          email,
+          PasswordHash: password
+        })
         .then(res => {
           cookies.set("id_token", res.data.response.accessToken);
           cookies.set("expiresIn", res.data.response.expiresIn);
@@ -53,57 +30,72 @@ class SignInForm extends Component {
           this.props.history.push("/");
         })
         .catch(err => {
-          this.setState({ errors: [err.message] });
+          this.setState({ authError: true, isLoading: false });
         });
+    }, 500);
   };
-  onChange(e, type) {
-    this.setState(
-      {
-        [type]: e.target.value
-      },
-      this.validate
-    );
-  }
+  handleUserInput = e => {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({
+      [name]: value
+    });
+  };
   render() {
-    const { email, password, emailOk, passwordOk, errors } = this.state;
+    const { email, password, isLoading, authError } = this.state;
     return (
-      <div>
+      <div className={"sign-in-form"}>
         <form className={"form"} onSubmit={this.onSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email address</label>
+            <label className={"sign-in-form__label"} htmlFor="email">
+              Email address
+            </label>
             <input
+              name={"email"}
               id={"email"}
-              className={`form-control ${!emailOk ? "is-invalid" : ""}`}
-              onChange={e => this.onChange(e, "email")}
+              className={`form-control`}
+              onChange={this.handleUserInput}
               value={email}
               type={"text"}
               placeholder={"name@exmaple.com"}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label className={"sign-in-form__label"} htmlFor="password">
+              Password
+            </label>
             <input
+              name={"password"}
               id={"password"}
-              className={`form-control ${!passwordOk ? "is-invalid  " : ""}`}
-              onChange={e => this.onChange(e, "password")}
+              className={`form-control`}
+              onChange={this.handleUserInput}
               value={password}
               type={"password"}
               placeholder={"password"}
             />
           </div>
-          <div className={"form-group"}>
-            {errors.map(e => (
-              <div className={"form-text form-text__error"} key={e}>
-                {e}
-              </div>
-            ))}
-          </div>
-          <button className={"btn btn-primary"} type={"submit"}>
-            Sign In
-          </button>
-          <div>
-            Don't have an account?
-            <Link to={"/sign-up"}> Sign up</Link>
+          {isLoading ? (
+            <button disabled className={"ok-btn"} type={"submit"}>
+              Signing in
+            </button>
+          ) : (
+            <button className={"ok-btn"} type={"submit"}>
+              Sign in
+            </button>
+          )}
+          {authError ? (
+            <div className={"error"}>
+              <i
+                onClick={() => {
+                  this.setState({ authError: false });
+                }}
+                className="zmdi zmdi-close"
+              />
+              <span>Incorrect username or password.</span>
+            </div>
+          ) : null}
+          <div className={"create-account-callout"}>
+            New to Mohome? <Link to={"/sign-up"}>Create an account.</Link>
           </div>
         </form>
       </div>

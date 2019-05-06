@@ -5,26 +5,24 @@ class ModalCreateAlbumForm extends Component {
   state = {
     title: "",
     description: "",
-    titleOk: true,
-    formClosed: false
+    titleValid: true
   };
   onSubmit = e => {
     e.preventDefault();
     const { title, description } = this.state;
     const { onCloseModal, onUpdateAlbum } = this.props;
     if (title.trim()) {
-      this.setState({ formClosed: true });
+      onCloseModal();
       this.props.createAlbum({ albumName: title, description }).then(() => {
         onUpdateAlbum();
-        onCloseModal();
         this.setState({
           title: ""
         });
       });
     } else
-      this.setState({ titleOk: false }, () => {
+      this.setState({ titleValid: false }, () => {
         setTimeout(() => {
-          this.setState({ titleOk: true });
+          this.setState({ titleValid: true });
         }, 700);
       });
   };
@@ -35,14 +33,14 @@ class ModalCreateAlbumForm extends Component {
     });
   }
   render() {
-    const { title, description, titleOk, formClosed } = this.state;
+    const { title, description, titleValid } = this.state;
     return (
       <form className={"form"} onSubmit={this.onSubmit}>
         <div className="form-group">
           <label htmlFor="title">Title</label>
           <input
             id={"title"}
-            className={`form-control ${titleOk ? "" : "is-invalid"}`}
+            className={`form-control ${titleValid ? "" : "is-invalid"}`}
             onChange={e => this.onChange(e, "title")}
             value={title}
             type={"text"}
@@ -64,11 +62,7 @@ class ModalCreateAlbumForm extends Component {
             justifyContent: "space-between"
           }}
         >
-          <button
-            className={"ok-btn"}
-            type={"submit"}
-            data-dismiss={`${formClosed ? "modal" : ""}`}
-          >
+          <button className={"ok-btn"} type={"submit"}>
             Create album
           </button>
           <button className={"cancel-btn"} onClick={this.props.onCloseModal}>

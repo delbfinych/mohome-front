@@ -22,6 +22,13 @@ export default class MohomeApiService {
       }
     });
   };
+  validateUser = async email => {
+    return axios.get(this._apiBase + "/Users?email=" + email, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+  };
   getAlbums = async () => {
     await this._updateToken();
     return axios.get(this._apiBase + "/Photo/Album", {

@@ -54,6 +54,7 @@ input.form-control {
 }
 .sign-in-form__label,
 .sign-up-form__label {
+  font-size: 14px;
   color: #0b8df4;
 }
 
@@ -67,11 +68,13 @@ input.form-control {
   color: #cb2431;
 }
 .create-account-callout {
-  font-weight: bold;
   font-size: 13px;
   text-align: center;
   margin-top: 20px;
   color: #656c7f;
+}
+.create-account-callout a {
+  font-weight: bold;
 }
 .sign-page-logo {
   display: block;

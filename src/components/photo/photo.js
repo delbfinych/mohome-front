@@ -14,10 +14,10 @@ class Photo extends Component {
       return { isExpanded: !state.isExpanded };
     });
   };
-
   componentDidMount() {
     this._updateAlbum();
   }
+
   _updateAlbum = () => {
     this.props.getAlbums().then(res => {
       this.setState({ album: res.data.response });
@@ -51,13 +51,13 @@ class Photo extends Component {
           </div>
           <div
             className={`albums-panel ${
-              album.length > 4 ? "able-to-expanded" : ""
+              album.length > 5 ? "able-to-expanded" : ""
             }`}
           >
             {album.length > 0 ? (
               <div className="container">
                 <div className="row">
-                  {album.slice(0, 4).map(e => (
+                  {album.slice(0, 5).map(e => (
                     <PhotoItem
                       key={e.albumId}
                       title={e.name}
@@ -66,7 +66,7 @@ class Photo extends Component {
                   ))}
                   {isExpanded
                     ? album
-                        .slice(4)
+                        .slice(5)
                         .map(e => (
                           <PhotoItem
                             key={e.albumId}
@@ -78,12 +78,20 @@ class Photo extends Component {
                 </div>
               </div>
             ) : (
-              <div className={"albums-panel-empty"}>
-                <div>No albums found ...</div>
+              <div className={"container"}>
+                <div className={"row"}>
+                  <div className={"col-2 album-photo-empty"}>
+                    <div className="ratio">
+                      <div className={"ratio__content"}>
+                        No albums found ...
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </div>
-          {album.length > 4 ? (
+          {album.length > 5 ? (
             <div
               onClick={this.onExpandToggle}
               title={isExpanded ? "Hide" : "Expand"}
@@ -118,19 +126,25 @@ const PhotoItem = ({ title, count, preview }) => {
     backgroundImage: `url(${preview ? preview : placeholder})`
   };
   return (
-    <div className="album-photo col-3">
-      <div
-        style={style}
-        className={`album-photo-item ${preview ? "" : "photos_album_no_cover"}`}
-      >
-        <div className={`album-info ${preview ? "" : "album-info-wo_shadow"}`}>
-          <span
-            title={title}
-            className={`album-title ${preview ? "" : "album-title_black"}`}
+    <div className="col-2 album-photo">
+      <div className="ratio">
+        <div
+          style={style}
+          className={`ratio__content album-photo-item ${
+            preview ? "" : "photos_album_no_cover"
+          }`}
+        >
+          <div
+            className={`album-info ${preview ? "" : "album-info-wo_shadow"}`}
           >
-            {title}
-          </span>
-          <span className={"album-count"}>{count}</span>
+            <span
+              title={title}
+              className={`album-title ${preview ? "" : "album-title_black"}`}
+            >
+              {title}
+            </span>
+            <span className={"album-count"}>{count}</span>
+          </div>
         </div>
       </div>
     </div>

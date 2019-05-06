@@ -31,11 +31,11 @@ html {
   cursor: pointer;
 }
 .album-photo {
-  height: 150px;
+  flex: 0 0 20%;
+  max-width: 20%;
 }
 .albums-panel {
   background-color: white;
-  min-height: 178px;
   width: 100%;
   position: relative;
   padding: 7px;
@@ -45,12 +45,29 @@ html {
   border-radius: 5px 5px 0 0;
 }
 .albums-panel-empty {
-  height: 164px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 7px;
+}
+
+.albums-panel-empty .ratio__content {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
+.album-photo-empty {
+  padding: 0 7px;
+  flex: 0 0 20%;
+  max-width: 20%;
+  margin: 7px auto;
+}
+.album-photo-empty > div > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .album-photo {
   padding: 0 7px;
   margin: 7px 0;
@@ -129,4 +146,16 @@ html {
 }
 .album-title_black {
   color: black;
+}
+.ratio__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.ratio {
+  padding-top: 75%;
+  position: relative;
 }

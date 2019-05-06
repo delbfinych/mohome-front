@@ -85,7 +85,7 @@ class SignUpForm extends Component {
       passwordOk
     } = this.state;
     return (
-      <form className={"form "} onSubmit={this.onSubmit}>
+      <form className={"form"} onSubmit={this.onSubmit}>
         <div className="form-group">
           <label htmlFor="email">Username</label>
           <input

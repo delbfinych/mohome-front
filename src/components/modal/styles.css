@@ -2,6 +2,7 @@
   background-color: #4582ec;
   color: white;
   padding: 12px 17px;
+  border: none;
 }
 .modal-close {
   opacity: 0.75;

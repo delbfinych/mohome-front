@@ -75,21 +75,21 @@ export default class App extends Component {
           />
           <Route
             path="/sign-in"
-            render={({ history }) => {
+            render={() => {
               return cookies.get("id_token") ? (
                 <Redirect to={"/"} />
               ) : (
-                <SignInPage history={history} />
+                <SignInPage />
               );
             }}
           />
           <Route
             path="/sign-up"
-            render={({ history }) => {
+            render={() => {
               return cookies.get("id_token") ? (
                 <Redirect to={"/"} />
               ) : (
-                <SignUpPage history={history} />
+                <SignUpPage />
               );
             }}
           />

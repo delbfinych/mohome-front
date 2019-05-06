@@ -45,7 +45,9 @@ export default class MohomeApiService {
       axios
         .post(
           this._apiBase + "/Token/Refresh-token",
-          JSON.stringify({ refreshToken: cookies.get("refreshToken") }),
+          JSON.stringify({
+            refreshToken: cookies.get("refreshToken")
+          }),
           {
             headers: {
               "Content-Type": "application/json"

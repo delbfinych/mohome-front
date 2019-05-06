@@ -17,15 +17,17 @@
 }
 .modal-content {
   border: none;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  background-color: transparent;
 }
 .modal-body {
   font-size: 14px;
   color: #656c7f;
+  padding: 20px;
+  background-color: white;
 }
 
-.modal-body {
-  padding: 20px;
-}
 .modal-dialog {
   position: absolute;
   top: 35%;

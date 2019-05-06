@@ -1,9 +1,9 @@
 import React from "react";
 import { SignUpForm } from "../forms";
-const SignUpPage = ({ history }) => {
+const SignUpPage = () => {
   return (
     <div>
-      <SignUpForm history={history} />
+      <SignUpForm />
     </div>
   );
 };

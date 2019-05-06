@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { withApiService } from "../hoc";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { compose } from "../../utils";
 const cookies = new Cookies();
 
 class SignInForm extends Component {
@@ -116,4 +117,7 @@ const mapMethodToProps = service => {
   };
 };
 
-export default withApiService(mapMethodToProps)(SignInForm);
+export default compose(
+  withApiService(mapMethodToProps),
+  withRouter
+)(SignInForm);

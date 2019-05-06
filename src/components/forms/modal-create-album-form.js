@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withApiService } from "../hoc";
-import "./styles.css";
+import "./modal-create-album-form.css";
 class ModalCreateAlbumForm extends Component {
   state = {
     title: "",
@@ -60,7 +60,6 @@ class ModalCreateAlbumForm extends Component {
         </div>
         <div
           style={{
-            margin: "0 100px",
             display: "flex",
             justifyContent: "space-between"
           }}

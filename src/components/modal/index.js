@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Modal } from "react-bootstrap";
-import "./styles.css";
+import "./modal.css";
 class ModalComponent extends Component {
   state = {
     show: false

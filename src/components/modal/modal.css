@@ -29,8 +29,14 @@
 }
 
 .modal-dialog {
+  width: 100%;
   position: absolute;
   top: 35%;
   left: 50%;
   transform: translate(-50%, -50%) !important;
+}
+@media all and (max-width: 600px) {
+  .modal-dialog {
+    margin: 0;
+  }
 }

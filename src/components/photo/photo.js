@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import "./photo.css";
 import { withApiService } from "../hoc";
 import placeholder from "../../img/camera_big.png";
+import { CreateAlbumForm } from "../forms";
+import Modal from "../modal";
 class Photo extends Component {
   state = {
     album: [],
@@ -11,12 +13,6 @@ class Photo extends Component {
     this.setState(state => {
       return { isExpanded: !state.isExpanded };
     });
-  };
-  onAlbumAdded = () => {
-    let name = prompt("Введите название альбома", "Стандартное имя");
-    this.props
-      .createAlbum({ albumName: name, description: "default value" })
-      .then(this._updateAlbum);
   };
 
   componentDidMount() {
@@ -40,10 +36,14 @@ class Photo extends Component {
               </div>
             </div>
             <div className="albums-bar-right">
-              <div onClick={this.onAlbumAdded} className="add-album-button">
-                <i className="zmdi zmdi-collection-folder-image zmdi-hc-lg" />{" "}
-                Add new album
-              </div>
+              <Modal title={"New album"}>
+                <div className="add-album-button">
+                  <i className="zmdi zmdi-collection-folder-image zmdi-hc-lg" />{" "}
+                  New album
+                </div>
+                <CreateAlbumForm onUpdateAlbum={this._updateAlbum} />
+              </Modal>
+
               <div className="add-photos-button">
                 <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
               </div>
@@ -139,8 +139,7 @@ const PhotoItem = ({ title, count, preview }) => {
 
 const mapMethodToProps = service => {
   return {
-    getAlbums: service.getAlbums,
-    createAlbum: service.createAlbum
+    getAlbums: service.getAlbums
   };
 };
 

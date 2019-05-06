@@ -4,8 +4,8 @@ import Home from "../home";
 import Photo from "../photo";
 import Video from "../video";
 import Music from "../music";
-import SignIn from "../sign-in-page";
-import SignUp from "../sign-up-page";
+import SignInPage from "../sign-in-page";
+import SignUpPage from "../sign-up-page";
 import Cookies from "universal-cookie";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import "./app.css";
@@ -19,14 +19,15 @@ export default class App extends Component {
     };
     return (
       <div>
-        <NavBar />
-
         <Switch>
           <Route
             path="/"
             render={() => {
               return cookies.get("id_token") ? (
-                <Home />
+                <React.Fragment>
+                  <NavBar />
+                  <Home />
+                </React.Fragment>
               ) : (
                 <Redirect to={"/sign-in"} />
               );
@@ -37,7 +38,10 @@ export default class App extends Component {
             path="/photo"
             render={() => {
               return cookies.get("id_token") ? (
-                <Photo />
+                <React.Fragment>
+                  <NavBar />
+                  <Photo />
+                </React.Fragment>
               ) : (
                 <Redirect to={"/sign-in"} />
               );
@@ -47,7 +51,10 @@ export default class App extends Component {
             path="/video"
             render={() => {
               return cookies.get("id_token") ? (
-                <Video />
+                <React.Fragment>
+                  <NavBar />
+                  <Video />
+                </React.Fragment>
               ) : (
                 <Redirect to={"/sign-in"} />
               );
@@ -57,7 +64,10 @@ export default class App extends Component {
             path="/music"
             render={() => {
               return cookies.get("id_token") ? (
-                <Music />
+                <React.Fragment>
+                  <NavBar />
+                  <Music />
+                </React.Fragment>
               ) : (
                 <Redirect to={"/sign-in"} />
               );
@@ -69,7 +79,7 @@ export default class App extends Component {
               return cookies.get("id_token") ? (
                 <Redirect to={"/"} />
               ) : (
-                <SignIn history={history} />
+                <SignInPage history={history} />
               );
             }}
           />
@@ -79,7 +89,7 @@ export default class App extends Component {
               return cookies.get("id_token") ? (
                 <Redirect to={"/"} />
               ) : (
-                <SignUp history={history} />
+                <SignUpPage history={history} />
               );
             }}
           />

@@ -1,5 +1,8 @@
+@import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto:100");
 body {
   background-color: #e5edf4;
+  font-family: "Inconsolata", monospace;
 }
 
 .panel {
@@ -10,8 +13,8 @@ body {
 }
 
 .form {
+  width: 98%;
   margin: 0 auto;
-  width: 400px;
 }
 .form input {
 }
@@ -20,4 +23,14 @@ input.invalid {
 }
 .form-text__error {
   color: red;
+}
+.form-control {
+  box-shadow: none !important;
+  padding: 5px 9px;
+}
+.form-group {
+  font-weight: bold;
+}
+input.form-control {
+  height: 30px;
 }

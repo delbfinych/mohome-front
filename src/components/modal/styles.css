@@ -1,0 +1,27 @@
+.modal-header {
+  background-color: #4582ec;
+  color: white;
+  padding: 12px 17px;
+}
+.modal-close {
+  opacity: 0.75;
+  cursor: pointer;
+}
+.modal-close:hover {
+  opacity: 1;
+}
+.modal-title {
+  font-weight: bold;
+  font-size: 14px !important;
+}
+.modal-content {
+  border: none;
+}
+.modal-body {
+  font-size: 14px;
+  color: #656c7f;
+}
+
+.modal-body {
+  padding: 20px;
+}

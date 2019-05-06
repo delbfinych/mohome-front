@@ -1,0 +1,16 @@
+.ok-btn,
+.cancel-btn {
+  width: 120px;
+  height: 30px;
+  border: none;
+  border-radius: 2px;
+}
+.ok-btn {
+  background-color: #4582ec;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #e8e9ec;
+  color: #656c7f;
+}

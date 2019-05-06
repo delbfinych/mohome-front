@@ -41,7 +41,7 @@ export default class MohomeApiService {
     });
   };
   _updateToken = async () => {
-    if (Date.now() >= cookies.get("expiresIn") * 1000)
+    if (Date.now() >= (cookies.get("expiresIn") - 1) * 1000)
       axios
         .post(
           this._apiBase + "/Token/Refresh-token",

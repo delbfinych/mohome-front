@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./photo.css";
 import { withApiService } from "../hoc";
-import placeholder from "../../img/camera_big.png";
+import placeholder from "../../img/image_big.png";
 import { CreateAlbumForm } from "../forms";
 import Modal from "../modal";
 class Photo extends Component {
@@ -97,11 +97,15 @@ class Photo extends Component {
               title={isExpanded ? "Hide" : "Expand"}
               className="album-expand-btn"
             >
-              <span>
+              <span className={"expand-text"}>
                 {isExpanded ? (
-                  <i className="zmdi zmdi-chevron-up" />
+                    <div>
+                        Show less
+                    </div>
                 ) : (
-                  <i className="zmdi zmdi-chevron-down" />
+                    <div>
+                        Show more
+                    </div>
                 )}
               </span>
             </div>

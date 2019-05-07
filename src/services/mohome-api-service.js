@@ -4,6 +4,7 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 export default class MohomeApiService {
   _apiBase = "http://213.141.130.153/Api";
+  //_apiBase = "http://localhost/Api";
   signIn = async body => {
     body.PasswordHash = CryptoJs.SHA256(body.PasswordHash).toString(
       CryptoJs.enc.Hex

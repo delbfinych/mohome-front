@@ -3,8 +3,8 @@ import CryptoJs from "crypto-js";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 export default class MohomeApiService {
-  //_apiBase = "http://213.141.130.153/Api";
-  _apiBase = "http://localhost/Api";
+  _apiBase = "http://213.141.130.153/Api";
+  // _apiBase = "http://localhost/Api";
   signIn = async body => {
     body.PasswordHash = CryptoJs.SHA256(body.PasswordHash).toString(
       CryptoJs.enc.Hex
@@ -44,6 +44,25 @@ export default class MohomeApiService {
     return axios.post(this._apiBase + "/Photo/Album", JSON.stringify(body), {
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + cookies.get("id_token")
+      }
+    });
+  };
+
+  uploadPhoto = async body => {
+    await this._updateToken();
+    return axios.post(this._apiBase + "/Photo", body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + cookies.get("id_token")
+      }
+    });
+  };
+  getPhotosByAlbumId = async id => {
+    await this._updateToken();
+    return axios.get(this._apiBase + "/Photo?albumId" + id, {
+      headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: "Bearer " + cookies.get("id_token")
       }
     });

@@ -4,6 +4,7 @@ import { withApiService } from "../hoc";
 import placeholder from "../../img/image_big.png";
 import { CreateAlbumForm } from "../forms";
 import Modal from "../modal";
+import DropArea from "../drop-area";
 class Photo extends Component {
   state = {
     album: [],
@@ -24,10 +25,40 @@ class Photo extends Component {
       console.log(this.state.album);
     });
   };
+  onUpload = files => {
+    const ffiles = Array.from(files);
+    console.log(ffiles);
+    ffiles.forEach(file => {
+      const formData = new FormData();
+      formData.append("Photo", file);
+      formData.append("Extension", file.name.split(".")[1]);
+      formData.append("AlbumId", 136);
+      this.props
+        .uploadPhoto(formData)
+        .then(res => console.log(res))
+        .catch(err => console.log(err.response));
+    });
+  };
   render() {
     const { album, isExpanded } = this.state;
     return (
       <div className="photo-section-container container">
+        <DropArea
+          id={"dnd"}
+          title={"Upload photos"}
+          onUpload={this.onUpload}
+          accept={"image/*"}
+        />
+        <button
+          onClick={() => {
+            this.props
+              .getPhotosByAlbumId(136)
+              .then(res => console.log(res))
+              .catch(e => console.log);
+          }}
+        >
+          GET PHOTOS
+        </button>
         <div className="albums-container">
           <div className="albums-bar  left-right-bar">
             <div className="albums-bar-left">
@@ -46,6 +77,7 @@ class Photo extends Component {
 
               <div className="add-photos-button">
                 <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
+                <label htmlFor={"dnd"} />
               </div>
             </div>
           </div>
@@ -98,15 +130,7 @@ class Photo extends Component {
               className="album-expand-btn"
             >
               <span className={"expand-text"}>
-                {isExpanded ? (
-                    <div>
-                        Show less
-                    </div>
-                ) : (
-                    <div>
-                        Show more
-                    </div>
-                )}
+                {isExpanded ? <div>Show less</div> : <div>Show more</div>}
               </span>
             </div>
           ) : null}
@@ -157,7 +181,9 @@ const PhotoItem = ({ title, count, preview }) => {
 
 const mapMethodToProps = service => {
   return {
-    getAlbums: service.getAlbums
+    getAlbums: service.getAlbums,
+    uploadPhoto: service.uploadPhoto,
+    getPhotosByAlbumId: service.getPhotosByAlbumId
   };
 };
 

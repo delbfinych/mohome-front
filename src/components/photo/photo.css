@@ -24,6 +24,19 @@ html {
 .add-photos-button {
   cursor: pointer;
   display: inline-block;
+  position: relative;
+}
+.add-photos-button label {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.photos-upload-input {
+  visibility: hidden;
 }
 .add-album-button {
   margin-right: 25px;
@@ -160,9 +173,39 @@ html {
   padding-top: 75%;
   position: relative;
 }
-.expand-text
-{
+.expand-text {
   font-size: 15px;
   display: flex;
   align-items: center;
+}
+.drop-area-wrap {
+  z-index: 500;
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.drop-area {
+  position: absolute;
+  z-index: 500;
+  top: 3%;
+  left: 2%;
+  right: 2%;
+  bottom: 3%;
+  border: 2px dashed #ccc;
+  padding: 20px;
+}
+.drop-area span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 50px;
+}
+.drop-area-wrap.highlight {
+  display: block;
 }

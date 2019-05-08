@@ -114,3 +114,16 @@ input.form-control {
 .error i:hover {
   opacity: 1;
 }
+
+.crumb-sep {
+  position: relative;
+  margin: 0 10px;
+}
+
+.crumb-sep i {
+  position: absolute;
+  top: 8%;
+  right: -3px;
+  font-size: 21px;
+  color: #656c7f;
+}

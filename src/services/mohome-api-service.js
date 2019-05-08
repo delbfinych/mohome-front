@@ -58,17 +58,27 @@ export default class MohomeApiService {
       }
     });
   };
-  getPhotosByAlbumId = async id => {
+  getPhoto = async name => {
     await this._updateToken();
-    return axios.get(this._apiBase + "/Photo?albumId" + id, {
+    return axios.get(this._apiBase + "/Photo/" + name, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: "Bearer " + cookies.get("id_token")
       }
     });
   };
+  getPhotosByAlbumId = async (id = "") => {
+    await this._updateToken();
+    return axios.get(this._apiBase + "/Photo?albumId=" + id, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + cookies.get("id_token")
+      }
+    });
+  };
+  // Сделать автоматический запуск функции раз в 55 минут
   _updateToken = async () => {
-    if (Date.now() >= (cookies.get("expiresIn") - 1) * 1000)
+    if (Date.now() >= (cookies.get("expiresIn") - 60) * 1000)
       axios
         .post(
           this._apiBase + "/Token/Refresh-token",

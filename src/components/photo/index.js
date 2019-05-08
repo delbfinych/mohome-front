@@ -1,4 +1,3 @@
-import Photo from './photo.js';
+import MainPhotoPage from "./album-navigation.js";
 
-export default Photo;
-
+export default MainPhotoPage;

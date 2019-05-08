@@ -13,11 +13,11 @@ class ModalCreateAlbumForm extends Component {
     const { onCloseModal, onUpdateAlbum } = this.props;
     if (title.trim()) {
       onCloseModal();
+      this.setState({
+        title: ""
+      });
       this.props.createAlbum({ albumName: title, description }).then(() => {
         onUpdateAlbum();
-        this.setState({
-          title: ""
-        });
       });
     } else
       this.setState({ titleValid: false }, () => {

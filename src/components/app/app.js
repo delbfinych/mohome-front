@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import NavBar from "../navbar";
 import Home from "../home";
-import Photo from "../photo";
+import MainPhotoPage from "../photo";
+import PhotoPageContainer from "../photo/photo-page-container";
 import Video from "../video";
 import Music from "../music";
 import SignInPage from "../sign-in-page";
 import SignUpPage from "../sign-up-page";
 import Cookies from "universal-cookie";
+import AddPhotosPage from "../photo/add-photos-page";
+import Main from "../photo/main";
+import AlbumPage from "../photo/album-page";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import "./app.css";
 const cookies = new Cookies();
@@ -20,6 +24,7 @@ export default class App extends Component {
     return (
       <div>
         <Switch>
+          {" "}
           <Route
             path="/"
             render={() => {
@@ -35,12 +40,68 @@ export default class App extends Component {
             exact
           />
           <Route
-            path="/photo"
+            path="/photo/"
+            exact
             render={() => {
               return cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
-                  <Photo />
+                  <PhotoPageContainer>
+                    <Main />
+                  </PhotoPageContainer>
+                </React.Fragment>
+              ) : (
+                <Redirect to={"/sign-in"} />
+              );
+            }}
+          />
+          <Route
+            path="/photo/upload"
+            exact
+            render={() => {
+              return cookies.get("id_token") ? (
+                <React.Fragment>
+                  <NavBar />
+                  <PhotoPageContainer>
+                    <AddPhotosPage />
+                  </PhotoPageContainer>
+                </React.Fragment>
+              ) : (
+                <Redirect to={"/sign-in"} />
+              );
+            }}
+          />
+          <Route
+            path="/photo/:albumId"
+            exact
+            render={({ match, location }) => {
+              const id = match.params.albumId;
+
+              return cookies.get("id_token") ? (
+                <React.Fragment>
+                  <NavBar />
+
+                  <PhotoPageContainer>
+                    <AlbumPage albumTitle={location.state.albumTitle} id={id} />
+                  </PhotoPageContainer>
+                </React.Fragment>
+              ) : (
+                <Redirect to={"/sign-in"} />
+              );
+            }}
+          />{" "}
+          <Route
+            path="/photo/:albumId/upload"
+            exact
+            render={({ match }) => {
+              const id = match.params.albumId;
+
+              return cookies.get("id_token") ? (
+                <React.Fragment>
+                  <NavBar />
+                  <PhotoPageContainer>
+                    <AddPhotosPage />
+                  </PhotoPageContainer>
                 </React.Fragment>
               ) : (
                 <Redirect to={"/sign-in"} />

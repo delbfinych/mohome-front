@@ -6,22 +6,7 @@ import CreateBreadCrumbs from "./creareBreadcrumbs";
 import "./main.css";
 
 class AlbumNavigation extends Component {
-  onUpload = files => {
-    this.props.history.push("upload");
-    const ffiles = Array.from(files);
-    ffiles.forEach(file => {
-      if (/image\/\w*/.test(file.type)) {
-        const formData = new FormData();
-        console.log("success");
-        formData.append("Photo", file);
-        formData.append("AlbumId", 136);
-        this.props
-          .uploadPhoto(formData)
-          .then(res => console.log(res))
-          .catch(err => console.log(err.response));
-      }
-    });
-  };
+
   render() {
     const { extraBtn, breadCrumbs } = this.props;
     return (
@@ -29,7 +14,7 @@ class AlbumNavigation extends Component {
         <DropArea
           id={"imageDnd"}
           title={"Upload photos"}
-          onUpload={this.onUpload}
+          onUpload={this.props.onUpload}
           accept={"image/*"}
         />
 

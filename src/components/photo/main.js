@@ -27,30 +27,24 @@ class Main extends Component {
   };
   componentDidMount() {
     this._updateAlbums();
-    this.props
-      .getPhotosByAlbumId()
-      .then(res => {
-        this.setState({
-          photoCount: res.data.response.length
-        });
-        this.getPhotosByOrder(res.data.response);
-      })
-      .catch(err => console.log(err));
   }
   getPhotosByOrder = async photos => {
-    for (let i = 0; i < photos.length; i++)
-      await this.props.getPhoto(photos[i].name).then(res => {
-        const obj = {
-          ...res.data.response,
-          created: photos[i].created,
-          name: photos[i].name
-        };
-        this.setState(prevState => {
-          return {
-            photos: [...prevState.photos, obj]
-          };
+    if (photos.length) {
+      const obj = [];
+      for (let i = 0; i < photos.length; i++)
+        await this.props.getPhoto(photos[i].name).then(res => {
+          obj.push({
+            ...res.data.response,
+            created: photos[i].created,
+            name: photos[i].name
+          });
         });
+      this.setState(prevState => {
+        return {
+          photos: obj
+        };
       });
+    }
   };
   _updateAlbums = () => {
     this.props.getAlbums().then(res => {
@@ -65,10 +59,35 @@ class Main extends Component {
             this.setState({ albumCovers: newCover });
           });
     });
+    this.props
+      .getPhotosByAlbumId()
+      .then(res => {
+        console.log(res.data.response);
+        this.setState({ photoCount: res.data.response.length });
+        this.getPhotosByOrder(res.data.response);
+      })
+      .catch(err => console.log(err));
+  };
+
+  onUpload = files => {
+    //   this.props.history.push("upload");
+    const ffiles = Array.from(files);
+    ffiles.forEach(file => {
+      if (/image\/\w*/.test(file.type)) {
+        const formData = new FormData();
+
+        formData.append("Photo", file);
+        formData.append("AlbumId", 181);
+        this.props
+          .uploadPhoto(formData)
+          .then(this._updateAlbums)
+          .catch(err => console.log(err.response));
+      }
+    });
   };
 
   render() {
-    const { album, isExpanded, photos } = this.state;
+    const { album, isExpanded, photos, photoCount } = this.state;
     const breadCrumbs = [
       {
         text: `My albums ${album.length}`,
@@ -79,12 +98,13 @@ class Main extends Component {
       <div>
         <button
           onClick={() => {
-            console.log(photos);
+            console.log(album);
           }}
         >
           GET PHOTOS
         </button>
         <AlbumNavigation
+          onUpload={this.onUpload}
           breadCrumbs={breadCrumbs}
           extraBtn={
             <Modal title={"New album"}>
@@ -131,6 +151,7 @@ class Main extends Component {
                       title={e.name}
                       preview={this.state.albumCovers[e.albumId]}
                       id={e.albumId}
+                      count={e.photoCount}
                     />
                   ))}
                   {isExpanded
@@ -142,6 +163,7 @@ class Main extends Component {
                             title={e.name}
                             preview={this.state.albumCovers[e.albumId]}
                             id={e.albumId}
+                            count={e.photoCount}
                           />
                         ))
                     : null}
@@ -175,12 +197,10 @@ class Main extends Component {
         </div>
 
         <div className="left-right-bar">
-          <div className="albums-bar-left">
-            My photos {this.state.photoCount}
-          </div>
+          <div className="albums-bar-left">My photos {photoCount}</div>
         </div>
 
-        <PhotoList photos={this.state.photos} />
+        <PhotoList photos={photos} />
         {/*<div className="added-photos-container">*/}
         {/*  <div className="added-photos-bar left-right-bar">*/}
         {/*    <div className="added-photos-bar-left">*/}
@@ -195,7 +215,7 @@ class Main extends Component {
 }
 
 const AlbumItem = ({ title, count, preview, id }) => {
-  console.log(preview);
+  // console.log(preview);
   const style = {
     backgroundImage: `url(${
       preview
@@ -205,7 +225,13 @@ const AlbumItem = ({ title, count, preview, id }) => {
   };
   return (
     <Link
-      to={{ pathname: `${id}`, state: { albumTitle: title } }}
+      to={{
+        pathname: `${id}/`,
+        state: {
+          albumTitle: title,
+          albumId: id
+        }
+      }}
       className="col-2 album-photo"
     >
       <div className="ratio">

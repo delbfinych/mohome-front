@@ -10,7 +10,10 @@ class DropArea extends Component {
   handleDrop = e => {
     let dt = e.dataTransfer;
     let files = dt.files;
-    if (files.length) this.props.onUpload(files);
+    if (files.length) {
+      this.props.onUpload(files);
+      this.forceUpdate();
+    }
   };
   preventDefaults = e => {
     e.preventDefault();
@@ -19,7 +22,10 @@ class DropArea extends Component {
 
   onUpload = e => {
     const files = e.target.files;
-    if (files.length) this.props.onUpload(files);
+    if (files.length) {
+      this.props.onUpload(files);
+      this.forceUpdate();
+    }
   };
   componentDidMount() {
     this.dropArea = document.querySelector(".drop-area-wrap");
@@ -67,6 +73,7 @@ class DropArea extends Component {
           <span>{title}</span>
           <input
             id={id}
+            value={""}
             multiple
             onChange={e => this.onUpload(e)}
             accept={accept}

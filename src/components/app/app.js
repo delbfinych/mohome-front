@@ -19,6 +19,8 @@ export default class App extends Component {
     // temporarily
     window.logout = () => {
       cookies.remove("id_token");
+      cookies.remove("expiresIn");
+      cookies.remove("refreshToken");
       this.forceUpdate();
     };
     return (
@@ -46,6 +48,7 @@ export default class App extends Component {
               return cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
+                  <button onClick={() => window.logout()}>logout</button>
                   <PhotoPageContainer>
                     <Main />
                   </PhotoPageContainer>
@@ -72,25 +75,6 @@ export default class App extends Component {
             }}
           />
           <Route
-            path="/photo/:albumId"
-            exact
-            render={({ match, location }) => {
-              const id = match.params.albumId;
-
-              return cookies.get("id_token") ? (
-                <React.Fragment>
-                  <NavBar />
-
-                  <PhotoPageContainer>
-                    <AlbumPage albumTitle={location.state.albumTitle} id={id} />
-                  </PhotoPageContainer>
-                </React.Fragment>
-              ) : (
-                <Redirect to={"/sign-in"} />
-              );
-            }}
-          />{" "}
-          <Route
             path="/photo/:albumId/upload"
             exact
             render={({ match }) => {
@@ -108,6 +92,24 @@ export default class App extends Component {
               );
             }}
           />
+          <Route
+            path="/photo/:albumId"
+            exact
+            render={({ match, location }) => {
+              const id = match.params.albumId;
+              return cookies.get("id_token") ? (
+                <React.Fragment>
+                  <NavBar />
+
+                  <PhotoPageContainer>
+                    <AlbumPage {...location.state} id={id} />
+                  </PhotoPageContainer>
+                </React.Fragment>
+              ) : (
+                <Redirect to={"/sign-in"} />
+              );
+            }}
+          />{" "}
           <Route
             path="/video"
             render={() => {

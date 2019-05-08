@@ -78,7 +78,9 @@ export default class MohomeApiService {
   };
   // Сделать автоматический запуск функции раз в 55 минут
   _updateToken = async () => {
-    if (Date.now() >= (cookies.get("expiresIn") - 60) * 1000)
+    if (Date.now() >= (cookies.get("expiresIn") - 60) * 1000) {
+      cookies.remove("expiresIn");
+      cookies.remove("id_token");
       axios
         .post(
           this._apiBase + "/Token/Refresh-token",
@@ -97,5 +99,6 @@ export default class MohomeApiService {
           cookies.set("expiresIn", res.data.response.expiresIn);
           cookies.set("refreshToken", res.data.response.refreshToken);
         });
+    }
   };
 }

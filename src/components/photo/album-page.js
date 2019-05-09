@@ -19,11 +19,13 @@ class AlbumPage extends Component {
     if (photos.length)
       for (let i = 0; i < photos.length; i++)
         await this.props.getPhoto(photos[i].name).then(res => {
+          const image = res.data.response;
           const obj = {
-            ...res.data.response,
+            image: `data:${image.imageType};base64,${image.image}`,
             created: photos[i].created,
             name: photos[i].name
           };
+
           this.setState(prevState => {
             return {
               photos: [...prevState.photos, obj]
@@ -35,12 +37,18 @@ class AlbumPage extends Component {
     this.props
       .getPhotosByAlbumId(this.props.id)
       .then(res => {
+        console.log(res);
         this.setState({
           albumInfo: res.data.response,
-          photoCount: res.data.response.length
+          photoCount: res.data.response.length,
+          photos: []
         });
         this.getPhotosByOrder(this.state.albumInfo);
       })
+      .catch(err => console.log(err));
+    this.props
+      .getAlbumInfo(this.props.albumId)
+      .then(res => this.setState({ albumTitle: res.data.response.name }))
       .catch(err => console.log(err));
   };
   onUpload = files => {
@@ -60,12 +68,11 @@ class AlbumPage extends Component {
     });
   };
   render() {
-    const { photos, photoCount } = this.state;
-    const { albumTitle } = this.props;
+    const { photos, photoCount, albumTitle } = this.state;
     const breadCrumbs = [
       {
         text: `My photos`,
-        link: "/photo/"
+        link: "/albums/"
       },
       {
         text: `${albumTitle} ${photoCount}`
@@ -86,7 +93,8 @@ const mapMethodToProps = service => {
   return {
     getPhotosByAlbumId: service.getPhotosByAlbumId,
     getPhoto: service.getPhoto,
-    uploadPhoto: service.uploadPhoto
+    uploadPhoto: service.uploadPhoto,
+    getAlbumInfo: service.getAlbumInfo
   };
 };
 

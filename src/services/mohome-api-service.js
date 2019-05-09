@@ -32,7 +32,7 @@ export default class MohomeApiService {
   };
   getAlbums = async () => {
     await this._updateToken();
-    return axios.get(this._apiBase + "/Photo/Album", {
+    return axios.get(this._apiBase + "/Photo/Albums", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + cookies.get("id_token")
@@ -69,9 +69,18 @@ export default class MohomeApiService {
   };
   getPhotosByAlbumId = async (id = "") => {
     await this._updateToken();
-    return axios.get(this._apiBase + "/Photo?albumId=" + id, {
+    return axios.get(this._apiBase + "/Photo/photos?albumId=" + id, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + cookies.get("id_token")
+      }
+    });
+  };
+  getAlbumInfo = async id => {
+    await this._updateToken();
+    return axios.get(this._apiBase + "/Photo/Album?albumId=" + id, {
+      headers: {
+        "Content-Type": "application/json",
         Authorization: "Bearer " + cookies.get("id_token")
       }
     });

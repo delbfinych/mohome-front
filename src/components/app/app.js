@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import NavBar from "../navbar";
 import Home from "../home";
+import Slider from "../photo/slider";
 import MainPhotoPage from "../photo";
-import PhotoPageContainer from "../photo/photo-page-container";
+import SinglePhotoPage from "../photo/single-photo-page";
+import AlbumsPageContainer from "../photo/albums-page-container";
 import Video from "../video";
 import Music from "../music";
+import NotFoundPage from "../not-found-page";
 import SignInPage from "../sign-in-page";
 import SignUpPage from "../sign-up-page";
 import Cookies from "universal-cookie";
@@ -14,8 +17,24 @@ import AlbumPage from "../photo/album-page";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import "./app.css";
 const cookies = new Cookies();
+// TODO: ПОчинить логаут
+
 export default class App extends Component {
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    let { location } = this.props;
+    if (
+      nextProps.history.action !== "POP" &&
+      (!location.state || !location.state.modal)
+    ) {
+      this.previousLocation = this.props.location;
+    }
+    return true;
+  }
+
   render() {
+    let prevPathName = this.previousLocation
+      ? this.previousLocation.pathname
+      : `/`;
     // temporarily
     window.logout = () => {
       cookies.remove("id_token");
@@ -23,10 +42,15 @@ export default class App extends Component {
       cookies.remove("refreshToken");
       this.forceUpdate();
     };
+    let { location } = this.props;
+    let isModal = !!(
+      location.state &&
+      location.state.modal &&
+      this.previousLocation !== location
+    );
     return (
       <div>
-        <Switch>
-          {" "}
+        <Switch location={isModal ? this.previousLocation : location}>
           <Route
             path="/"
             render={() => {
@@ -42,21 +66,57 @@ export default class App extends Component {
             exact
           />
           <Route
-            path="/photo/"
+            path="/albums/"
             exact
             render={() => {
               return cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
                   <button onClick={() => window.logout()}>logout</button>
-                  <PhotoPageContainer>
+                  <AlbumsPageContainer>
                     <Main />
-                  </PhotoPageContainer>
+                  </AlbumsPageContainer>
                 </React.Fragment>
               ) : (
                 <Redirect to={"/sign-in"} />
               );
             }}
+          />
+          <Route
+            path="/albums/photo/:name"
+            render={({ history, location, match }) => {
+              return cookies.get("id_token") ? (
+                <React.Fragment>
+                  <SinglePhotoPage
+                    photoName={match.params.name}
+                    location={location}
+                    history={history}
+                  />
+                </React.Fragment>
+              ) : (
+                <Redirect to={"/sign-in"} />
+              );
+            }}
+            exact
+          />
+          <Route
+            path="/albums/:albumId/photo/:name"
+            render={({ match, history }) => {
+              const id = match.params.albumId;
+              const name = match.params.name;
+              return cookies.get("id_token") ? (
+                <React.Fragment>
+                  <SinglePhotoPage
+                    albumId={id}
+                    history={history}
+                    photoName={name}
+                  />
+                </React.Fragment>
+              ) : (
+                <Redirect to={"/sign-in"} />
+              );
+            }}
+            exact
           />
           <Route
             path="/photo/upload"
@@ -65,9 +125,9 @@ export default class App extends Component {
               return cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
-                  <PhotoPageContainer>
+                  <AlbumsPageContainer>
                     <AddPhotosPage />
-                  </PhotoPageContainer>
+                  </AlbumsPageContainer>
                 </React.Fragment>
               ) : (
                 <Redirect to={"/sign-in"} />
@@ -83,9 +143,9 @@ export default class App extends Component {
               return cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
-                  <PhotoPageContainer>
+                  <AlbumsPageContainer>
                     <AddPhotosPage />
-                  </PhotoPageContainer>
+                  </AlbumsPageContainer>
                 </React.Fragment>
               ) : (
                 <Redirect to={"/sign-in"} />
@@ -93,17 +153,17 @@ export default class App extends Component {
             }}
           />
           <Route
-            path="/photo/:albumId"
+            path="/albums/:albumId"
             exact
-            render={({ match, location }) => {
+            render={({ history, match, location }) => {
+              console.log(history);
               const id = match.params.albumId;
               return cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
-
-                  <PhotoPageContainer>
-                    <AlbumPage {...location.state} id={id} />
-                  </PhotoPageContainer>
+                  <AlbumsPageContainer>
+                    <AlbumPage {...location.state} albumId={id} />
+                  </AlbumsPageContainer>
                 </React.Fragment>
               ) : (
                 <Redirect to={"/sign-in"} />
@@ -156,7 +216,23 @@ export default class App extends Component {
               );
             }}
           />
+          <Route component={NotFoundPage} />
         </Switch>
+
+        {isModal ? (
+          <Route
+            path={`${prevPathName}photo/:name`}
+            render={({ history, location }) => {
+              return cookies.get("id_token") ? (
+                <React.Fragment>
+                  <Slider location={location} history={history} />
+                </React.Fragment>
+              ) : (
+                <Redirect to={"/sign-in"} />
+              );
+            }}
+          />
+        ) : null}
       </div>
     );
   }

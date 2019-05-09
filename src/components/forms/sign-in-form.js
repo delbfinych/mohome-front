@@ -10,13 +10,14 @@ class SignInForm extends Component {
     email: "",
     password: "",
     isLoading: false,
-    authError: false
+    authError: false,
+    errMsg: ""
   };
 
   onSubmit = e => {
     e.preventDefault();
     const { password, email } = this.state;
-    this.setState({ authError: false, isLoading: true });
+    this.setState({ authError: false, isLoading: true, errMsg: "" });
     setTimeout(() => {
       this.props
         .signIn({
@@ -30,7 +31,20 @@ class SignInForm extends Component {
           this.props.history.push("/");
         })
         .catch(err => {
-          this.setState({ authError: true, isLoading: false });
+          console.log(err.response);
+          if (err.response) {
+            if (err.response.status === 401)
+              this.setState({
+                authError: true,
+                isLoading: false,
+                errMsg: "Incorrect username or password."
+              });
+          } else
+            this.setState({
+              authError: true,
+              isLoading: false,
+              errMsg: err.message
+            });
         });
     }, 500);
   };
@@ -42,7 +56,7 @@ class SignInForm extends Component {
     });
   };
   render() {
-    const { email, password, isLoading, authError } = this.state;
+    const { email, password, isLoading, authError, errMsg } = this.state;
     return (
       <div className={"sign-in-form"}>
         <form className={"form"} onSubmit={this.onSubmit}>
@@ -91,7 +105,7 @@ class SignInForm extends Component {
                 }}
                 className="zmdi zmdi-close"
               />
-              <span>Incorrect username or password.</span>
+              <span>{errMsg}</span>
             </div>
           ) : null}
           <div className={"create-account-callout"}>

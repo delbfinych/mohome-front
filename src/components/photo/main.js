@@ -12,6 +12,7 @@ import NavBar from "../navbar";
 import AddPhotosPage from "./add-photos-page";
 import PhotoList from "./photo-list";
 import CreateBreadCrumbs from "./creareBreadcrumbs";
+import Slider from "./slider";
 
 class Main extends Component {
   state = {
@@ -29,25 +30,26 @@ class Main extends Component {
     this._updateAlbums();
   }
   getPhotosByOrder = async photos => {
-    if (photos.length) {
-      const obj = [];
+    if (photos.length)
       for (let i = 0; i < photos.length; i++)
         await this.props.getPhoto(photos[i].name).then(res => {
-          obj.push({
-            ...res.data.response,
+          const image = res.data.response;
+          const obj = {
+            image: `data:${image.imageType};base64,${image.image}`,
             created: photos[i].created,
             name: photos[i].name
+          };
+
+          this.setState(prevState => {
+            return {
+              photos: [...prevState.photos, obj]
+            };
           });
         });
-      this.setState(prevState => {
-        return {
-          photos: obj
-        };
-      });
-    }
   };
   _updateAlbums = () => {
     this.props.getAlbums().then(res => {
+      console.log(res);
       this.setState({ album: res.data.response });
       console.log(this.state.album);
       const albums = this.state.album;
@@ -62,9 +64,16 @@ class Main extends Component {
     this.props
       .getPhotosByAlbumId()
       .then(res => {
-        console.log(res.data.response);
-        this.setState({ photoCount: res.data.response.length });
-        this.getPhotosByOrder(res.data.response);
+        this.setState({
+          photoCount: res.data.response.length,
+          photosLinks: res.data.response
+        });
+        this.setState(
+          prevState => {
+            return { photos: [] };
+          },
+          () => this.getPhotosByOrder(res.data.response)
+        );
       })
       .catch(err => console.log(err));
   };
@@ -72,12 +81,13 @@ class Main extends Component {
   onUpload = files => {
     //   this.props.history.push("upload");
     const ffiles = Array.from(files);
+    console.log(ffiles);
     ffiles.forEach(file => {
       if (/image\/\w*/.test(file.type)) {
         const formData = new FormData();
 
         formData.append("Photo", file);
-        formData.append("AlbumId", 181);
+        // formData.append("AlbumId", 10);
         this.props
           .uploadPhoto(formData)
           .then(this._updateAlbums)
@@ -91,18 +101,11 @@ class Main extends Component {
     const breadCrumbs = [
       {
         text: `My albums ${album.length}`,
-        link: "/photo/"
+        link: "/albums/"
       }
     ];
     return (
       <div>
-        <button
-          onClick={() => {
-            console.log(album);
-          }}
-        >
-          GET PHOTOS
-        </button>
         <AlbumNavigation
           onUpload={this.onUpload}
           breadCrumbs={breadCrumbs}
@@ -226,11 +229,7 @@ const AlbumItem = ({ title, count, preview, id }) => {
   return (
     <Link
       to={{
-        pathname: `${id}/`,
-        state: {
-          albumTitle: title,
-          albumId: id
-        }
+        pathname: `${id}/`
       }}
       className="col-2 album-photo"
     >

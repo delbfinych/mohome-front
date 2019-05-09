@@ -11,7 +11,7 @@ const CreateBreadcrumbs = ({ breadCrumbs }) => {
                 <a href={e.link}>{e.text}</a>
               </div>
               <div className={"crumb-sep"}>
-                <i className="zmdi zmdi-chevron-right " />
+                <i className="zmdi zmdi-chevron-right" />
               </div>
             </React.Fragment>
           );

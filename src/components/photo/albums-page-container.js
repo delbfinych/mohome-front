@@ -1,7 +1,7 @@
 import React from "react";
 
-const PhotoPageContainer = ({ children }) => {
+const AlbumsPageContainer = ({ children }) => {
   return <div className="photo-section-container container">{children}</div>;
 };
 
-export default PhotoPageContainer;
+export default AlbumsPageContainer;

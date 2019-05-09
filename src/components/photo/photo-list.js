@@ -13,7 +13,8 @@ class PhotoList extends React.PureComponent {
                 {photos.map((e, i) => (
                   <PhotoItem
                     key={e.name}
-                    src={`data:${e.imageType};base64,${e.image}`}
+                    index={i}
+                    photos={photos}
                   />
                 ))}
               </div>

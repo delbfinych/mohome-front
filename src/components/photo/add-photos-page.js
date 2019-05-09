@@ -7,7 +7,7 @@ class AddPhotosPage extends Component {
     const breadCrumbs = [
       {
         text: `My photos`,
-        link: "/photo/"
+        link: "/albums/"
       },
       {
         text: `Add photos`

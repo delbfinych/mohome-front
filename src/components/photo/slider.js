@@ -9,6 +9,7 @@ class Slider extends Component {
     currentIndex: 0
   };
   componentDidMount() {
+    console.log("as");
     const { photos, currentItem, index } = this.props.location.state;
     console.log(photos);
     this.setState({
@@ -18,10 +19,27 @@ class Slider extends Component {
     });
     window.addEventListener("keyup", this.handleArrowClick);
   }
+  componentWillUnmount() {
+    window.removeEventListener("keyup", this.handleArrowClick);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { photos, currentItem, index } = this.props.location.state;
+    if (currentItem.name !== prevState.currentItem.name) {
+      this.setState({
+        photos,
+        currentIndex: index,
+        currentItem: currentItem,
+        isAllowClick: true
+      });
+    }
+  }
 
   handleArrowClick = e => {
-    if (e.which === 37) this.goToPrevSlide();
-    else if (e.which === 39) this.goToNextSlide();
+    if (this.state.isAllowClick) {
+      if (e.which === 37) this.goToPrevSlide();
+      else if (e.which === 39) this.goToNextSlide();
+    }
   };
 
   goToPrevSlide = () => {
@@ -31,8 +49,13 @@ class Slider extends Component {
 
     if (currentIndex === 0) newIndex = photos.length - 1;
     else newIndex--;
-    console.log(newIndex);
-    this.setState({ currentIndex: newIndex });
+    this.setState({ isAllowClick: false });
+    this.props.history.replace(`${photos[newIndex].name}`, {
+      modal: true,
+      photos,
+      index: newIndex,
+      currentItem: photos[newIndex]
+    });
   };
   goToNextSlide = () => {
     const { currentIndex, photos } = this.state;
@@ -40,8 +63,14 @@ class Slider extends Component {
 
     if (currentIndex === photos.length - 1) newIndex = 0;
     else newIndex++;
-
-    this.setState({ currentIndex: newIndex });
+    console.log(newIndex);
+    this.setState({ isAllowClick: false });
+    this.props.history.replace(`${photos[newIndex].name}`, {
+      modal: true,
+      photos,
+      index: newIndex,
+      currentItem: photos[newIndex]
+    });
   };
   render() {
     const { history, location } = this.props;
@@ -71,12 +100,10 @@ class Slider extends Component {
           <i className={"zmdi zmdi-close"} />
         </button>
         <div className="slider">
-          <div className="slide">
-            <img
-              src={photos[currentIndex] ? photos[currentIndex].image : null}
-              alt=""
-            />
-          </div>
+          <img
+            src={photos[currentIndex] ? photos[currentIndex].image : null}
+            alt=""
+          />
         </div>
       </div>
     );

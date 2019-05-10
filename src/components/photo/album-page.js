@@ -35,7 +35,7 @@ class AlbumPage extends Component {
   };
   _updateAlbum = () => {
     this.props
-      .getPhotosByAlbumId(this.props.id)
+      .getPhotosByAlbumId(this.props.albumId)
       .then(res => {
         console.log(res);
         this.setState({

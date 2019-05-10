@@ -24,7 +24,7 @@ class SinglePhotoPage extends Component {
   render() {
     const { photo, isLoading } = this.state;
     const { albumId, history } = this.props;
-    const redirectLink = albumId ? `/albums/${albumId}` : `/albums`;
+    const redirectLink = albumId ? `/albums/${albumId}/` : `/albums/`;
     return (
       <div className={"single-photo-page-wrap"}>
         <div

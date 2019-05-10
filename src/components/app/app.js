@@ -48,6 +48,7 @@ export default class App extends Component {
       location.state.modal &&
       this.previousLocation !== location
     );
+    console.log(location);
     return (
       <div>
         <Switch location={isModal ? this.previousLocation : location}>

@@ -11,6 +11,8 @@ class DropArea extends Component {
     let dt = e.dataTransfer;
     let files = dt.files;
     if (files.length) {
+      files = Array.from(files);
+      files = files.filter(el => /image\/\w*/.test(el.type));
       this.props.onUpload(files);
       this.forceUpdate();
     }
@@ -21,8 +23,10 @@ class DropArea extends Component {
   };
 
   onUpload = e => {
-    const files = e.target.files;
+    let files = e.target.files;
     if (files.length) {
+      files = Array.from(files);
+      files = files.filter(el => /image\/\w*/.test(el.type));
       this.props.onUpload(files);
       this.forceUpdate();
     }

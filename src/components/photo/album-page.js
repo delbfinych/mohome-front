@@ -5,7 +5,8 @@ import { withApiService } from "../hoc";
 import placeholder from "../../img/image_big.png";
 import PhotoItem from "./photo-item";
 import PhotoList from "./photo-list";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+
 class AlbumPage extends Component {
   state = {
     photos: [],
@@ -20,6 +21,7 @@ class AlbumPage extends Component {
       for (let i = 0; i < photos.length; i++)
         await this.props.getPhoto(photos[i].name).then(res => {
           const image = res.data.response;
+          console.log(res);
           const obj = {
             image: `data:${image.imageType};base64,${image.image}`,
             created: photos[i].created,
@@ -38,6 +40,7 @@ class AlbumPage extends Component {
       .getPhotosByAlbumId(this.props.albumId)
       .then(res => {
         console.log(res);
+
         this.setState({
           albumInfo: res.data.response,
           photoCount: res.data.response.length,
@@ -51,20 +54,39 @@ class AlbumPage extends Component {
       .then(res => this.setState({ albumTitle: res.data.response.name }))
       .catch(err => console.log(err));
   };
-  onUpload = files => {
-    //   this.props.history.push("upload");
-    const ffiles = Array.from(files);
-    ffiles.forEach(file => {
-      if (/image\/\w*/.test(file.type)) {
-        const formData = new FormData();
+  onUpload = async files => {
+    const { uploadPhoto, albumId, history } = this.props;
+    const lastPhotos = [];
+    for (let i = 0; i < files.length; i++) {
+      const formData = new FormData();
 
-        formData.append("Photo", file);
-        formData.append("AlbumId", this.props.albumId);
-        this.props
-          .uploadPhoto(formData)
-          .then(res => this._updateAlbum())
-          .catch(err => console.log(err.response));
-      }
+      formData.append("Photo", files[i]);
+      formData.append("AlbumId", albumId);
+
+      await uploadPhoto(formData)
+        .then(res => {
+          lastPhotos.push(res.data.response.fileName);
+          this._updateAlbum();
+        })
+        .catch(err => console.log(err.response));
+    }
+
+    history.push("upload", {
+      albumId,
+      lastPhotos,
+      breadCrumbs: [
+        {
+          text: `My photos`,
+          link: "/albums/"
+        },
+        {
+          text: `${this.state.albumTitle}`,
+          link: `/albums/${this.props.albumId}/`
+        },
+        {
+          text: "Add photos"
+        }
+      ]
     });
   };
   render() {
@@ -75,13 +97,22 @@ class AlbumPage extends Component {
         link: "/albums/"
       },
       {
-        text: `${albumTitle} ${photoCount}`
+        text: `${albumTitle} ${photoCount ? photoCount : ""}`
       }
     ];
 
     return (
       <div>
-        <AlbumNavigation onUpload={this.onUpload} breadCrumbs={breadCrumbs} />
+        <AlbumNavigation
+          rightContent={
+            <div className="add-photos-button">
+              <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
+              <label htmlFor={"imageDnd"} />
+            </div>
+          }
+          onUpload={this.onUpload}
+          breadCrumbs={breadCrumbs}
+        />
         <button onClick={() => console.log(this.state.albumInfo)}>asd</button>
         <PhotoList photos={photos} />
       </div>

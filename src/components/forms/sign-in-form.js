@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { withApiService } from "../hoc";
 import { Link, withRouter } from "react-router-dom";
-import Cookies from "universal-cookie";
+import Cookies from "js-cookie";
 import { compose } from "../../utils";
-const cookies = new Cookies();
 
 class SignInForm extends Component {
   state = {
@@ -25,15 +24,17 @@ class SignInForm extends Component {
           PasswordHash: password
         })
         .then(res => {
-          cookies.set("id_token", res.data.response.accessToken);
-          cookies.set("expiresIn", res.data.response.expiresIn);
-          cookies.set("refreshToken", res.data.response.refreshToken);
+          Cookies.set("id_token", res.data.response.accessToken, { path: "" });
+          Cookies.set("expiresIn", res.data.response.expiresIn, { path: "" });
+          Cookies.set("refreshToken", res.data.response.refreshToken, {
+            path: ""
+          });
           this.props.history.push("/");
         })
         .catch(err => {
           console.log(err.response);
           if (err.response) {
-            if (err.response.status === 401)
+            if (err.response.status / 100 === 4)
               this.setState({
                 authError: true,
                 isLoading: false,

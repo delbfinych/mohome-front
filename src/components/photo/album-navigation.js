@@ -6,9 +6,8 @@ import CreateBreadCrumbs from "./creareBreadcrumbs";
 import "./main.css";
 
 class AlbumNavigation extends Component {
-
   render() {
-    const { extraBtn, breadCrumbs } = this.props;
+    const { rightContent, breadCrumbs } = this.props;
     return (
       <div className="albums-bar  left-right-bar">
         <DropArea
@@ -21,14 +20,7 @@ class AlbumNavigation extends Component {
         <div className="albums-bar-left">
           <CreateBreadCrumbs breadCrumbs={breadCrumbs} />
         </div>
-        <div className="albums-bar-right">
-          {extraBtn}
-
-          <div className="add-photos-button">
-            <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
-            <label htmlFor={"imageDnd"} />
-          </div>
-        </div>
+        <div className="albums-bar-right">{rightContent}</div>
       </div>
     );
   }

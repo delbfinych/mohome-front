@@ -1,9 +1,11 @@
 import React from "react";
 import PhotoItem from "./photo-item";
+import PhotoEditor from "./photo-editor";
 
 class PhotoList extends React.PureComponent {
   render() {
-    const { photos } = this.props;
+    const { photos, isEditing = false } = this.props;
+
     return (
       <div className="albums-container">
         <div className="albums-panel">
@@ -11,11 +13,10 @@ class PhotoList extends React.PureComponent {
             <div className={"container"}>
               <div className={"row"}>
                 {photos.map((e, i) => (
-                  <PhotoItem
-                    key={e.name}
-                    index={i}
-                    photos={photos}
-                  />
+                  <React.Fragment key={e.name}>
+                    <PhotoItem index={i} photos={photos} />
+                    {isEditing ? <PhotoEditor photoName={e.name} /> : null}
+                  </React.Fragment>
                 ))}
               </div>
             </div>

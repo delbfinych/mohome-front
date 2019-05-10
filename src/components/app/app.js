@@ -7,16 +7,17 @@ import SinglePhotoPage from "../photo/single-photo-page";
 import AlbumsPageContainer from "../photo/albums-page-container";
 import Video from "../video";
 import Music from "../music";
+import EditAlbumPage from "../photo/edit-album-page";
 import NotFoundPage from "../not-found-page";
 import SignInPage from "../sign-in-page";
 import SignUpPage from "../sign-up-page";
-import Cookies from "universal-cookie";
+import Cookies from "js-cookie";
 import AddPhotosPage from "../photo/add-photos-page";
 import Main from "../photo/main";
 import AlbumPage from "../photo/album-page";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import "./app.css";
-const cookies = new Cookies();
+
 // TODO: ПОчинить логаут
 
 export default class App extends Component {
@@ -35,11 +36,17 @@ export default class App extends Component {
     let prevPathName = this.previousLocation
       ? this.previousLocation.pathname
       : `/`;
+    // убираем последнюю часть prevPathName, чтоб там содержалось только
+    // /albums/ или /albums/id/
+    if (prevPathName && prevPathName[prevPathName.length - 1] != "/") {
+      prevPathName = prevPathName.slice(0, prevPathName.lastIndexOf("/") + 1);
+    }
+
     // temporarily
     window.logout = () => {
-      cookies.remove("id_token");
-      cookies.remove("expiresIn");
-      cookies.remove("refreshToken");
+      Cookies.remove("id_token", { path: "" });
+      Cookies.remove("expiresIn", { path: "" });
+      Cookies.remove("refreshToken", { path: "" });
       this.forceUpdate();
     };
     let { location } = this.props;
@@ -48,14 +55,14 @@ export default class App extends Component {
       location.state.modal &&
       this.previousLocation !== location
     );
-    console.log(location);
+    console.log(isModal);
     return (
       <div>
         <Switch location={isModal ? this.previousLocation : location}>
           <Route
             path="/"
             render={() => {
-              return cookies.get("id_token") ? (
+              return Cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
                   <Home />
@@ -69,13 +76,13 @@ export default class App extends Component {
           <Route
             path="/albums/"
             exact
-            render={() => {
-              return cookies.get("id_token") ? (
+            render={({ history }) => {
+              return Cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
                   <button onClick={() => window.logout()}>logout</button>
                   <AlbumsPageContainer>
-                    <Main />
+                    <Main history={history} />
                   </AlbumsPageContainer>
                 </React.Fragment>
               ) : (
@@ -86,7 +93,7 @@ export default class App extends Component {
           <Route
             path="/albums/photo/:name"
             render={({ history, location, match }) => {
-              return cookies.get("id_token") ? (
+              return Cookies.get("id_token") ? (
                 <React.Fragment>
                   <SinglePhotoPage
                     photoName={match.params.name}
@@ -101,11 +108,30 @@ export default class App extends Component {
             exact
           />
           <Route
+            path="/albums/:id/edit"
+            render={({ history, match }) => {
+              return Cookies.get("id_token") ? (
+                <React.Fragment>
+                  <NavBar />
+                  <AlbumsPageContainer>
+                    <EditAlbumPage
+                      history={history}
+                      albumId={match.params.id}
+                    />
+                  </AlbumsPageContainer>
+                </React.Fragment>
+              ) : (
+                <Redirect to={"/sign-in"} />
+              );
+            }}
+            exact
+          />
+          <Route
             path="/albums/:albumId/photo/:name"
             render={({ match, history }) => {
               const id = match.params.albumId;
               const name = match.params.name;
-              return cookies.get("id_token") ? (
+              return Cookies.get("id_token") ? (
                 <React.Fragment>
                   <SinglePhotoPage
                     albumId={id}
@@ -120,14 +146,14 @@ export default class App extends Component {
             exact
           />
           <Route
-            path="/photo/upload"
+            path="/albums/upload"
             exact
-            render={() => {
-              return cookies.get("id_token") ? (
+            render={({ location, history }) => {
+              return Cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
                   <AlbumsPageContainer>
-                    <AddPhotosPage />
+                    <AddPhotosPage history={history} {...location.state} />
                   </AlbumsPageContainer>
                 </React.Fragment>
               ) : (
@@ -136,16 +162,14 @@ export default class App extends Component {
             }}
           />
           <Route
-            path="/photo/:albumId/upload"
+            path="/albums/:albumId/upload"
             exact
-            render={({ match }) => {
-              const id = match.params.albumId;
-
-              return cookies.get("id_token") ? (
+            render={({ history, location }) => {
+              return Cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
                   <AlbumsPageContainer>
-                    <AddPhotosPage />
+                    <AddPhotosPage history={history} {...location.state} />
                   </AlbumsPageContainer>
                 </React.Fragment>
               ) : (
@@ -157,13 +181,16 @@ export default class App extends Component {
             path="/albums/:albumId"
             exact
             render={({ history, match, location }) => {
-              console.log(history);
               const id = match.params.albumId;
-              return cookies.get("id_token") ? (
+              return Cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
                   <AlbumsPageContainer>
-                    <AlbumPage {...location.state} albumId={id} />
+                    <AlbumPage
+                      history={history}
+                      {...location.state}
+                      albumId={id}
+                    />
                   </AlbumsPageContainer>
                 </React.Fragment>
               ) : (
@@ -174,7 +201,7 @@ export default class App extends Component {
           <Route
             path="/video"
             render={() => {
-              return cookies.get("id_token") ? (
+              return Cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
                   <Video />
@@ -187,7 +214,7 @@ export default class App extends Component {
           <Route
             path="/music"
             render={() => {
-              return cookies.get("id_token") ? (
+              return Cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
                   <Music />
@@ -200,7 +227,7 @@ export default class App extends Component {
           <Route
             path="/sign-in"
             render={() => {
-              return cookies.get("id_token") ? (
+              return Cookies.get("id_token") ? (
                 <Redirect to={"/"} />
               ) : (
                 <SignInPage />
@@ -210,7 +237,7 @@ export default class App extends Component {
           <Route
             path="/sign-up"
             render={() => {
-              return cookies.get("id_token") ? (
+              return Cookies.get("id_token") ? (
                 <Redirect to={"/"} />
               ) : (
                 <SignUpPage />
@@ -222,9 +249,9 @@ export default class App extends Component {
 
         {isModal ? (
           <Route
-            path={`${prevPathName}photo/:name`}
+            path={prevPathName + "photo/:name"}
             render={({ history, location }) => {
-              return cookies.get("id_token") ? (
+              return Cookies.get("id_token") ? (
                 <React.Fragment>
                   <Slider location={location} history={history} />
                 </React.Fragment>

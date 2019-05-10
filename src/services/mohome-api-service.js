@@ -1,7 +1,6 @@
 import axios from "axios";
 import CryptoJs from "crypto-js";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import Cookies from "js-cookie";
 export default class MohomeApiService {
   _apiBase = "http://213.141.130.153/Api";
   // _apiBase = "http://localhost/Api";
@@ -35,7 +34,7 @@ export default class MohomeApiService {
     return axios.get(this._apiBase + "/Photo/Albums", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + cookies.get("id_token")
+        Authorization: "Bearer " + Cookies.get("id_token")
       }
     });
   };
@@ -44,17 +43,35 @@ export default class MohomeApiService {
     return axios.post(this._apiBase + "/Photo/Album", JSON.stringify(body), {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + cookies.get("id_token")
+        Authorization: "Bearer " + Cookies.get("id_token")
       }
     });
   };
-
+  changeAlbum = async body => {
+    await this._updateToken();
+    return axios.put(this._apiBase + "/Photo/Album", JSON.stringify(body), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Cookies.get("id_token")
+      }
+    });
+  };
+  deleteAlbum = async id => {
+    await this._updateToken();
+    return axios.delete(this._apiBase + "/Photo/Album", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Cookies.get("id_token")
+      },
+      data: JSON.stringify(id)
+    });
+  };
   uploadPhoto = async body => {
     await this._updateToken();
     return axios.post(this._apiBase + "/Photo", body, {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: "Bearer " + cookies.get("id_token")
+        Authorization: "Bearer " + Cookies.get("id_token")
       }
     });
   };
@@ -63,7 +80,16 @@ export default class MohomeApiService {
     return axios.get(this._apiBase + "/Photo/" + name, {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: "Bearer " + cookies.get("id_token")
+        Authorization: "Bearer " + Cookies.get("id_token")
+      }
+    });
+  };
+  changePhotoDescription = async body => {
+    await this._updateToken();
+    return axios.patch(this._apiBase + "/Photo/", JSON.stringify(body), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Cookies.get("id_token")
       }
     });
   };
@@ -72,7 +98,7 @@ export default class MohomeApiService {
     return axios.get(this._apiBase + "/Photo/photos?albumId=" + id, {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: "Bearer " + cookies.get("id_token")
+        Authorization: "Bearer " + Cookies.get("id_token")
       }
     });
   };
@@ -81,20 +107,20 @@ export default class MohomeApiService {
     return axios.get(this._apiBase + "/Photo/Album?albumId=" + id, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + cookies.get("id_token")
+        Authorization: "Bearer " + Cookies.get("id_token")
       }
     });
   };
   // Сделать автоматический запуск функции раз в 55 минут
   _updateToken = async () => {
-    if (Date.now() >= (cookies.get("expiresIn") - 60) * 1000) {
-      cookies.remove("expiresIn");
-      cookies.remove("id_token");
+    if (Date.now() >= (Cookies.get("expiresIn") - 60) * 1000) {
+      Cookies.remove("expiresIn", { path: "" });
+      Cookies.remove("id_token", { path: "" });
       axios
         .post(
           this._apiBase + "/Token/Refresh-token",
           JSON.stringify({
-            refreshToken: cookies.get("refreshToken")
+            refreshToken: Cookies.get("refreshToken")
           }),
           {
             headers: {
@@ -104,9 +130,10 @@ export default class MohomeApiService {
         )
         .then(res => {
           console.log(res);
-          cookies.set("id_token", res.data.response.accessToken);
-          cookies.set("expiresIn", res.data.response.expiresIn);
-          cookies.set("refreshToken", res.data.response.refreshToken);
+          Cookies.remove("refreshToken", { path: "" });
+          Cookies.set("id_token", res.data.response.accessToken);
+          Cookies.set("expiresIn", res.data.response.expiresIn);
+          Cookies.set("refreshToken", res.data.response.refreshToken);
         });
     }
   };

@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { withApiService } from "../hoc";
-import Cookies from "universal-cookie";
+import Cookies from "js-cookie";
 import { withRouter } from "react-router-dom";
 import { compose } from "../../utils";
-const cookies = new Cookies();
 
 class SignUpForm extends Component {
   state = {
@@ -90,9 +89,13 @@ class SignUpForm extends Component {
         this.props
           .signUp({ username, password, email })
           .then(res => {
-            cookies.set("id_token", res.data.response.accessToken);
-            cookies.set("expiresIn", res.data.response.expiresIn);
-            cookies.set("refreshToken", res.data.response.refreshToken);
+            Cookies.set("id_token", res.data.response.accessToken, {
+              path: ""
+            });
+            Cookies.set("expiresIn", res.data.response.expiresIn, { path: "" });
+            Cookies.set("refreshToken", res.data.response.refreshToken, {
+              path: ""
+            });
             this.props.history.push("/");
           })
           .catch(() => {

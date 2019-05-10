@@ -199,3 +199,28 @@ html {
   font-size: 20px;
   color: blue;
 }
+.album-change {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 2%;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  display: none;
+  transition: 0.3s;
+  z-index: 9999;
+  border-radius: 5px;
+  font-size: 15px;
+  color: white;
+  color: rgba(255, 255, 255, 0.5);
+}
+.album-change:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.album-photo:hover .album-change {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 const PhotoItem = ({ photos, index }) => {
   const currPhoto = photos[index];
   const style = {

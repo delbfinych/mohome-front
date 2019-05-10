@@ -5,7 +5,7 @@ import placeholder from "../../img/image_big.png";
 import { CreateAlbumForm } from "../forms";
 import Modal from "../modal";
 import DropArea from "../drop-area";
-
+import AlbumItem from "./album-item";
 import { Route, Switch, withRouter, Redirect, Link } from "react-router-dom";
 import AlbumNavigation from "./album-navigation";
 import NavBar from "../navbar";
@@ -78,21 +78,32 @@ class Main extends Component {
       .catch(err => console.log(err));
   };
 
-  onUpload = files => {
-    //   this.props.history.push("upload");
-    const ffiles = Array.from(files);
-    console.log(ffiles);
-    ffiles.forEach(file => {
-      if (/image\/\w*/.test(file.type)) {
-        const formData = new FormData();
+  onUpload = async files => {
+    const { uploadPhoto, history } = this.props;
+    const lastPhotos = [];
+    for (let i = 0; i < files.length; i++) {
+      const formData = new FormData();
 
-        formData.append("Photo", file);
-        // formData.append("AlbumId", 10);
-        this.props
-          .uploadPhoto(formData)
-          .then(this._updateAlbums)
-          .catch(err => console.log(err.response));
-      }
+      formData.append("Photo", files[i]);
+
+      await uploadPhoto(formData)
+        .then(res => {
+          lastPhotos.push(res.data.response.fileName);
+          this._updateAlbums();
+        })
+        .catch(err => console.log(err.response));
+    }
+    history.push("upload", {
+      lastPhotos,
+      breadCrumbs: [
+        {
+          text: `My photos`,
+          link: "/albums/"
+        },
+        {
+          text: "Add photos"
+        }
+      ]
     });
   };
 
@@ -109,14 +120,20 @@ class Main extends Component {
         <AlbumNavigation
           onUpload={this.onUpload}
           breadCrumbs={breadCrumbs}
-          extraBtn={
-            <Modal title={"New album"}>
-              <div className="add-album-button">
-                <i className="zmdi zmdi-collection-folder-image zmdi-hc-lg" />{" "}
-                New album
+          rightContent={
+            <React.Fragment>
+              <Modal title={"New album"}>
+                <div className="add-album-button">
+                  <i className="zmdi zmdi-collection-folder-image zmdi-hc-lg" />{" "}
+                  New album
+                </div>
+                <CreateAlbumForm onUpdateAlbum={this._updateAlbums} />
+              </Modal>
+              <div className="add-photos-button">
+                <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
+                <label htmlFor={"imageDnd"} />
               </div>
-              <CreateAlbumForm onUpdateAlbum={this._updateAlbums} />
-            </Modal>
+            </React.Fragment>
           }
         />
         <div className="albums-container">
@@ -155,6 +172,7 @@ class Main extends Component {
                       preview={this.state.albumCovers[e.albumId]}
                       id={e.albumId}
                       count={e.photoCount}
+                      description={e.description}
                     />
                   ))}
                   {isExpanded
@@ -167,6 +185,7 @@ class Main extends Component {
                             preview={this.state.albumCovers[e.albumId]}
                             id={e.albumId}
                             count={e.photoCount}
+                            description={e.description}
                           />
                         ))
                     : null}
@@ -216,46 +235,6 @@ class Main extends Component {
     );
   }
 }
-
-const AlbumItem = ({ title, count, preview, id }) => {
-  // console.log(preview);
-  const style = {
-    backgroundImage: `url(${
-      preview
-        ? `data:${preview.imageType};base64,${preview.image}`
-        : placeholder
-    })`
-  };
-  return (
-    <Link
-      to={{
-        pathname: `${id}/`
-      }}
-      className="col-2 album-photo"
-    >
-      <div className="ratio">
-        <div
-          style={style}
-          className={`ratio__content album-photo-item ${
-            preview ? "" : "photos_album_no_cover"
-          }`}
-        >
-          <div
-            className={`album-info ${preview ? "" : "album-info-wo_shadow"}`}
-          >
-            <span
-              title={title}
-              className={`album-title ${preview ? "" : "album-title_black"}`}
-            >
-              {title}
-            </span>
-            <span className={"album-count"}>{count}</span>
-          </div>
-        </div>
-      </div>
-    </Link>
-  );
-};
 
 const mapMethodToProps = service => {
   return {

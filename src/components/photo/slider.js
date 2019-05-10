@@ -99,12 +99,12 @@ class Slider extends Component {
         <button className={"slider-close"} onClick={history.goBack}>
           <i className={"zmdi zmdi-close"} />
         </button>
-        <div className="slider">
-          <img
-            src={photos[currentIndex] ? photos[currentIndex].image : null}
-            alt=""
-          />
-        </div>
+
+        <img
+          className={"slider"}
+          src={photos[currentIndex] ? photos[currentIndex].image : null}
+          alt=""
+        />
       </div>
     );
   }

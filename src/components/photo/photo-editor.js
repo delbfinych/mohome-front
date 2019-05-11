@@ -10,7 +10,7 @@ class PhotoEditor extends Component {
     this.setState({ description: e.target.value });
     const { changePhotoDescription, photoName } = this.props;
     const { description } = this.state;
-    changePhotoDescription({ photoName, description })
+    changePhotoDescription(photoName, { description })
       .then(res => console.log(res))
       .catch(err => console.log(err));
   };

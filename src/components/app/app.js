@@ -44,9 +44,9 @@ export default class App extends Component {
 
     // temporarily
     window.logout = () => {
-      Cookies.remove("id_token", { path: "" });
-      Cookies.remove("expiresIn", { path: "" });
-      Cookies.remove("refreshToken", { path: "" });
+      Cookies.remove("id_token", { path: "/" });
+      Cookies.remove("expiresIn", { path: "/" });
+      Cookies.remove("refreshToken", { path: "/" });
       this.forceUpdate();
     };
     let { location } = this.props;

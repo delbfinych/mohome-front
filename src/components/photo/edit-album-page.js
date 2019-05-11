@@ -9,31 +9,43 @@ import Modal from "../modal";
 class EditAlbumPage extends Component {
   state = {
     coverPhotoName: "",
-    description: "asd",
-    name: "",
-    photos: []
+    description: "",
+    title: "",
+    photos: [],
+    titleValid: true
   };
   componentDidMount() {
     this._updateAlbum();
     // this.getPhotosByOrder(this.props.lastPhotos);
   }
   _updateAlbum = () => {
-    const { getAlbumInfo, albumId } = this.props;
+    console.log("upd");
+    const { getAlbumInfo, albumId, getPhotosByAlbumId } = this.props;
     getAlbumInfo(albumId)
       .then(res => {
+        console.log(res);
         const { coverPhotoName, description, name } = res.data.response;
-        this.setState({ coverPhotoName, description, name });
+        this.setState({ coverPhotoName, description, title: name });
       })
       .catch(err => console.log(err));
+    getPhotosByAlbumId(albumId)
+      .then(res =>
+        this.setState({ photos: [] }, () =>
+          this.getPhotosByOrder(res.data.response)
+        )
+      )
+      .catch(err => console.log(err.response));
   };
   getPhotosByOrder = async photos => {
     if (photos.length)
       for (let i = 0; i < photos.length; i++)
         await this.props.getPhoto(photos[i]).then(res => {
           const image = res.data.response;
+          console.log(res.data.response);
           const obj = {
             image: `data:${image.imageType};base64,${image.image}`,
-            name: photos[i]
+            name: photos[i],
+            created: image.created
           };
 
           this.setState(prevState => {
@@ -44,32 +56,35 @@ class EditAlbumPage extends Component {
         });
   };
   onSubmit = () => {
-    const { description, name, coverPhotoName } = this.state;
+    const { description, title, coverPhotoName } = this.state;
     const { albumId } = this.props;
-    console.log(description, name, coverPhotoName);
     this.props
       .changeAlbum(albumId, {
         description,
-        albumName: name,
+        albumName: title,
         coverPhotoName
       })
-      .then(res => this._updateAlbum)
+      .then(res => this._updateAlbum())
       .catch(err => console.log(err.response));
-    console.log({ albumId, description, albumName: name, coverPhotoName });
   };
+  onChange(e, type) {
+    this.setState({
+      [type]: e.target.value
+    });
+  }
   onDeleteAlbum = () => {
     const { deleteAlbum, albumId, history } = this.props;
-    deleteAlbum({ albumId }).then(() => history.push("/albums/"));
+    deleteAlbum(albumId).then(() => history.push("/albums/"));
   };
   render() {
-    console.log(this.state.photos);
+    const { title, description, titleValid } = this.state;
     const breadCrumbs = [
       {
         text: `My photos`,
         link: "/albums/"
       },
       {
-        text: `${this.state.name}`,
+        text: `${this.state.title}`,
         link: `/albums/${this.props.albumId}/`
       },
       {
@@ -82,7 +97,7 @@ class EditAlbumPage extends Component {
           rightContent={
             <Modal title={"Delete album"}>
               <div className="left-right-bar">
-                <div>
+                <div className={"delete-album"}>
                   <i className="zmdi zmdi-delete zmdi-hc-lg" /> Delete album
                   <label htmlFor={"imageDnd"} />
                 </div>
@@ -97,7 +112,40 @@ class EditAlbumPage extends Component {
           onUpload={this.onUpload}
           breadCrumbs={breadCrumbs}
         />
-        <button onClick={this.onSubmit}>Save changes</button>
+        <div className="edit-album-cover" />
+        <form className={"form"} onSubmit={this.onSubmit}>
+          <div className="form-group">
+            <label htmlFor="title">Title</label>
+            <input
+              id={"title"}
+              className={`form-control ${titleValid ? "" : "is-invalid"}`}
+              onChange={e => this.onChange(e, "title")}
+              value={title}
+              type={"text"}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <textarea
+              rows={4}
+              id={"description"}
+              className={`form-control`}
+              onChange={e => this.onChange(e, "description")}
+              value={description}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between"
+            }}
+          >
+            <button className={"ok-btn"} type={"submit"}>
+              Save changes
+            </button>
+          </div>
+        </form>
+        <button type={"submit"}>Save changes</button>
         <PhotoList isEditing photos={this.state.photos} />
       </div>
     );
@@ -109,7 +157,8 @@ const mapMethodToProps = service => {
     getPhoto: service.getPhoto,
     deleteAlbum: service.deleteAlbum,
     getAlbumInfo: service.getAlbumInfo,
-    changeAlbum: service.changeAlbum
+    changeAlbum: service.changeAlbum,
+    getPhotosByAlbumId: service.getPhotosByAlbumId
   };
 };
 

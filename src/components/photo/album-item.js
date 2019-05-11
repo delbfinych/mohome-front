@@ -10,6 +10,7 @@ const AlbumItem = ({ title, count, preview, id, history }) => {
         : placeholder
     })`
   };
+
   return (
     <div onClick={() => history.push(`${id}/`)} className="col-2 album-photo">
       <div

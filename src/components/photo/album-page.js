@@ -24,7 +24,7 @@ class AlbumPage extends Component {
           console.log(res);
           const obj = {
             image: `data:${image.imageType};base64,${image.image}`,
-            created: photos[i].created,
+            created: image.created,
             name: photos[i].name
           };
 
@@ -51,7 +51,11 @@ class AlbumPage extends Component {
       .catch(err => console.log(err));
     this.props
       .getAlbumInfo(this.props.albumId)
-      .then(res => this.setState({ albumTitle: res.data.response.name }))
+      .then(res => {
+        const { name, description } = res.data.response;
+        console.log(res);
+        this.setState({ albumTitle: name, description: description });
+      })
       .catch(err => console.log(err));
   };
   onUpload = async files => {
@@ -90,7 +94,7 @@ class AlbumPage extends Component {
     });
   };
   render() {
-    const { photos, photoCount, albumTitle } = this.state;
+    const { photos, photoCount, albumTitle, description } = this.state;
     const breadCrumbs = [
       {
         text: `My photos`,
@@ -113,6 +117,13 @@ class AlbumPage extends Component {
           onUpload={this.onUpload}
           breadCrumbs={breadCrumbs}
         />
+        <div className="photos_album_intro">
+          <div className={"photos_album_intro__title"}>{albumTitle}</div>
+          <div className={"photos_album_intro__description"}>{description}</div>
+          <div className={"photos_album_intro__photo-count"}>
+            {photoCount} photos
+          </div>
+        </div>
         <button onClick={() => console.log(this.state.albumInfo)}>asd</button>
         <PhotoList photos={photos} />
       </div>

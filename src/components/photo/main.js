@@ -36,7 +36,7 @@ class Main extends Component {
           const image = res.data.response;
           const obj = {
             image: `data:${image.imageType};base64,${image.image}`,
-            created: photos[i].created,
+            created: image.created,
             name: photos[i].name
           };
 
@@ -55,11 +55,14 @@ class Main extends Component {
       const albums = this.state.album;
       for (let i = 0; i < albums.length; i++)
         if (albums[i].coverPhotoName)
-          this.props.getPhoto(albums[i].coverPhotoName).then(res => {
-            const newCover = { ...this.state.albumCovers };
-            newCover[albums[i].albumId] = res.data.response;
-            this.setState({ albumCovers: newCover });
-          });
+          this.props
+            .getPhoto(albums[i].coverPhotoName)
+            .then(res => {
+              const newCover = { ...this.state.albumCovers };
+              newCover[albums[i].albumId] = res.data.response;
+              this.setState({ albumCovers: newCover });
+            })
+            .catch(err => console.log(err));
     });
     this.props
       .getPhotosByAlbumId()
@@ -117,6 +120,13 @@ class Main extends Component {
     ];
     return (
       <div>
+        <button
+          onClick={() =>
+            this.props.deletePhoto("6470f7d774d94a758ba0f490d76bcca8.jpg")
+          }
+        >
+          delete
+        </button>
         <AlbumNavigation
           onUpload={this.onUpload}
           breadCrumbs={breadCrumbs}
@@ -241,7 +251,8 @@ const mapMethodToProps = service => {
     getAlbums: service.getAlbums,
     getPhoto: service.getPhoto,
     uploadPhoto: service.uploadPhoto,
-    getPhotosByAlbumId: service.getPhotosByAlbumId
+    getPhotosByAlbumId: service.getPhotosByAlbumId,
+    deletePhoto: service.deletePhoto
   };
 };
 

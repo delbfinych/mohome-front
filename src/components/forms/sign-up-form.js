@@ -90,11 +90,13 @@ class SignUpForm extends Component {
           .signUp({ username, password, email })
           .then(res => {
             Cookies.set("id_token", res.data.response.accessToken, {
-              path: ""
+              path: "/"
             });
-            Cookies.set("expiresIn", res.data.response.expiresIn, { path: "" });
+            Cookies.set("expiresIn", res.data.response.expiresIn, {
+              path: "/"
+            });
             Cookies.set("refreshToken", res.data.response.refreshToken, {
-              path: ""
+              path: "/"
             });
             this.props.history.push("/");
           })

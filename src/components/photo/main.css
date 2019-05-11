@@ -161,6 +161,10 @@ html {
   color: #959595;
   font-weight: bold;
 }
+.album-count {
+  color: #959595;
+  font-weight: bold;
+}
 .ratio__content {
   position: absolute;
   top: 0;
@@ -199,6 +203,9 @@ html {
   font-size: 20px;
   color: blue;
 }
+.delete-album {
+  cursor: pointer;
+}
 .album-change {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.3);
@@ -223,4 +230,13 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.photos_album_intro div {
+  text-align: center;
+}
+.photos_album_intro__photo-count {
+  color: #939393;
+}
+.photos_album_intro__title {
+  font-size: 1.6rem;
 }

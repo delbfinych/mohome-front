@@ -11,6 +11,7 @@ class SinglePhotoPage extends Component {
     const { getPhoto, photoName } = this.props;
     getPhoto(photoName)
       .then(res => {
+        console.log(res);
         this.setState({
           photo: `data:${res.data.response.imageType};base64,${
             res.data.response.image

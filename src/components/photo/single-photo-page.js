@@ -4,7 +4,8 @@ import { withApiService } from "../hoc";
 class SinglePhotoPage extends Component {
   state = {
     isLoading: false,
-    photosName: ""
+    photosName: "",
+    notFound: false
   };
   componentDidMount() {
     this.setState({ isLoading: true });
@@ -18,12 +19,12 @@ class SinglePhotoPage extends Component {
           }`
         });
       })
-      .catch(err => console.log(err))
+      .catch(err => this.setState({ notFound: true }))
       .finally(() => this.setState({ isLoading: false }));
   }
 
   render() {
-    const { photo, isLoading } = this.state;
+    const { photo, isLoading, notFound } = this.state;
     const { albumId, history } = this.props;
     const redirectLink = albumId ? `/albums/${albumId}/` : `/albums/`;
     return (
@@ -34,7 +35,8 @@ class SinglePhotoPage extends Component {
         >
           {albumId ? `Go to ${albumId} album` : `Go to albums page`}
         </div>
-        {isLoading ? <div>loading</div> : <img src={photo} alt="" />}
+        {isLoading && <div>loading</div>}
+        {notFound ? <div>Not found</div> : <img src={photo} alt="" />}
       </div>
     );
   }
@@ -42,7 +44,8 @@ class SinglePhotoPage extends Component {
 
 const mapMethodToProps = service => {
   return {
-    getPhoto: service.getPhoto
+    getPhoto: service.getPhoto,
+    deletePhoto: service.deletePhoto
   };
 };
 

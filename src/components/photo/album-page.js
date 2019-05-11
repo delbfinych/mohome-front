@@ -16,25 +16,7 @@ class AlbumPage extends Component {
   componentDidMount() {
     this._updateAlbum();
   }
-  getPhotosByOrder = async photos => {
-    if (photos.length)
-      for (let i = 0; i < photos.length; i++)
-        await this.props.getPhoto(photos[i].name).then(res => {
-          const image = res.data.response;
-          console.log(res);
-          const obj = {
-            image: `data:${image.imageType};base64,${image.image}`,
-            created: image.created,
-            name: photos[i].name
-          };
 
-          this.setState(prevState => {
-            return {
-              photos: [...prevState.photos, obj]
-            };
-          });
-        });
-  };
   _updateAlbum = () => {
     this.props
       .getPhotosByAlbumId(this.props.albumId)
@@ -44,9 +26,8 @@ class AlbumPage extends Component {
         this.setState({
           albumInfo: res.data.response,
           photoCount: res.data.response.length,
-          photos: []
+          photos: res.data.response
         });
-        this.getPhotosByOrder(this.state.albumInfo);
       })
       .catch(err => console.log(err));
     this.props
@@ -124,7 +105,6 @@ class AlbumPage extends Component {
             {photoCount} photos
           </div>
         </div>
-        <button onClick={() => console.log(this.state.albumInfo)}>asd</button>
         <PhotoList photos={photos} />
       </div>
     );
@@ -134,7 +114,6 @@ class AlbumPage extends Component {
 const mapMethodToProps = service => {
   return {
     getPhotosByAlbumId: service.getPhotosByAlbumId,
-    getPhoto: service.getPhoto,
     uploadPhoto: service.uploadPhoto,
     getAlbumInfo: service.getAlbumInfo
   };

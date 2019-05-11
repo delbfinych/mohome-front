@@ -1,22 +1,29 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import PhotoEditor from "./photo-editor";
+
 import "./slider.css";
+import { withApiService } from "../hoc";
+import { ConfirmingForm } from "../forms";
+import Modal from "../modal";
 
 class Slider extends Component {
   state = {
     photos: [],
-    currentItem: [],
-    currentIndex: 0
+    currentItem: {},
+    currentIndex: 0,
+    currentName: ""
   };
   componentDidMount() {
-    console.log("as");
-    const { photos, currentItem, index } = this.props.location.state;
-    console.log(photos);
-    this.setState({
-      photos,
-      currentIndex: index,
-      currentItem: currentItem
-    });
+    const { photos, currentName, index } = this.props.location.state;
+    this.setState(
+      {
+        photos,
+        currentIndex: index,
+        currentName
+      },
+      this._updateSlide
+    );
+
     window.addEventListener("keyup", this.handleArrowClick);
   }
   componentWillUnmount() {
@@ -24,18 +31,35 @@ class Slider extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { photos, currentItem, index } = this.props.location.state;
-    if (currentItem.name !== prevState.currentItem.name) {
-      this.setState({
-        photos,
-        currentIndex: index,
-        currentItem: currentItem,
-        isAllowClick: true
-      });
+    const { photos, currentName, index } = this.props.location.state;
+    if (currentName !== prevState.currentName) {
+      this.setState(
+        {
+          photos,
+          currentIndex: index,
+          currentName,
+          isAllowClick: true
+        },
+        this._updateSlide
+      );
     }
   }
-
+  _updateSlide = () => {
+    this.setState({ isLoading: true });
+    const { getPhoto } = this.props;
+    const { currentName } = this.state;
+    getPhoto(currentName)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          currentItem: res.data.response
+        });
+      })
+      .catch(err => console.log(err))
+      .finally(() => this.setState({ isLoading: false }));
+  };
   handleArrowClick = e => {
+    console.log(e);
     if (this.state.isAllowClick) {
       if (e.which === 37) this.goToPrevSlide();
       else if (e.which === 39) this.goToNextSlide();
@@ -50,11 +74,11 @@ class Slider extends Component {
     if (currentIndex === 0) newIndex = photos.length - 1;
     else newIndex--;
     this.setState({ isAllowClick: false });
-    this.props.history.replace(`${photos[newIndex].name}`, {
+    this.props.history.replace(`${photos[newIndex]}`, {
       modal: true,
       photos,
       index: newIndex,
-      currentItem: photos[newIndex]
+      currentName: photos[newIndex]
     });
   };
   goToNextSlide = () => {
@@ -65,22 +89,27 @@ class Slider extends Component {
     else newIndex++;
     console.log(newIndex);
     this.setState({ isAllowClick: false });
-    this.props.history.replace(`${photos[newIndex].name}`, {
+    this.props.history.replace(`${photos[newIndex]}`, {
       modal: true,
       photos,
       index: newIndex,
-      currentItem: photos[newIndex]
+      currentName: photos[newIndex]
     });
   };
+  onPhotoDelete = name => {
+    const { deletePhoto, history } = this.props;
+    deletePhoto(name)
+      .then(() => history.goBack())
+      .catch(err => console.log(err));
+  };
   render() {
-    const { history, location } = this.props;
-    const { currentIndex, photos } = this.state;
-    const { isLoading } = this.state;
-    const style = {
-      background: `url(${
-        photos[currentIndex] ? photos[currentIndex].image : null
-      })`
-    };
+    const { history } = this.props;
+    const { currentIndex, photos, currentItem } = this.state;
+    const description = currentItem ? currentItem.description : null;
+    const created = currentItem ? currentItem.created : null;
+
+    const name = photos[currentIndex];
+    if (!this.state.isLoading) console.log(name);
     return (
       <div className={"slider-wrapper"}>
         <div onClick={history.goBack} className="slider-overlay " />
@@ -102,12 +131,47 @@ class Slider extends Component {
 
         <img
           className={"slider"}
-          src={photos[currentIndex] ? photos[currentIndex].image : null}
+          src={
+            currentItem
+              ? `data:${currentItem.imageType};base64,${currentItem.image}`
+              : null
+          }
           alt=""
         />
+        {description ? (
+          <div className="slider-photo-description">
+            <PhotoEditor
+              className={"slide-edit-input"}
+              photoName={name}
+              description={description}
+            />
+          </div>
+        ) : null}
+        <div className="slider-photo-created">{beautifyDate(created)}</div>
+        <div className="slider-photo-countOfPhoto">{`Photo ${currentIndex +
+          1} of ${photos.length}`}</div>
+
+        <Modal title={"Delete photo"}>
+          <div className="slider-photo-delete">Delete</div>
+          <ConfirmingForm
+            body={<p>Are you sure you want to delete this photo?</p>}
+            confirmText={"Delete photo"}
+            onConfirm={() => this.onPhotoDelete(name)}
+          />
+        </Modal>
       </div>
     );
   }
 }
+function beautifyDate(date) {
+  const d = new Date(date);
+  return `${d.toLocaleDateString()} at ${d.toLocaleTimeString()}`;
+}
+const mapMethodToProps = service => {
+  return {
+    getPhoto: service.getPhoto,
+    deletePhoto: service.deletePhoto
+  };
+};
 
-export default Slider;
+export default withApiService(mapMethodToProps)(Slider);

@@ -29,24 +29,7 @@ class Main extends Component {
   componentDidMount() {
     this._updateAlbums();
   }
-  getPhotosByOrder = async photos => {
-    if (photos.length)
-      for (let i = 0; i < photos.length; i++)
-        await this.props.getPhoto(photos[i].name).then(res => {
-          const image = res.data.response;
-          const obj = {
-            image: `data:${image.imageType};base64,${image.image}`,
-            created: image.created,
-            name: photos[i].name
-          };
 
-          this.setState(prevState => {
-            return {
-              photos: [...prevState.photos, obj]
-            };
-          });
-        });
-  };
   _updateAlbums = () => {
     this.props.getAlbums().then(res => {
       console.log(res);
@@ -69,14 +52,8 @@ class Main extends Component {
       .then(res => {
         this.setState({
           photoCount: res.data.response.length,
-          photosLinks: res.data.response
+          photos: res.data.response
         });
-        this.setState(
-          prevState => {
-            return { photos: [] };
-          },
-          () => this.getPhotosByOrder(res.data.response)
-        );
       })
       .catch(err => console.log(err));
   };
@@ -120,13 +97,6 @@ class Main extends Component {
     ];
     return (
       <div>
-        <button
-          onClick={() =>
-            this.props.deletePhoto("6470f7d774d94a758ba0f490d76bcca8.jpg")
-          }
-        >
-          delete
-        </button>
         <AlbumNavigation
           onUpload={this.onUpload}
           breadCrumbs={breadCrumbs}
@@ -206,9 +176,7 @@ class Main extends Component {
                 <div className={"row"}>
                   <div className={"col-2 album-photo-empty"}>
                     <div className="ratio">
-                      <div className={"ratio__content"}>
-                        No albums found ...
-                      </div>
+                      <div className={"ratio__content"}>No albums found.</div>
                     </div>
                   </div>
                 </div>

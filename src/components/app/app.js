@@ -253,7 +253,11 @@ export default class App extends Component {
             render={({ history, location }) => {
               return Cookies.get("id_token") ? (
                 <React.Fragment>
-                  <Slider location={location} history={history} />
+                  <Slider
+                    prevPath={this.previousLocation}
+                    location={location}
+                    history={history}
+                  />
                 </React.Fragment>
               ) : (
                 <Redirect to={"/sign-in"} />

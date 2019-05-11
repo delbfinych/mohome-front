@@ -3,25 +3,49 @@ import { withApiService } from "../hoc";
 
 class PhotoEditor extends Component {
   state = {
-    description: ""
+    description: "",
+    isFocused: false
   };
+  componentDidMount() {
+    const { description } = this.props;
+    if (description) this.setState({ description });
+  }
+  componentDidUpdate(prevProps) {
+    const { description } = this.props;
+    console.log(description);
+    if (description !== prevProps.description && description)
+      this.setState({ description });
+  }
   onChange = e => {
     e.preventDefault();
+    console.log(e.target.value);
+    if (e.target.value.length > 100) return;
     this.setState({ description: e.target.value });
     const { changePhotoDescription, photoName } = this.props;
-    const { description } = this.state;
-    changePhotoDescription(photoName, { description })
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+    changePhotoDescription(photoName, { description: e.target.value })
+      .then(res => this.forceUpdate())
+      .catch(err => console.log(err.response));
   };
   render() {
+    const { description, isFocused } = this.state;
     return (
-      <input
-        onChange={this.onChange}
-        type="text"
-        value={this.state.description}
-        placeholder={"description"}
-      />
+      <React.Fragment>
+        <input
+          onFocus={() => this.setState({ isFocused: true })}
+          onBlur={() => this.setState({ isFocused: false })}
+          className={this.props.className}
+          onChange={this.onChange}
+          type="text"
+          value={description}
+          placeholder={"Add a description..."}
+          size={description.length}
+        />
+        {isFocused ? (
+          <div style={{ textAlign: "center" }}>{`${
+            description.length
+          } of 100 symbols`}</div>
+        ) : null}
+      </React.Fragment>
     );
   }
 }

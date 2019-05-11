@@ -12,48 +12,39 @@ class EditAlbumPage extends Component {
     description: "",
     title: "",
     photos: [],
-    titleValid: true
+    titleValid: true,
+    coverPreview: null
   };
   componentDidMount() {
     this._updateAlbum();
     // this.getPhotosByOrder(this.props.lastPhotos);
   }
-  _updateAlbum = () => {
-    console.log("upd");
+  _updateAlbum = async () => {
     const { getAlbumInfo, albumId, getPhotosByAlbumId } = this.props;
     getAlbumInfo(albumId)
       .then(res => {
-        console.log(res);
         const { coverPhotoName, description, name } = res.data.response;
+        this.setCoverPreview(coverPhotoName);
         this.setState({ coverPhotoName, description, title: name });
       })
       .catch(err => console.log(err));
     getPhotosByAlbumId(albumId)
-      .then(res =>
-        this.setState({ photos: [] }, () =>
-          this.getPhotosByOrder(res.data.response)
-        )
-      )
+      .then(res => {
+        console.log(res);
+        this.setState({ photos: res.data.response });
+      })
       .catch(err => console.log(err.response));
   };
-  getPhotosByOrder = async photos => {
-    if (photos.length)
-      for (let i = 0; i < photos.length; i++)
-        await this.props.getPhoto(photos[i]).then(res => {
-          const image = res.data.response;
-          console.log(res.data.response);
-          const obj = {
-            image: `data:${image.imageType};base64,${image.image}`,
-            name: photos[i],
-            created: image.created
-          };
-
-          this.setState(prevState => {
-            return {
-              photos: [...prevState.photos, obj]
-            };
-          });
+  setCoverPreview = name => {
+    const { getPhoto } = this.props;
+    getPhoto(name)
+      .then(res => {
+        const image = res.data.response;
+        this.setState({
+          coverPreview: `data:${image.imageType};base64,${image.image}`
         });
+      })
+      .catch(err => console.log(err.reponse));
   };
   onSubmit = () => {
     const { description, title, coverPhotoName } = this.state;
@@ -72,12 +63,55 @@ class EditAlbumPage extends Component {
       [type]: e.target.value
     });
   }
-  onDeleteAlbum = () => {
+  onAlbumDelete = () => {
     const { deleteAlbum, albumId, history } = this.props;
     deleteAlbum(albumId).then(() => history.push("/albums/"));
   };
+  onUpload = async files => {
+    const { uploadPhoto, albumId, history } = this.props;
+    const lastPhotos = [];
+    for (let i = 0; i < files.length; i++) {
+      const formData = new FormData();
+
+      formData.append("Photo", files[i]);
+      formData.append("AlbumId", albumId);
+
+      await uploadPhoto(formData)
+        .then(res => {
+          lastPhotos.push(res.data.response.fileName);
+          this._updateAlbum();
+        })
+        .catch(err => console.log(err.response));
+    }
+
+    history.push("upload", {
+      albumId,
+      lastPhotos,
+      breadCrumbs: [
+        {
+          text: `My photos`,
+          link: "/albums/"
+        },
+        {
+          text: `${this.state.title}`,
+          link: `/albums/${this.props.albumId}/`
+        },
+        {
+          text: "Add photos"
+        }
+      ]
+    });
+  };
   render() {
-    const { title, description, titleValid } = this.state;
+    const {
+      title,
+      description,
+      titleValid,
+      photos,
+      coverPhotoName,
+      coverPreview
+    } = this.state;
+    console.log(coverPhotoName);
     const breadCrumbs = [
       {
         text: `My photos`,
@@ -105,48 +139,78 @@ class EditAlbumPage extends Component {
               <ConfirmingForm
                 body={<p>Are you sure you want to delete this album?</p>}
                 confirmText={"Delete album"}
-                onConfirm={this.onDeleteAlbum}
+                onConfirm={this.onAlbumDelete}
               />
             </Modal>
           }
           onUpload={this.onUpload}
           breadCrumbs={breadCrumbs}
         />
-        <div className="edit-album-cover" />
-        <form className={"form"} onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label htmlFor="title">Title</label>
-            <input
-              id={"title"}
-              className={`form-control ${titleValid ? "" : "is-invalid"}`}
-              onChange={e => this.onChange(e, "title")}
-              value={title}
-              type={"text"}
-            />
+
+        <div className={"edit-album-wrap"}>
+          <div className={"edit-album-wrap__cover"}>
+            <div className={"edit-album_wrap__label"}>Use as album cover</div>
+            <div
+              className={"edit-album-wrap__image"}
+              style={{ backgroundImage: `url(${coverPreview})` }}
+            >
+              <Modal title={`Choose a cover for the album «${title}»`}>
+                <div className="edit-album-cover-trigger">
+                  <div className={"delete-album"}>
+                    <span>
+                      <i className="zmdi zmdi-image zmdi-hc-lg" />
+                      Edit cover
+                    </span>
+                    <label htmlFor={"imageDnd"} />
+                  </div>
+                </div>
+                <PhotoList
+                  isSelecting
+                  onSelect={coverPhotoName => {
+                    this.setState({ coverPhotoName });
+                    this.setCoverPreview(coverPhotoName);
+                  }}
+                  photos={photos}
+                />
+              </Modal>
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="description">Description</label>
-            <textarea
-              rows={4}
-              id={"description"}
-              className={`form-control`}
-              onChange={e => this.onChange(e, "description")}
-              value={description}
-            />
+          <div className="edit-album-wrap__form">
+            <form className={"form"} onSubmit={this.onSubmit}>
+              <div className="form-group">
+                <label htmlFor="title">Title</label>
+                <input
+                  id={"title"}
+                  className={`form-control ${titleValid ? "" : "is-invalid"}`}
+                  onChange={e => this.onChange(e, "title")}
+                  value={title}
+                  type={"text"}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="description">Description</label>
+                <textarea
+                  rows={4}
+                  id={"description"}
+                  className={`form-control`}
+                  onChange={e => this.onChange(e, "description")}
+                  value={description}
+                />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between"
+                }}
+              >
+                <button className={"ok-btn"} type={"submit"}>
+                  Save changes
+                </button>
+              </div>
+            </form>
           </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between"
-            }}
-          >
-            <button className={"ok-btn"} type={"submit"}>
-              Save changes
-            </button>
-          </div>
-        </form>
-        <button type={"submit"}>Save changes</button>
-        <PhotoList isEditing photos={this.state.photos} />
+        </div>
+        <PhotoList isEditing photos={photos} />
       </div>
     );
   }
@@ -158,7 +222,8 @@ const mapMethodToProps = service => {
     deleteAlbum: service.deleteAlbum,
     getAlbumInfo: service.getAlbumInfo,
     changeAlbum: service.changeAlbum,
-    getPhotosByAlbumId: service.getPhotosByAlbumId
+    getPhotosByAlbumId: service.getPhotosByAlbumId,
+    uploadPhoto: service.uploadPhoto
   };
 };
 

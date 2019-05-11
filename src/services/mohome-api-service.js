@@ -2,7 +2,7 @@ import axios from "axios";
 import CryptoJs from "crypto-js";
 import Cookies from "js-cookie";
 export default class MohomeApiService {
-  _apiBase = "http://213.141.130.153/Api/v1";
+  _apiBase = "http://mohome.ml/Api/v1";
   // _apiBase = "http://localhost/Api";
   signIn = async body => {
     body.PasswordHash = CryptoJs.SHA256(body.PasswordHash).toString(
@@ -103,6 +103,7 @@ export default class MohomeApiService {
       }
     );
   };
+
   getPhotosByAlbumId = async (id = "") => {
     await this._updateToken();
     return axios.get(this._apiBase + "/Photos?albumId=" + id, {

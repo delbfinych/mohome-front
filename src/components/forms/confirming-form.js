@@ -10,7 +10,14 @@ const ConfirmingForm = ({ onConfirm, body, confirmText, onCloseModal }) => {
           justifyContent: "space-between"
         }}
       >
-        <button onClick={onConfirm} className={"ok-btn"} type={"submit"}>
+        <button
+          onClick={() => {
+            onConfirm();
+            onCloseModal();
+          }}
+          className={"ok-btn"}
+          type={"submit"}
+        >
           {confirmText}
         </button>
         <button className={"cancel-btn"} onClick={onCloseModal}>

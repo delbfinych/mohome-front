@@ -10,28 +10,17 @@ class AddPhotosPage extends Component {
     photos: []
   };
   componentDidMount() {
-    this.getPhotosByOrder(this.props.lastPhotos);
+    const photos = this.props.lastPhotos;
+    for (let i = 0; i < photos.length; i++)
+      this.setState(prevState => {
+        return {
+          photos: [...prevState.photos, { name: photos[i] }]
+        };
+      });
   }
-  getPhotosByOrder = async photos => {
-    if (photos.length)
-      for (let i = 0; i < photos.length; i++)
-        await this.props.getPhoto(photos[i]).then(res => {
-          const image = res.data.response;
-          const obj = {
-            image: `data:${image.imageType};base64,${image.image}`,
-            name: photos[i]
-          };
 
-          this.setState(prevState => {
-            return {
-              photos: [...prevState.photos, obj]
-            };
-          });
-        });
-  };
   onUpload = async files => {
     const { albumId, uploadPhoto } = this.props;
-    const newPhotos = [];
     for (let i = 0; i < files.length; i++) {
       const formData = new FormData();
 
@@ -40,16 +29,20 @@ class AddPhotosPage extends Component {
       console.log(albumId);
       await uploadPhoto(formData)
         .then(res => {
-          newPhotos.push(res.data.response.fileName);
+          this.setState(prevState => {
+            return {
+              photos: [
+                ...prevState.photos,
+                { name: res.data.response.fileName }
+              ]
+            };
+          });
         })
         .catch(err => console.log(err.response));
     }
-    console.log(newPhotos);
-    this.getPhotosByOrder(newPhotos);
   };
 
   render() {
-    console.log(this.state.photos);
     return (
       <div>
         <AlbumNavigation

@@ -80,3 +80,37 @@
   right: 0;
   top: 100px;
 }
+.slider-photo-description,
+.slider-photo-created,
+.slider-photo-countOfPhoto,
+.slider-photo-delete {
+  position: absolute;
+  bottom: 1%;
+  color: white;
+  z-index: 5000;
+}
+.slider-photo-created {
+  left: 2%;
+}
+.slider-photo-countOfPhoto {
+  left: 2%;
+  bottom: 4%;
+}
+.slider-photo-delete {
+  cursor: pointer;
+  right: 2%;
+}
+.slider-photo-description {
+  min-width: 50px;
+  padding: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.slide-edit-input {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  color: white;
+  text-align: center;
+}

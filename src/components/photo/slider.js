@@ -15,6 +15,7 @@ class Slider extends Component {
     isLoading: false
   };
   componentDidMount() {
+    this.cachedPhotos = [];
     const { photos, currentName, index } = this.props.location.state;
     this.setState(
       {
@@ -33,7 +34,8 @@ class Slider extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { photos, currentName, index } = this.props.location.state;
-    if (currentName !== prevState.currentName) {
+    if (currentName !== prevProps.location.state.currentName) {
+      console.log(this.cachedPhotos);
       this.setState(() => {
         return {
           photos,
@@ -43,19 +45,34 @@ class Slider extends Component {
       }, this._updateSlide);
     }
   }
+
   _updateSlide = () => {
-    this.setState({ isLoading: true });
     const { getPhoto } = this.props;
     const { currentName } = this.state;
-    getPhoto(currentName)
-      .then(res => {
-        this.setState({
-          currentItem: res.data.response,
-          isAllowedClick: true
-        });
-      })
-      .catch(err => console.log(err))
-      .finally(() => this.setState({ isLoading: false }));
+    console.log(this.cachedPhotos);
+    const cachedIndex = this.cachedPhotos.findIndex(
+      el => el.name === currentName
+    );
+    console.log(cachedIndex);
+    if (cachedIndex === -1) {
+      this.setState({ isLoading: true });
+      getPhoto(currentName)
+        .then(res => {
+          console.log(res);
+          this.cachedPhotos.push({ ...res.data.response, name: currentName });
+          this.setState({
+            currentItem: res.data.response,
+            isAllowedClick: true
+          });
+        })
+        .catch(err => console.log(err))
+        .finally(() => this.setState({ isLoading: false }));
+    } else {
+      this.setState({
+        currentItem: this.cachedPhotos[cachedIndex],
+        isAllowedClick: true
+      });
+    }
   };
   handleArrowClick = e => {
     if (e.which === 37) this.goToPrevSlide();
@@ -65,7 +82,6 @@ class Slider extends Component {
   goToPrevSlide = () => {
     if (this.state.isAllowedClick) {
       const { currentIndex, photos } = this.state;
-      console.log(currentIndex);
       let newIndex = currentIndex;
 
       if (currentIndex === 0) newIndex = photos.length - 1;
@@ -88,7 +104,7 @@ class Slider extends Component {
 
       if (currentIndex === photos.length - 1) newIndex = 0;
       else newIndex++;
-      console.log(newIndex);
+
       this.setState(() => {
         return { isAllowedClick: false };
       });

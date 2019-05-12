@@ -130,7 +130,7 @@ export default class MohomeApiService {
       Cookies.remove("id_token", { path: "/" });
       axios
         .post(
-          this._apiBase + "/Token/Refresh-token",
+          this._apiBase + "/Token/refresh",
           JSON.stringify({ refreshToken: Cookies.get("refreshToken") }),
           { headers: { "Content-Type": "application/json" } }
         )

@@ -17,16 +17,18 @@ class PhotoItem extends Component {
 
   render() {
     const {
+      photo,
       photos,
       index,
       children,
       isSelecting,
       onSelect,
-      onCloseModal
+      onCloseModal,
+      isEditing
     } = this.props;
-    const currPhoto = photos[index];
     const style = {
-      backgroundImage: `url(${currPhoto.image})`
+      backgroundImage: `url(${photo.image})`,
+      borderRadius: `${!isEditing ? "5px 5px 5px 5px" : "5px 5px 0 0"} `
     };
     return (
       <div className="col-2 album-photo">
@@ -34,14 +36,14 @@ class PhotoItem extends Component {
           <div
             onClick={() => {
               if (isSelecting) {
-                onSelect(currPhoto.name);
+                onSelect(photo.name);
                 onCloseModal();
               } else {
-                this.onOpen(currPhoto, photos, index);
+                this.onOpen(photo, photos, index);
               }
             }}
-            style={style}
             className={`ratio__content album-photo-item`}
+            style={style}
           />
         </div>
         {children}

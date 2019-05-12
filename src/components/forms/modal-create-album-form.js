@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { withApiService } from "../hoc";
 import "./modal-create-album-form.css";
+import { withRouter } from "react-router-dom";
+import compose from "../../utils/compose";
 class ModalCreateAlbumForm extends Component {
   state = {
     title: "",
@@ -10,13 +12,14 @@ class ModalCreateAlbumForm extends Component {
   onSubmit = e => {
     e.preventDefault();
     const { title, description } = this.state;
-    const { onCloseModal, onUpdateAlbum } = this.props;
+    const { onCloseModal, onUpdateAlbum, history } = this.props;
     if (title.trim()) {
       onCloseModal();
       this.setState({
         title: ""
       });
-      this.props.createAlbum({ albumName: title, description }).then(() => {
+      this.props.createAlbum({ albumName: title, description }).then(res => {
+        history.push(`${res.data.response.albumId}`);
         onUpdateAlbum();
       });
     } else
@@ -79,4 +82,8 @@ const mapMethodToProps = service => {
     createAlbum: service.createAlbum
   };
 };
-export default withApiService(mapMethodToProps)(ModalCreateAlbumForm);
+
+export default compose(
+  withApiService(mapMethodToProps),
+  withRouter
+)(ModalCreateAlbumForm);

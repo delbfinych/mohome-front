@@ -11,7 +11,8 @@ class Slider extends Component {
     photos: [],
     currentItem: {},
     currentIndex: 0,
-    currentName: ""
+    currentName: "",
+    isLoading: false
   };
   componentDidMount() {
     const { photos, currentName, index } = this.props.location.state;
@@ -33,15 +34,13 @@ class Slider extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { photos, currentName, index } = this.props.location.state;
     if (currentName !== prevState.currentName) {
-      this.setState(
-        {
+      this.setState(() => {
+        return {
           photos,
           currentIndex: index,
-          currentName,
-          isAllowClick: true
-        },
-        this._updateSlide
-      );
+          currentName
+        };
+      }, this._updateSlide);
     }
   }
   _updateSlide = () => {
@@ -50,51 +49,56 @@ class Slider extends Component {
     const { currentName } = this.state;
     getPhoto(currentName)
       .then(res => {
-        console.log(res);
         this.setState({
-          currentItem: res.data.response
+          currentItem: res.data.response,
+          isAllowedClick: true
         });
       })
       .catch(err => console.log(err))
       .finally(() => this.setState({ isLoading: false }));
   };
   handleArrowClick = e => {
-    console.log(e);
-    if (this.state.isAllowClick) {
-      if (e.which === 37) this.goToPrevSlide();
-      else if (e.which === 39) this.goToNextSlide();
-    }
+    if (e.which === 37) this.goToPrevSlide();
+    else if (e.which === 39) this.goToNextSlide();
   };
 
   goToPrevSlide = () => {
-    const { currentIndex, photos } = this.state;
-    console.log(currentIndex);
-    let newIndex = currentIndex;
+    if (this.state.isAllowedClick) {
+      const { currentIndex, photos } = this.state;
+      console.log(currentIndex);
+      let newIndex = currentIndex;
 
-    if (currentIndex === 0) newIndex = photos.length - 1;
-    else newIndex--;
-    this.setState({ isAllowClick: false });
-    this.props.history.replace(`${photos[newIndex]}`, {
-      modal: true,
-      photos,
-      index: newIndex,
-      currentName: photos[newIndex]
-    });
+      if (currentIndex === 0) newIndex = photos.length - 1;
+      else newIndex--;
+      this.setState(() => {
+        return { isAllowedClick: false };
+      });
+      this.props.history.replace(`${photos[newIndex]}`, {
+        modal: true,
+        photos,
+        index: newIndex,
+        currentName: photos[newIndex]
+      });
+    }
   };
   goToNextSlide = () => {
-    const { currentIndex, photos } = this.state;
-    let newIndex = currentIndex;
+    if (this.state.isAllowedClick) {
+      const { currentIndex, photos } = this.state;
+      let newIndex = currentIndex;
 
-    if (currentIndex === photos.length - 1) newIndex = 0;
-    else newIndex++;
-    console.log(newIndex);
-    this.setState({ isAllowClick: false });
-    this.props.history.replace(`${photos[newIndex]}`, {
-      modal: true,
-      photos,
-      index: newIndex,
-      currentName: photos[newIndex]
-    });
+      if (currentIndex === photos.length - 1) newIndex = 0;
+      else newIndex++;
+      console.log(newIndex);
+      this.setState(() => {
+        return { isAllowedClick: false };
+      });
+      this.props.history.replace(`${photos[newIndex]}`, {
+        modal: true,
+        photos,
+        index: newIndex,
+        currentName: photos[newIndex]
+      });
+    }
   };
   onPhotoDelete = name => {
     const { deletePhoto, history } = this.props;
@@ -104,12 +108,11 @@ class Slider extends Component {
   };
   render() {
     const { history } = this.props;
-    const { currentIndex, photos, currentItem } = this.state;
+    const { currentIndex, photos, currentItem, isLoading } = this.state;
     const description = currentItem ? currentItem.description : null;
     const created = currentItem ? currentItem.created : null;
-
     const name = photos[currentIndex];
-    if (!this.state.isLoading) console.log(name);
+
     return (
       <div className={"slider-wrapper"}>
         <div onClick={history.goBack} className="slider-overlay " />
@@ -129,15 +132,19 @@ class Slider extends Component {
           <i className={"zmdi zmdi-close"} />
         </button>
 
-        <img
-          className={"slider"}
-          src={
-            currentItem
-              ? `data:${currentItem.imageType};base64,${currentItem.image}`
-              : null
-          }
-          alt=""
-        />
+        {isLoading ? (
+          <div>loading</div>
+        ) : (
+          <img
+            className={"slider"}
+            src={
+              currentItem
+                ? `data:${currentItem.imageType};base64,${currentItem.image}`
+                : null
+            }
+            alt=""
+          />
+        )}
         {description ? (
           <div className="slider-photo-description">
             <PhotoEditor
@@ -147,7 +154,9 @@ class Slider extends Component {
             />
           </div>
         ) : null}
-        <div className="slider-photo-created">{beautifyDate(created)}</div>
+        {created ? (
+          <div className="slider-photo-created">{beautifyDate(created)}</div>
+        ) : null}
         <div className="slider-photo-countOfPhoto">{`Photo ${currentIndex +
           1} of ${photos.length}`}</div>
 

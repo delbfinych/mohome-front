@@ -9,51 +9,44 @@ class PhotoList extends React.PureComponent {
   };
   componentDidMount() {
     const { photos } = this.props;
-    console.log(photos);
     this.getPhotosByOrder(photos);
   }
   componentDidUpdate(prevProps) {
     const { photos } = this.props;
     if (prevProps.photos.length !== photos.length) {
-      console.log(photos);
-      this.setState(
-        () => {
-          return {
-            photos: []
-          };
-        },
-        () => {
-          this.getPhotosByOrder(photos);
-        }
-      );
+      this.getPhotosByOrder(photos);
     }
   }
   getPhotosByOrder = async photos => {
-    console.log(photos);
     if (photos.length)
       for (let i = 0; i < photos.length; i++)
-        await this.props.getPhoto(photos[i].name).then(res => {
-          const image = res.data.response;
-          const obj = {
-            image: `data:${image.imageType};base64,${image.image}`,
-            name: photos[i].name,
-            created: image.created,
-            description: image.description
-          };
-
-          this.setState(prevState => {
-            return {
-              photos: [...prevState.photos, obj]
+        if (
+          this.state.photos.findIndex(el => el.name === photos[i].name) === -1
+        ) {
+          await this.props.getPhoto(photos[i].name, true).then(res => {
+            const image = res.data.response;
+            const obj = {
+              image: `data:${image.imageType};base64,${image.image}`,
+              name: photos[i].name,
+              created: image.created,
+              description: image.description
             };
+
+            this.setState(prevState => {
+              return {
+                photos: [...prevState.photos, obj]
+              };
+            });
           });
-        });
+        }
   };
   render() {
     const {
       isEditing = false,
       isSelecting = false,
       onSelect,
-      onCloseModal
+      onCloseModal,
+      photos: photosLinks
     } = this.props;
     const { photos } = this.state;
     return (
@@ -69,7 +62,9 @@ class PhotoList extends React.PureComponent {
                       isSelecting={isSelecting}
                       onSelect={onSelect}
                       index={i}
-                      photos={photos}
+                      photo={e}
+                      photos={photosLinks}
+                      isEditing={isEditing}
                     >
                       {isEditing ? (
                         <PhotoEditor

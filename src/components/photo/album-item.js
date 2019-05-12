@@ -25,17 +25,14 @@ const AlbumItem = ({ title, count, preview, id, history }) => {
       <div className="ratio">
         <div
           style={style}
-          className={`ratio__content album-photo-item ${
+          className={`ratio__content album-photo-item  ${
             preview ? "" : "photos_album_no_cover"
           }`}
         >
           <div
             className={`album-info ${preview ? "" : "album-info-wo_shadow"}`}
           >
-            <span
-              title={title}
-              className={`album-title ${preview ? "" : "album-title_black"}`}
-            >
+            <span title={title} className={`album-title`}>
               {title}
             </span>
             <span className={"album-count"}>{count}</span>

@@ -59,22 +59,10 @@ class Main extends Component {
   };
 
   onUpload = async files => {
-    const { uploadPhoto, history } = this.props;
-    const lastPhotos = [];
-    for (let i = 0; i < files.length; i++) {
-      const formData = new FormData();
+    const { history } = this.props;
 
-      formData.append("Photo", files[i]);
-
-      await uploadPhoto(formData)
-        .then(res => {
-          lastPhotos.push(res.data.response.fileName);
-          this._updateAlbums();
-        })
-        .catch(err => console.log(err.response));
-    }
     history.push("upload", {
-      lastPhotos,
+      files,
       breadCrumbs: [
         {
           text: `My photos`,

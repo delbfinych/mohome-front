@@ -81,11 +81,12 @@ export default class MohomeApiService {
       }
     });
   };
-  getPhoto = async name => {
+  getPhoto = async (name, isThumb) => {
+    const thumb = isThumb ? "?thumb=true" : "";
     await this._updateToken();
-    return axios.get(this._apiBase + "/Photos/" + name, {
+    return axios.get(this._apiBase + "/Photos/" + name + thumb, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: "Bearer " + Cookies.get("id_token")
       }
     });

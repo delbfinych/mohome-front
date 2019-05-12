@@ -85,9 +85,14 @@ html {
   padding: 0 7px;
   margin: 7px 0;
 }
-
-.album-photo-item {
+.border-top {
   border-radius: 5px 5px 0 0;
+}
+.border-bottom {
+  border-radius: 0 0 5px 5px;
+}
+.album-photo-item {
+  border-radius: 5px;
   cursor: pointer;
   overflow: hidden;
   width: 100%;
@@ -132,8 +137,8 @@ html {
   border-radius: 5px;
 }
 .album-info {
-  color: white;
   display: flex;
+  font-weight: bold;
   justify-content: space-between;
   position: absolute;
   left: 0;
@@ -146,8 +151,14 @@ html {
     rgba(0, 0, 0, 0.53) 100%
   );
 }
+.album-info span {
+  color: white;
+}
 .album-info-wo_shadow {
   background: none;
+}
+.album-info-wo_shadow span {
+  color: #959595;
 }
 .album-photo-item img {
   width: 100%;

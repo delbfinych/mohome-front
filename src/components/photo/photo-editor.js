@@ -17,13 +17,18 @@ class PhotoEditor extends Component {
       this.setState({ description });
   }
   onChange = e => {
+    console.log(12);
     e.preventDefault();
     console.log(e.target.value);
     if (e.target.value.length > 100) return;
     this.setState({ description: e.target.value });
     const { changePhotoDescription, photoName } = this.props;
     changePhotoDescription(photoName, { description: e.target.value })
-      .then(res => this.forceUpdate())
+      .then(res => {
+        console.log(res);
+        console.log(photoName);
+        this.forceUpdate();
+      })
       .catch(err => console.log(err.response));
   };
   render() {

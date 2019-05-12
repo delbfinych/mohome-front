@@ -10,9 +10,10 @@ class SinglePhotoPage extends Component {
   componentDidMount() {
     this.setState({ isLoading: true });
     const { getPhoto, photoName } = this.props;
+    console.log(Date.now());
     getPhoto(photoName)
       .then(res => {
-        console.log(res);
+        console.log(Date.now());
         this.setState({
           photo: `data:${res.data.response.imageType};base64,${
             res.data.response.image

@@ -1,7 +1,7 @@
 .drop-area-wrap {
   z-index: 500;
   display: none;
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 0;
   bottom: 0;

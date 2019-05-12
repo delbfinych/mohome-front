@@ -5,7 +5,6 @@ import { withApiService } from "../hoc";
 import placeholder from "../../img/image_big.png";
 import PhotoItem from "./photo-item";
 import PhotoList from "./photo-list";
-import { withRouter } from "react-router-dom";
 
 class AlbumPage extends Component {
   state = {
@@ -40,25 +39,11 @@ class AlbumPage extends Component {
       .catch(err => console.log(err));
   };
   onUpload = async files => {
-    const { uploadPhoto, albumId, history } = this.props;
-    const lastPhotos = [];
-    for (let i = 0; i < files.length; i++) {
-      const formData = new FormData();
-
-      formData.append("Photo", files[i]);
-      formData.append("AlbumId", albumId);
-
-      await uploadPhoto(formData)
-        .then(res => {
-          lastPhotos.push(res.data.response.fileName);
-          this._updateAlbum();
-        })
-        .catch(err => console.log(err.response));
-    }
+    const { albumId, history } = this.props;
 
     history.push("upload", {
       albumId,
-      lastPhotos,
+      files,
       breadCrumbs: [
         {
           text: `My photos`,
@@ -114,7 +99,6 @@ class AlbumPage extends Component {
 const mapMethodToProps = service => {
   return {
     getPhotosByAlbumId: service.getPhotosByAlbumId,
-    uploadPhoto: service.uploadPhoto,
     getAlbumInfo: service.getAlbumInfo
   };
 };

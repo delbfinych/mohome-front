@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import placeholder from "../../img/image_big.png";
 import AlbumNavigation from "./album-navigation";
 import { withApiService } from "../hoc";
 import PhotoList from "./photo-list";
@@ -68,25 +68,10 @@ class EditAlbumPage extends Component {
     deleteAlbum(albumId).then(() => history.push("/albums/"));
   };
   onUpload = async files => {
-    const { uploadPhoto, albumId, history } = this.props;
-    const lastPhotos = [];
-    for (let i = 0; i < files.length; i++) {
-      const formData = new FormData();
-
-      formData.append("Photo", files[i]);
-      formData.append("AlbumId", albumId);
-
-      await uploadPhoto(formData)
-        .then(res => {
-          lastPhotos.push(res.data.response.fileName);
-          this._updateAlbum();
-        })
-        .catch(err => console.log(err.response));
-    }
-
+    const { albumId, history } = this.props;
     history.push("upload", {
       albumId,
-      lastPhotos,
+      files,
       breadCrumbs: [
         {
           text: `My photos`,
@@ -111,6 +96,7 @@ class EditAlbumPage extends Component {
       coverPhotoName,
       coverPreview
     } = this.state;
+    console.log(photos);
     console.log(coverPhotoName);
     const breadCrumbs = [
       {
@@ -151,8 +137,12 @@ class EditAlbumPage extends Component {
           <div className={"edit-album-wrap__cover"}>
             <div className={"edit-album_wrap__label"}>Use as album cover</div>
             <div
-              className={"edit-album-wrap__image"}
-              style={{ backgroundImage: `url(${coverPreview})` }}
+              className={`edit-album-wrap__image`}
+              style={{
+                backgroundImage: `url(${
+                  coverPreview ? coverPreview : placeholder
+                })`
+              }}
             >
               <Modal title={`Choose a cover for the album «${title}»`}>
                 <div className="edit-album-cover-trigger">

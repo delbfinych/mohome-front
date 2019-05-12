@@ -10,13 +10,9 @@ class AddPhotosPage extends Component {
     photos: []
   };
   componentDidMount() {
-    const photos = this.props.lastPhotos;
-    for (let i = 0; i < photos.length; i++)
-      this.setState(prevState => {
-        return {
-          photos: [...prevState.photos, { name: photos[i] }]
-        };
-      });
+    const { files } = this.props;
+    console.log(files);
+    if (files) this.onUpload(files).then(res => console.log(res));
   }
 
   onUpload = async files => {

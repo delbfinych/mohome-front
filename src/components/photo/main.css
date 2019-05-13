@@ -176,6 +176,12 @@ html {
   color: #959595;
   font-weight: bold;
 }
+.album-photo-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 500;
+}
 .ratio__content {
   position: absolute;
   top: 0;
@@ -219,13 +225,16 @@ html {
 }
 .album-change {
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.4);
   position: absolute;
   top: 3%;
   right: 6%;
   width: 30px;
   height: 30px;
-  display: none;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: 0.3s;
   z-index: 9999;
   border-radius: 5px;
@@ -238,9 +247,7 @@ html {
 }
 
 .album-photo:hover .album-change {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  opacity: 1;
 }
 .photos_album_intro {
   margin-bottom: 20px;

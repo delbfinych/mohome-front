@@ -14,7 +14,6 @@ class DropArea extends Component {
       files = Array.from(files);
       files = files.filter(el => /image\/\w*/.test(el.type));
       this.props.onUpload(files);
-      this.forceUpdate();
     }
   };
   preventDefaults = e => {
@@ -28,9 +27,9 @@ class DropArea extends Component {
       files = Array.from(files);
       files = files.filter(el => /image\/\w*/.test(el.type));
       this.props.onUpload(files);
-      this.forceUpdate();
     }
   };
+
   componentDidMount() {
     this.dropArea = document.querySelector(".drop-area-wrap");
     ["dragenter", "dragover", "drop"].forEach(eventName => {
@@ -70,7 +69,7 @@ class DropArea extends Component {
   }
 
   render() {
-    const { id, title, accept, onUpload } = this.props;
+    const { id, title, accept } = this.props;
     return (
       <div className="drop-area-wrap">
         <div className="drop-area">

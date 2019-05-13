@@ -8,7 +8,7 @@ import Modal from "../modal";
 
 class EditAlbumPage extends Component {
   state = {
-    coverPhotoName: "",
+    coverPhotoName: null,
     description: "",
     title: "",
     photos: [],
@@ -20,9 +20,11 @@ class EditAlbumPage extends Component {
     // this.getPhotosByOrder(this.props.lastPhotos);
   }
   _updateAlbum = async () => {
+    console.log(12);
     const { getAlbumInfo, albumId, getPhotosByAlbumId } = this.props;
     getAlbumInfo(albumId)
       .then(res => {
+        console.log(res.data.response);
         const { coverPhotoName, description, name } = res.data.response;
         this.setCoverPreview(coverPhotoName);
         this.setState({ coverPhotoName, description, title: name });
@@ -44,7 +46,7 @@ class EditAlbumPage extends Component {
           coverPreview: `data:${image.imageType};base64,${image.image}`
         });
       })
-      .catch(err => console.log(err.reponse));
+      .catch(err => this.setState({ coverPreview: null }));
   };
   onSubmit = () => {
     const { description, title, coverPhotoName } = this.state;
@@ -200,7 +202,11 @@ class EditAlbumPage extends Component {
             </form>
           </div>
         </div>
-        <PhotoList isEditing photos={photos} />
+        <PhotoList
+          onPhotoDeleted={this._updateAlbum}
+          isEditing
+          photos={photos}
+        />
       </div>
     );
   }

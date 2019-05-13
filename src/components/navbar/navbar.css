@@ -1,42 +1,56 @@
 .navbar {
-    font-size: 15px;
+  font-size: 15px;
 }
 .logo {
-    height: 35px;
+  height: 35px;
 }
 
-.profile.nav-link{
-    padding: 0;
-    heigth: 100%;
-
+.profile.nav-link {
+  padding: 0;
+  heigth: 100%;
 }
 .profile-img {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 5px;
-    width: 29px;
-    height: 29px;
-    background-color: white;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+  width: 29px;
+  height: 29px;
+  background-color: white;
 }
 
-
-.left-inner-addon{
-    position: relative;
+.left-inner-addon {
+  position: relative;
 }
 
 .left-inner-addon i {
-    position: absolute;
-    padding: 7px 9px;
-    background: transparent;
-    pointer-events: none;
-    left: 0;
-    color: #4582ec;
+  position: absolute;
+  padding: 7px 9px;
+  background: transparent;
+  pointer-events: none;
+  left: 0;
+  color: #4582ec;
 }
 
 .left-inner-addon input {
-    padding-left: 30px;
-    border-radius: 20px;
-    border: 0;
-    height: 27px;
-    line-height: 27px;
+  padding-left: 30px;
+  border-radius: 20px;
+  border: 0;
+  height: 27px;
+  line-height: 27px;
+}
+.dropdown {
+  height: 100%;
+}
+.drop-down-toggle {
+  background-color: transparent !important;
+  border: none;
+  border-radius: 0;
+  box-shadow: none !important;
+  height: 100%;
+}
+
+.drop-down-toggle:hover,
+.drop-down-toggle:active,
+.drop-down-toggle:focus {
+  background-color: rgba(0, 0, 0, 0.4) !important;
 }

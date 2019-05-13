@@ -6,6 +6,14 @@ import CreateBreadCrumbs from "./creareBreadcrumbs";
 import "./main.css";
 
 class AlbumNavigation extends Component {
+  _isMounted = false;
+  componentDidMount() {
+    this._isMounted = true;
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   render() {
     const { rightContent, breadCrumbs } = this.props;
     return (

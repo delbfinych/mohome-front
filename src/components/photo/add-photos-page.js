@@ -9,10 +9,15 @@ class AddPhotosPage extends Component {
     previewPhoto: [],
     photos: []
   };
+  _isMounted = false;
   componentDidMount() {
+    this._isMounted = true;
     const { files } = this.props;
     console.log(files);
-    if (files) this.onUpload(files).then(res => console.log(res));
+    if (files) this.onUpload(files);
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   onUpload = async files => {
@@ -22,17 +27,17 @@ class AddPhotosPage extends Component {
 
       formData.append("Photo", files[i]);
       if (albumId) formData.append("AlbumId", albumId);
-      console.log(albumId);
       await uploadPhoto(formData)
         .then(res => {
-          this.setState(prevState => {
-            return {
-              photos: [
-                ...prevState.photos,
-                { name: res.data.response.fileName }
-              ]
-            };
-          });
+          if (this._isMounted)
+            this.setState(prevState => {
+              return {
+                photos: [
+                  ...prevState.photos,
+                  { name: res.data.response.fileName }
+                ]
+              };
+            });
         })
         .catch(err => console.log(err.response));
     }

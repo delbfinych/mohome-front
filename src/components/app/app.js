@@ -80,7 +80,6 @@ export default class App extends Component {
               return Cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
-                  <button onClick={() => window.logout()}>logout</button>
                   <AlbumsPageContainer>
                     <Main history={history} />
                   </AlbumsPageContainer>
@@ -149,32 +148,36 @@ export default class App extends Component {
             path="/albums/upload"
             exact
             render={({ location, history }) => {
-              return Cookies.get("id_token") ? (
-                <React.Fragment>
-                  <NavBar />
-                  <AlbumsPageContainer>
-                    <AddPhotosPage history={history} {...location.state} />
-                  </AlbumsPageContainer>
-                </React.Fragment>
-              ) : (
-                <Redirect to={"/sign-in"} />
-              );
+              if (this.previousLocation || history.action !== "POP")
+                return Cookies.get("id_token") ? (
+                  <React.Fragment>
+                    <NavBar />
+                    <AlbumsPageContainer>
+                      <AddPhotosPage history={history} {...location.state} />
+                    </AlbumsPageContainer>
+                  </React.Fragment>
+                ) : (
+                  <Redirect to={"/sign-in"} />
+                );
+              else return <Redirect to={"/albums/"} />;
             }}
           />
           <Route
             path="/albums/:albumId/upload"
             exact
             render={({ history, location }) => {
-              return Cookies.get("id_token") ? (
-                <React.Fragment>
-                  <NavBar />
-                  <AlbumsPageContainer>
-                    <AddPhotosPage history={history} {...location.state} />
-                  </AlbumsPageContainer>
-                </React.Fragment>
-              ) : (
-                <Redirect to={"/sign-in"} />
-              );
+              if (this.previousLocation || history.action !== "POP")
+                return Cookies.get("id_token") ? (
+                  <React.Fragment>
+                    <NavBar />
+                    <AlbumsPageContainer>
+                      <AddPhotosPage history={history} {...location.state} />
+                    </AlbumsPageContainer>
+                  </React.Fragment>
+                ) : (
+                  <Redirect to={"/sign-in"} />
+                );
+              else return <Redirect to={"/albums/"} />;
             }}
           />
           <Route

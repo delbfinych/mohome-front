@@ -119,7 +119,10 @@ class Slider extends Component {
   onPhotoDelete = name => {
     const { deletePhoto, history } = this.props;
     deletePhoto(name)
-      .then(() => history.goBack())
+      .then(() => {
+        history.goBack();
+
+      })
       .catch(err => console.log(err));
   };
   render() {

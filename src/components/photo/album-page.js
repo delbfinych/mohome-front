@@ -12,8 +12,18 @@ class AlbumPage extends Component {
     albumInfo: null,
     photoCount: 0
   };
+  _isMounted = false;
+
   componentDidMount() {
+    this._isMounted = true;
     this._updateAlbum();
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(prevState, prevProps);
+    console.log(this.state, this.props);
   }
 
   _updateAlbum = () => {
@@ -21,12 +31,12 @@ class AlbumPage extends Component {
       .getPhotosByAlbumId(this.props.albumId)
       .then(res => {
         console.log(res);
-
-        this.setState({
-          albumInfo: res.data.response,
-          photoCount: res.data.response.length,
-          photos: res.data.response
-        });
+        if (this._isMounted)
+          this.setState({
+            albumInfo: res.data.response,
+            photoCount: res.data.response.length,
+            photos: res.data.response
+          });
       })
       .catch(err => console.log(err));
     this.props
@@ -34,10 +44,12 @@ class AlbumPage extends Component {
       .then(res => {
         const { name, description } = res.data.response;
         console.log(res);
-        this.setState({ albumTitle: name, description: description });
+        if (this._isMounted)
+          this.setState({ albumTitle: name, description: description });
       })
       .catch(err => console.log(err));
   };
+
   onUpload = async files => {
     const { albumId, history } = this.props;
 
@@ -90,7 +102,7 @@ class AlbumPage extends Component {
             {photoCount} photos
           </div>
         </div>
-        <PhotoList photos={photos} />
+        <PhotoList onPhotoDeleted={this._updateAlbum} photos={photos} />
       </div>
     );
   }

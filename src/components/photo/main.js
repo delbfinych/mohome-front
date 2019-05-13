@@ -39,17 +39,24 @@ class Main extends Component {
       for (let i = 0; i < albums.length; i++)
         if (albums[i].coverPhotoName)
           this.props
-            .getPhoto(albums[i].coverPhotoName)
+            .getPhoto(albums[i].coverPhotoName, true)
             .then(res => {
+              console.log(res);
               const newCover = { ...this.state.albumCovers };
               newCover[albums[i].albumId] = res.data.response;
               this.setState({ albumCovers: newCover });
             })
             .catch(err => console.log(err));
+        else {
+          const newCover = { ...this.state.albumCovers };
+          newCover[albums[i].albumId] = null;
+          this.setState({ albumCovers: newCover });
+        }
     });
     this.props
       .getPhotosByAlbumId()
       .then(res => {
+        console.log(res);
         this.setState({
           photoCount: res.data.response.length,
           photos: res.data.response
@@ -83,6 +90,7 @@ class Main extends Component {
         link: "/albums/"
       }
     ];
+    console.log(this.state.albumCovers);
     return (
       <div>
         <AlbumNavigation
@@ -188,7 +196,7 @@ class Main extends Component {
           <div className="albums-bar-left">My photos {photoCount}</div>
         </div>
 
-        <PhotoList photos={photos} />
+        <PhotoList onPhotoDeleted={this._updateAlbums} photos={photos} />
         {/*<div className="added-photos-container">*/}
         {/*  <div className="added-photos-bar left-right-bar">*/}
         {/*    <div className="added-photos-bar-left">*/}

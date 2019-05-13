@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { withApiService } from "../hoc";
+import compose from "../../utils/compose";
+import { ConfirmingForm } from "../forms";
+import Modal from "../modal";
 
 class PhotoItem extends Component {
   onOpen = (currPhoto, photos, index) => {
@@ -14,7 +18,13 @@ class PhotoItem extends Component {
       index
     });
   };
-
+  onPhotoDelete = name => {
+    const { deletePhoto, history } = this.props;
+    deletePhoto(name)
+      .then()
+      .catch()
+      .finally(() => this.props.onDelete(name));
+  };
   render() {
     const {
       photo,
@@ -24,7 +34,8 @@ class PhotoItem extends Component {
       isSelecting,
       onSelect,
       onCloseModal,
-      isEditing
+      isEditing,
+      onDelete
     } = this.props;
     const style = {
       backgroundImage: `url(${photo.image})`,
@@ -32,6 +43,19 @@ class PhotoItem extends Component {
     };
     return (
       <div className="col-2 album-photo">
+        {isSelecting ? null : (
+          <Modal title={"Delete photo"}>
+            <div className={"album-change"}>
+              <i className="zmdi zmdi-close" />
+            </div>
+            <ConfirmingForm
+              body={<p>Are you sure you want to delete this photo?</p>}
+              confirmText={"Delete photo"}
+              onConfirm={() => this.onPhotoDelete(photo.name)}
+            />
+          </Modal>
+        )}
+
         <div className="ratio">
           <div
             onClick={() => {
@@ -52,4 +76,13 @@ class PhotoItem extends Component {
   }
 }
 
-export default withRouter(PhotoItem);
+const mapMethodToProps = service => {
+  return {
+    getPhoto: service.getPhoto,
+    deletePhoto: service.deletePhoto
+  };
+};
+export default compose(
+  withApiService(mapMethodToProps),
+  withRouter
+)(PhotoItem);

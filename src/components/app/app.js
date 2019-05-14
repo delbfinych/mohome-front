@@ -42,13 +42,6 @@ export default class App extends Component {
       prevPathName = prevPathName.slice(0, prevPathName.lastIndexOf("/") + 1);
     }
 
-    // temporarily
-    window.logout = () => {
-      Cookies.remove("id_token", { path: "/" });
-      Cookies.remove("expiresIn", { path: "/" });
-      Cookies.remove("refreshToken", { path: "/" });
-      this.forceUpdate();
-    };
     let { location } = this.props;
     let isModal = !!(
       location.state &&
@@ -249,7 +242,6 @@ export default class App extends Component {
           />
           <Route component={NotFoundPage} />
         </Switch>
-
         {isModal ? (
           <Route
             path={prevPathName + "photo/:name"}

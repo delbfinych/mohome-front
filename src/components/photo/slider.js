@@ -15,7 +15,6 @@ class Slider extends Component {
     isLoading: false
   };
   componentDidMount() {
-    this.cachedPhotos = [];
     const { photos, currentName, index } = this.props.location.state;
     this.setState(
       {
@@ -35,7 +34,6 @@ class Slider extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { photos, currentName, index } = this.props.location.state;
     if (currentName !== prevProps.location.state.currentName) {
-      console.log(this.cachedPhotos);
       this.setState(() => {
         return {
           photos,
@@ -49,30 +47,17 @@ class Slider extends Component {
   _updateSlide = () => {
     const { getPhoto } = this.props;
     const { currentName } = this.state;
-    console.log(this.cachedPhotos);
-    const cachedIndex = this.cachedPhotos.findIndex(
-      el => el.name === currentName
-    );
-    console.log(cachedIndex);
-    if (cachedIndex === -1) {
-      this.setState({ isLoading: true });
-      getPhoto(currentName)
-        .then(res => {
-          console.log(res);
-          this.cachedPhotos.push({ ...res.data.response, name: currentName });
-          this.setState({
-            currentItem: res.data.response,
-            isAllowedClick: true
-          });
-        })
-        .catch(err => console.log(err))
-        .finally(() => this.setState({ isLoading: false }));
-    } else {
-      this.setState({
-        currentItem: this.cachedPhotos[cachedIndex],
-        isAllowedClick: true
-      });
-    }
+    this.setState({ isLoading: true });
+    getPhoto(currentName)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          currentItem: res.data.response,
+          isAllowedClick: true
+        });
+      })
+      .catch(err => console.log(err))
+      .finally(() => this.setState({ isLoading: false }));
   };
   handleArrowClick = e => {
     if (e.which === 37) this.goToPrevSlide();
@@ -121,7 +106,6 @@ class Slider extends Component {
     deletePhoto(name)
       .then(() => {
         history.goBack();
-
       })
       .catch(err => console.log(err));
   };

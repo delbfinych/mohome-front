@@ -172,7 +172,9 @@ class Main extends Component {
                 <div className={"row"}>
                   <div className={"col-2 album-photo-empty"}>
                     <div className="ratio">
-                      <div className={"ratio__content"}>No albums found.</div>
+                      <div className={"ratio__content"}>
+                        No albums found.
+                      </div>
                     </div>
                   </div>
                 </div>

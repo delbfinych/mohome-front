@@ -1,11 +1,11 @@
 .navbar {
   font-size: 15px;
   background-color: #4582ec;
-  padding: 0;
   color: white;
   display: flex;
   align-items: stretch;
   position: relative;
+  padding: 15px 0;
 }
 .navbar__menu {
   list-style: none;
@@ -54,6 +54,9 @@
 .dropdown {
   height: 100%;
 }
+.dropdown-menu {
+  z-index: 9999;
+}
 .drop-down-toggle {
   background-color: transparent !important;
   border: none;
@@ -61,6 +64,7 @@
   box-shadow: none !important;
   height: 100%;
   color: white;
+  padding: 0;
 }
 
 .drop-down-toggle:hover,
@@ -73,7 +77,7 @@
   background-color: white;
   width: 28px;
   height: 28px;
-  margin: 0 10px;
+  margin-left: 10px;
 }
 .drop-down-toggle {
   display: flex;
@@ -105,11 +109,15 @@
 }
 .navbar__logo {
   margin-right: 10px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 .menu-toggle {
   display: none;
 }
-@media screen and (max-width: 530px) {
+@media screen and (max-width: 768px) {
   .navbar__menu {
     display: none;
   }
@@ -123,7 +131,7 @@
     left: 0;
     right: 0;
     background-color: #4582ec;
-    z-index: 9999;
+    z-index: 9998;
   }
   .menu-opened .navbar__link {
     margin: 0 auto;
@@ -147,7 +155,7 @@
   height: 3px;
   top: 50%;
   right: 0px;
-  margin-top: -5px;
+  margin-top: -2px;
   opacity: 1;
 }
 .burger::before {

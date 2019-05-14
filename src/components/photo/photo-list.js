@@ -21,7 +21,6 @@ class PhotoList extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     const { photos } = this.props;
-    console.log(this.state.photos);
     if (prevProps.photos.length !== photos.length) {
       console.log("did");
       console.log(photos);
@@ -37,7 +36,6 @@ class PhotoList extends React.PureComponent {
         if (
           this.state.photos.findIndex(el => el.name === photos[i].name) === -1
         ) {
-          console.log("across");
           await this.props.getPhoto(photos[i].name, true).then(res => {
             const image = res.data.response;
             const obj = {
@@ -48,7 +46,6 @@ class PhotoList extends React.PureComponent {
             };
             if (this._isMounted)
               this.setState(prevState => {
-                console.log(prevState.photos);
                 return {
                   photos: [...prevState.photos, obj]
                 };

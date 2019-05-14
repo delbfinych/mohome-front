@@ -204,21 +204,26 @@ html {
   align-items: stretch;
 }
 .single-photo-page-wrap {
-  width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 .single-photo-page-wrap img {
   max-height: 90%;
 }
 .single-photo-page-wrap-btn {
-  position: absolute;
-  top: 0;
   cursor: pointer;
   font-size: 20px;
   color: blue;
+}
+.single-photo-wrap__btns {
+  position: absolute;
+  top: 0;
+  width: 25%;
+  display: flex;
+  justify-content: space-between;
 }
 .delete-album {
   cursor: pointer;

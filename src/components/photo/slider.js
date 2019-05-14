@@ -5,6 +5,7 @@ import "./slider.css";
 import { withApiService } from "../hoc";
 import { ConfirmingForm } from "../forms";
 import Modal from "../modal";
+import Spinner from "../spinner";
 
 class Slider extends Component {
   state = {
@@ -134,9 +135,8 @@ class Slider extends Component {
         <button className={"slider-close"} onClick={history.goBack}>
           <i className={"zmdi zmdi-close"} />
         </button>
-
         {isLoading ? (
-          <div>loading</div>
+          <Spinner className={"slider"} />
         ) : (
           <img
             className={"slider"}

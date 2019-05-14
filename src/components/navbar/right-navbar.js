@@ -4,9 +4,9 @@ import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 
 const RightNavBar = () => {
-  // const token = Cookies.get("id_token");
-  // let payload = token.split(".")[1];
-  // let username = JSON.parse(atob(payload));
+  const token = Cookies.get("id_token");
+  let payload = token.split(".")[1];
+  let username = JSON.parse(atob(payload));
   return (
     <div className="navbar__right">
       <button
@@ -16,7 +16,7 @@ const RightNavBar = () => {
         aria-haspopup="true"
         aria-expanded="false"
       >
-        username
+        {username.Name}
         <div className="nav-avatar" />
       </button>
       <div className="dropdown-menu dropdown-menu-right">

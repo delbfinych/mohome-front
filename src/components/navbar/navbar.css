@@ -71,7 +71,7 @@
 .drop-down-toggle:hover,
 .drop-down-toggle:active,
 .drop-down-toggle:focus {
-  background-color: rgba(0, 0, 0, 0.4) !important;
+  background-color: rgba(0, 0, 0, 0.2) !important;
 }
 .nav-avatar {
   border-radius: 50%;
@@ -153,7 +153,7 @@
 .burger {
   position: absolute;
   background: white;
-  width: 30px;
+  width: 27px;
   height: 3px;
   top: 50%;
   right: 0px;
@@ -163,18 +163,18 @@
 .burger::before {
   position: absolute;
   background: white;
-  width: 30px;
+  width: 27px;
   height: 3px;
-  top: 10px;
+  top: 8px;
   content: "";
   display: block;
 }
 .burger::after {
   position: absolute;
   background: white;
-  width: 30px;
+  width: 27px;
   height: 3px;
-  bottom: 10px;
+  bottom: 8px;
   content: "";
   display: block;
 }

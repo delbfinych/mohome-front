@@ -6,32 +6,33 @@ class PhotoEditor extends Component {
     description: "",
     isFocused: false
   };
+
   componentDidMount() {
     const { description } = this.props;
     if (description) this.setState({ description });
   }
+
   componentDidUpdate(prevProps) {
     const { description } = this.props;
     if (description !== prevProps.description && description)
       this.setState({ description });
   }
+
   onChange = e => {
-    console.log(12);
     e.preventDefault();
-    console.log(e.target.value);
     if (e.target.value.length > 100) return;
     this.setState({ description: e.target.value });
     const { changePhotoDescription, photoName } = this.props;
     changePhotoDescription(photoName, { description: e.target.value })
       .then(res => {
-        console.log(res);
-        console.log(photoName);
         this.forceUpdate();
       })
       .catch(err => console.log(err.response));
   };
+
   render() {
     const { description, isFocused } = this.state;
+
     return (
       <React.Fragment>
         <input

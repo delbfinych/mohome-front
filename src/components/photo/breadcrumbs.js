@@ -1,6 +1,6 @@
 import React from "react";
 
-const CreateBreadcrumbs = ({ breadCrumbs }) => {
+const Breadcrumbs = ({ breadCrumbs }) => {
   return (
     <div className={"breadcrumbs"}>
       {breadCrumbs.map((e, i) => {
@@ -26,4 +26,4 @@ const CreateBreadcrumbs = ({ breadCrumbs }) => {
   );
 };
 
-export default CreateBreadcrumbs;
+export default Breadcrumbs;

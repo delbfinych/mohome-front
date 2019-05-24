@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import PhotoEditor from "./photo-editor";
-
-import "./slider.css";
 import { withApiService } from "../hoc";
 import { ConfirmingForm } from "../forms";
 import Modal from "../modal";
 import Spinner from "../spinner";
+
+import "./slider.css";
 
 class Slider extends Component {
   state = {
@@ -15,6 +15,7 @@ class Slider extends Component {
     currentName: "",
     isLoading: false
   };
+
   componentDidMount() {
     const { photos, currentName, index } = this.props.location.state;
     this.setState(
@@ -28,6 +29,7 @@ class Slider extends Component {
 
     window.addEventListener("keyup", this.handleArrowClick);
   }
+
   componentWillUnmount() {
     window.removeEventListener("keyup", this.handleArrowClick);
   }
@@ -51,7 +53,6 @@ class Slider extends Component {
     this.setState({ isLoading: true });
     getPhoto(currentName)
       .then(res => {
-        console.log(res);
         this.setState({
           currentItem: res.data.response,
           isAllowedClick: true
@@ -60,6 +61,7 @@ class Slider extends Component {
       .catch(err => console.log(err))
       .finally(() => this.setState({ isLoading: false }));
   };
+
   handleArrowClick = e => {
     if (e.which === 37) this.goToPrevSlide();
     else if (e.which === 39) this.goToNextSlide();
@@ -83,6 +85,7 @@ class Slider extends Component {
       });
     }
   };
+
   goToNextSlide = () => {
     if (this.state.isAllowedClick) {
       const { currentIndex, photos } = this.state;
@@ -102,6 +105,7 @@ class Slider extends Component {
       });
     }
   };
+
   onPhotoDelete = name => {
     const { deletePhoto, history } = this.props;
     deletePhoto(name)
@@ -110,6 +114,7 @@ class Slider extends Component {
       })
       .catch(err => console.log(err));
   };
+
   render() {
     const { history } = this.props;
     const { currentIndex, photos, currentItem, isLoading } = this.state;

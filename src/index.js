@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { ThroughProvider } from "react-through";
 import App from "./components/app";
 
 import { ApiServiceProvider } from "./components/api-service-context";

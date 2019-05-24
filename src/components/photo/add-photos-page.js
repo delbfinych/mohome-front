@@ -9,24 +9,27 @@ class AddPhotosPage extends Component {
     previewPhoto: [],
     photos: []
   };
+
   _isMounted = false;
+
   componentDidMount() {
     this._isMounted = true;
     const { files } = this.props;
-    console.log(files);
     if (files) this.onUpload(files);
   }
+
   componentWillUnmount() {
     this._isMounted = false;
   }
 
   onUpload = async files => {
     const { albumId, uploadPhoto } = this.props;
+
     for (let i = 0; i < files.length; i++) {
       const formData = new FormData();
-
       formData.append("Photo", files[i]);
       if (albumId) formData.append("AlbumId", albumId);
+
       await uploadPhoto(formData)
         .then(res => {
           if (this._isMounted)
@@ -64,7 +67,6 @@ class AddPhotosPage extends Component {
 
 const mapMethodToProps = service => {
   return {
-    getPhoto: service.getPhoto,
     uploadPhoto: service.uploadPhoto
   };
 };

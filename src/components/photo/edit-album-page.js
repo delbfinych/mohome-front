@@ -15,28 +15,29 @@ class EditAlbumPage extends Component {
     titleValid: true,
     coverPreview: null
   };
+
   componentDidMount() {
     this._updateAlbum();
-    // this.getPhotosByOrder(this.props.lastPhotos);
   }
+
   _updateAlbum = async () => {
-    console.log(12);
     const { getAlbumInfo, albumId, getPhotosByAlbumId } = this.props;
+
     getAlbumInfo(albumId)
       .then(res => {
-        console.log(res.data.response);
         const { coverPhotoName, description, name } = res.data.response;
         this.setCoverPreview(coverPhotoName);
         this.setState({ coverPhotoName, description, title: name });
       })
       .catch(err => console.log(err));
+
     getPhotosByAlbumId(albumId)
       .then(res => {
-        console.log(res);
         this.setState({ photos: res.data.response });
       })
       .catch(err => console.log(err.response));
   };
+
   setCoverPreview = name => {
     const { getPhoto } = this.props;
     getPhoto(name)
@@ -48,6 +49,7 @@ class EditAlbumPage extends Component {
       })
       .catch(err => this.setState({ coverPreview: null }));
   };
+
   onSubmit = () => {
     const { description, title, coverPhotoName } = this.state;
     const { albumId } = this.props;
@@ -60,15 +62,18 @@ class EditAlbumPage extends Component {
       .then(res => this._updateAlbum())
       .catch(err => console.log(err.response));
   };
+
   onChange(e, type) {
     this.setState({
       [type]: e.target.value
     });
   }
+
   onAlbumDelete = () => {
     const { deleteAlbum, albumId, history } = this.props;
     deleteAlbum(albumId).then(() => history.push("/albums/"));
   };
+
   onUpload = async files => {
     const { albumId, history } = this.props;
     history.push("upload", {
@@ -89,17 +94,9 @@ class EditAlbumPage extends Component {
       ]
     });
   };
+
   render() {
-    const {
-      title,
-      description,
-      titleValid,
-      photos,
-      coverPhotoName,
-      coverPreview
-    } = this.state;
-    console.log(photos);
-    console.log(coverPhotoName);
+    const { title, description, titleValid, photos, coverPreview } = this.state;
     const breadCrumbs = [
       {
         text: `My photos`,

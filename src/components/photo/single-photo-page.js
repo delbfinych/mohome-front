@@ -8,6 +8,7 @@ class SinglePhotoPage extends Component {
     photosName: "",
     notFound: false
   };
+
   componentDidMount() {
     this.setState({ isLoading: true });
     const { getPhoto, photoName } = this.props;
@@ -22,19 +23,21 @@ class SinglePhotoPage extends Component {
       .catch(err => this.setState({ notFound: true }))
       .finally(() => this.setState({ isLoading: false }));
   }
+
   onPhotoDelete = name => {
-    const { deletePhoto, history } = this.props;
-    console.log(name);
+    const { deletePhoto } = this.props;
     deletePhoto(name)
       .then(() => {
         this.setState({ notFound: true });
       })
       .catch(err => console.log(err.response));
   };
+
   render() {
     const { photo, isLoading, notFound } = this.state;
     const { albumId, history, photoName } = this.props;
     const redirectLink = albumId ? `/albums/${albumId}/` : `/albums/`;
+
     return (
       <div className={"single-photo-page-wrap"}>
         <div className="single-photo-wrap__btns">

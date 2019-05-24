@@ -4,17 +4,19 @@ import PhotoEditor from "./photo-editor";
 import { withApiService } from "../hoc";
 
 class PhotoList extends React.PureComponent {
+
   state = {
     photos: []
   };
+
   _isMounted = false;
 
   componentDidMount() {
     this._isMounted = true;
     const { photos } = this.props;
-    console.log(photos);
     this.getPhotosByOrder(photos);
   }
+
   componentWillUnmount() {
     this._isMounted = false;
   }
@@ -22,15 +24,11 @@ class PhotoList extends React.PureComponent {
   componentDidUpdate(prevProps) {
     const { photos } = this.props;
     if (prevProps.photos.length !== photos.length) {
-      console.log("did");
-      console.log(photos);
       this.getPhotosByOrder(photos);
     }
   }
 
   getPhotosByOrder = async photos => {
-    console.log("byorder");
-    console.log(this.state.photos);
     if (photos.length)
       for (let i = 0; i < photos.length; i++)
         if (
@@ -53,6 +51,7 @@ class PhotoList extends React.PureComponent {
           });
         }
   };
+
   onPhotoDelete = name => {
     const idx = this.state.photos.findIndex(item => item.name === name);
     const newPhotos = [
@@ -62,6 +61,7 @@ class PhotoList extends React.PureComponent {
     this.setState({ photos: newPhotos });
     if (this.props.onPhotoDeleted) this.props.onPhotoDeleted();
   };
+
   render() {
     const {
       isEditing = false,
@@ -72,6 +72,7 @@ class PhotoList extends React.PureComponent {
     } = this.props;
 
     const { photos } = this.state;
+
     return (
       <div className="albums-container">
         <div className="albums-panel">

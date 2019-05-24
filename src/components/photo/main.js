@@ -1,18 +1,11 @@
 import React, { Component } from "react";
 import "./main.css";
 import { withApiService } from "../hoc";
-import placeholder from "../../img/image_big.png";
 import { CreateAlbumForm } from "../forms";
 import Modal from "../modal";
-import DropArea from "../drop-area";
 import AlbumItem from "./album-item";
-import { Route, Switch, withRouter, Redirect, Link } from "react-router-dom";
 import AlbumNavigation from "./album-navigation";
-import NavBar from "../navbar";
-import AddPhotosPage from "./add-photos-page";
 import PhotoList from "./photo-list";
-import CreateBreadCrumbs from "./creareBreadcrumbs";
-import Slider from "./slider";
 
 class Main extends Component {
   state = {
@@ -21,27 +14,28 @@ class Main extends Component {
     albumCovers: {},
     isExpanded: false
   };
+
   onExpandToggle = () => {
     this.setState(state => {
       return { isExpanded: !state.isExpanded };
     });
   };
+
   componentDidMount() {
     this._updateAlbums();
   }
 
   _updateAlbums = () => {
-    this.props.getAlbums().then(res => {
-      console.log(res);
+    const { getAlbums, getPhoto, getPhotosByAlbumId } = this.props;
+
+    getAlbums().then(res => {
       this.setState({ album: res.data.response });
-      console.log(this.state.album);
       const albums = this.state.album;
+
       for (let i = 0; i < albums.length; i++)
         if (albums[i].coverPhotoName)
-          this.props
-            .getPhoto(albums[i].coverPhotoName, true)
+          getPhoto(albums[i].coverPhotoName, true)
             .then(res => {
-              console.log(res);
               const newCover = { ...this.state.albumCovers };
               newCover[albums[i].albumId] = res.data.response;
               this.setState({ albumCovers: newCover });
@@ -53,10 +47,8 @@ class Main extends Component {
           this.setState({ albumCovers: newCover });
         }
     });
-    this.props
-      .getPhotosByAlbumId()
+    getPhotosByAlbumId()
       .then(res => {
-        console.log(res);
         this.setState({
           photoCount: res.data.response.length,
           photos: res.data.response
@@ -83,14 +75,14 @@ class Main extends Component {
   };
 
   render() {
-    const { album, isExpanded, photos, photoCount } = this.state;
+    const { album, isExpanded, photos, photoCount, albumCovers } = this.state;
     const breadCrumbs = [
       {
         text: `My albums ${album.length}`,
         link: "/albums/"
       }
     ];
-    console.log(this.state.albumCovers);
+
     return (
       <div>
         <AlbumNavigation
@@ -113,26 +105,6 @@ class Main extends Component {
           }
         />
         <div className="albums-container">
-          {/*<div className="albums-bar  left-right-bar">*/}
-          {/*  <DropArea*/}
-          {/*    id={"dnd"}*/}
-          {/*    title={"Upload photos"}*/}
-          {/*    onUpload={this.onUpload}*/}
-          {/*    accept={"image/*"}*/}
-          {/*  />*/}
-          {/*  <div className="albums-bar-left">*/}
-          {/*    <div className="albums-title">*/}
-          {/*      My albums <span className="albums-count">{album.length}</span>*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-          {/*  <div className="albums-bar-right">*/}
-
-          {/*    <div className="add-photos-button">*/}
-          {/*      <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos*/}
-          {/*      <label htmlFor={"dnd"} />*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-
           <div
             className={`albums-panel ${
               album.length > 5 ? "able-to-expanded" : ""
@@ -145,7 +117,7 @@ class Main extends Component {
                     <AlbumItem
                       key={e.albumId}
                       title={e.name}
-                      preview={this.state.albumCovers[e.albumId]}
+                      preview={albumCovers[e.albumId]}
                       id={e.albumId}
                       count={e.photoCount}
                       description={e.description}
@@ -158,7 +130,7 @@ class Main extends Component {
                           <AlbumItem
                             key={e.albumId}
                             title={e.name}
-                            preview={this.state.albumCovers[e.albumId]}
+                            preview={albumCovers[e.albumId]}
                             id={e.albumId}
                             count={e.photoCount}
                             description={e.description}
@@ -172,9 +144,7 @@ class Main extends Component {
                 <div className={"row"}>
                   <div className={"col-2 album-photo-empty"}>
                     <div className="ratio">
-                      <div className={"ratio__content"}>
-                        No albums found.
-                      </div>
+                      <div className={"ratio__content"}>No albums found.</div>
                     </div>
                   </div>
                 </div>
@@ -199,14 +169,6 @@ class Main extends Component {
         </div>
 
         <PhotoList onPhotoDeleted={this._updateAlbums} photos={photos} />
-        {/*<div className="added-photos-container">*/}
-        {/*  <div className="added-photos-bar left-right-bar">*/}
-        {/*    <div className="added-photos-bar-left">*/}
-        {/*      <div className="added-photos-title">Added photos</div>*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*  <div className="added-photos-panel panel" />*/}
-        {/*</div>*/}
       </div>
     );
   }

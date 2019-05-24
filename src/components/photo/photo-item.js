@@ -7,7 +7,6 @@ import Modal from "../modal";
 
 class PhotoItem extends Component {
   onOpen = (currPhoto, photos, index) => {
-    console.log(photos);
     this.props.history.push(`photo/${currPhoto.name}`, {
       modal: true,
       photos: photos.reduce((acc, el) => {
@@ -18,8 +17,9 @@ class PhotoItem extends Component {
       index
     });
   };
+
   onPhotoDelete = name => {
-    const { deletePhoto, history } = this.props;
+    const { deletePhoto } = this.props;
     deletePhoto(name)
       .then()
       .catch()
@@ -34,13 +34,14 @@ class PhotoItem extends Component {
       isSelecting,
       onSelect,
       onCloseModal,
-      isEditing,
-      onDelete
+      isEditing
     } = this.props;
+
     const style = {
       backgroundImage: `url(${photo.image})`,
       borderRadius: `${!isEditing ? "5px 5px 5px 5px" : "5px 5px 0 0"} `
     };
+
     return (
       <div className="col-2 album-photo">
         {isSelecting ? null : (

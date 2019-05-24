@@ -9,6 +9,7 @@ class ModalCreateAlbumForm extends Component {
     description: "",
     titleValid: true
   };
+
   onSubmit = e => {
     e.preventDefault();
     const { title, description } = this.state;

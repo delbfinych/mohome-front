@@ -1,12 +1,15 @@
 import React from "react";
-import { Dropdown } from "react-bootstrap";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 
 const RightNavBar = () => {
   const token = Cookies.get("id_token");
-  let payload = token.split(".")[1];
-  let username = JSON.parse(atob(payload));
+  let payload = "";
+  let username = "";
+  if (token) {
+    payload = token.split(".")[1];
+    username = JSON.parse(atob(payload)).Name;
+  }
   return (
     <div className="navbar__right">
       <button
@@ -16,7 +19,7 @@ const RightNavBar = () => {
         aria-haspopup="true"
         aria-expanded="false"
       >
-        {username.Name}
+        {username}
         <div className="nav-avatar" />
       </button>
       <div className="dropdown-menu dropdown-menu-right">

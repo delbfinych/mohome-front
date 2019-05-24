@@ -1,5 +1,5 @@
 import placeholder from "../../img/image_big.png";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import React from "react";
 
 const AlbumItem = ({ title, count, preview, id, history }) => {

@@ -1,24 +1,27 @@
 import React, { Component } from "react";
 import NavBar from "../navbar";
 import Home from "../home";
-import Slider from "../photo/slider";
-import MainPhotoPage from "../photo";
-import SinglePhotoPage from "../photo/single-photo-page";
-import AlbumsPageContainer from "../photo/albums-page-container";
+
+import {
+  MainPhotoPage,
+  Slider,
+  AddPhotosPage,
+  AlbumPage,
+  AlbumsPageContainer,
+  EditAlbumPage,
+  SinglePhotoPage
+} from "../photo";
+
 import Video from "../video";
 import Music from "../music";
-import EditAlbumPage from "../photo/edit-album-page";
+
 import NotFoundPage from "../not-found-page";
 import SignInPage from "../sign-in-page";
 import SignUpPage from "../sign-up-page";
 import Cookies from "js-cookie";
-import AddPhotosPage from "../photo/add-photos-page";
-import Main from "../photo/main";
-import AlbumPage from "../photo/album-page";
-import { Route, Switch, withRouter, Redirect } from "react-router-dom";
-import "./app.css";
 
-// TODO: ПОчинить логаут
+import { Route, Switch, Redirect } from "react-router-dom";
+import "./app.css";
 
 export default class App extends Component {
   shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -48,7 +51,6 @@ export default class App extends Component {
       location.state.modal &&
       this.previousLocation !== location
     );
-    console.log(isModal);
     return (
       <div>
         <Switch location={isModal ? this.previousLocation : location}>
@@ -74,7 +76,7 @@ export default class App extends Component {
                 <React.Fragment>
                   <NavBar />
                   <AlbumsPageContainer>
-                    <Main history={history} />
+                    <MainPhotoPage history={history} />
                   </AlbumsPageContainer>
                 </React.Fragment>
               ) : (

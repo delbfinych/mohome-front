@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import AlbumNavigation from "./album-navigation";
-import CreateBreadCrumbs from "./creareBreadcrumbs";
 import { withApiService } from "../hoc";
-import placeholder from "../../img/image_big.png";
-import PhotoItem from "./photo-item";
 import PhotoList from "./photo-list";
 
 class AlbumPage extends Component {
@@ -21,16 +18,11 @@ class AlbumPage extends Component {
   componentWillUnmount() {
     this._isMounted = false;
   }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(prevState, prevProps);
-    console.log(this.state, this.props);
-  }
 
   _updateAlbum = () => {
-    this.props
-      .getPhotosByAlbumId(this.props.albumId)
+    const { getPhotosByAlbumId, getAlbumInfo, albumId } = this.props;
+    getPhotosByAlbumId(albumId)
       .then(res => {
-        console.log(res);
         if (this._isMounted)
           this.setState({
             albumInfo: res.data.response,
@@ -39,11 +31,10 @@ class AlbumPage extends Component {
           });
       })
       .catch(err => console.log(err));
-    this.props
-      .getAlbumInfo(this.props.albumId)
+
+    getAlbumInfo(albumId)
       .then(res => {
         const { name, description } = res.data.response;
-        console.log(res);
         if (this._isMounted)
           this.setState({ albumTitle: name, description: description });
       })
@@ -63,7 +54,7 @@ class AlbumPage extends Component {
         },
         {
           text: `${this.state.albumTitle}`,
-          link: `/albums/${this.props.albumId}/`
+          link: `/albums/${albumId}/`
         },
         {
           text: "Add photos"

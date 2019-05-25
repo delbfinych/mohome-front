@@ -4,7 +4,6 @@ import PhotoEditor from "./photo-editor";
 import { withApiService } from "../hoc";
 
 class PhotoList extends React.PureComponent {
-
   state = {
     photos: []
   };
@@ -68,7 +67,8 @@ class PhotoList extends React.PureComponent {
       isSelecting = false,
       onSelect,
       onCloseModal,
-      photos: photosLinks
+      photos: photosLinks,
+      albumId
     } = this.props;
 
     const { photos } = this.state;
@@ -90,6 +90,7 @@ class PhotoList extends React.PureComponent {
                       photos={photosLinks}
                       isEditing={isEditing}
                       onDelete={this.onPhotoDelete}
+                      albumId={albumId}
                     >
                       {isEditing ? (
                         <PhotoEditor
@@ -108,7 +109,9 @@ class PhotoList extends React.PureComponent {
               <div className={"row"}>
                 <div className={"col-2 album-photo-empty"}>
                   <div className="ratio">
-                    <div className={"ratio__content"}>No photos found.</div>
+                    <div className={"ratio__content"}>
+                      No photos here yet...
+                    </div>
                   </div>
                 </div>
               </div>

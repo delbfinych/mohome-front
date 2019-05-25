@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withApiService } from "../hoc";
 import Spinner from "../spinner";
+import { Link } from "react-router-dom";
 
 class SinglePhotoPage extends Component {
   state = {
@@ -35,23 +36,21 @@ class SinglePhotoPage extends Component {
 
   render() {
     const { photo, isLoading, notFound } = this.state;
-    const { albumId, history, photoName } = this.props;
-    const redirectLink = albumId ? `/albums/${albumId}/` : `/albums/`;
+    const { albumId, photoName } = this.props;
 
     return (
       <div className={"single-photo-page-wrap"}>
         <div className="single-photo-wrap__btns">
-          <div
-            className={`single-photo-page-wrap-btn`}
-            onClick={() => history.push(redirectLink)}
-          >
-            {albumId ? `Go to ${albumId} album` : `Go to albums page`}
+          <div className={`single-photo-page-wrap-btn`}>
+            <Link to={"/albums/"}>albums</Link>
+            <span>/</span>
+            <Link to={`/albums/${albumId}/`}>{albumId}</Link>
           </div>
           <div
             className={`single-photo-page-wrap-btn`}
             onClick={() => this.onPhotoDelete(photoName)}
           >
-            Delete photo
+            <span>Delete photo</span>
           </div>
         </div>
         {isLoading && <Spinner />}

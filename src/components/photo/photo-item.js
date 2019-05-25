@@ -6,20 +6,20 @@ import { ConfirmingForm } from "../forms";
 import Modal from "../modal";
 
 class PhotoItem extends Component {
-  onOpen = (currPhoto, photos, index) => {
-    this.props.history.push(`photo/${currPhoto.name}`, {
+  onOpen = (currPhoto, photos, index, albumId) => {
+    const { history } = this.props;
+
+    history.push(`photo/${currPhoto.name}`, {
       modal: true,
-      photos: photos.reduce((acc, el) => {
-        acc.push(el.name);
-        return acc;
-      }, []),
       currentName: currPhoto.name,
-      index
+      index,
+      albumId
     });
   };
 
   onPhotoDelete = name => {
     const { deletePhoto } = this.props;
+
     deletePhoto(name)
       .then()
       .catch()
@@ -34,7 +34,8 @@ class PhotoItem extends Component {
       isSelecting,
       onSelect,
       onCloseModal,
-      isEditing
+      isEditing,
+      albumId
     } = this.props;
 
     const style = {
@@ -64,7 +65,7 @@ class PhotoItem extends Component {
                 onSelect(photo.name);
                 onCloseModal();
               } else {
-                this.onOpen(photo, photos, index);
+                this.onOpen(photo, photos, index, albumId);
               }
             }}
             className={`ratio__content album-photo-item`}

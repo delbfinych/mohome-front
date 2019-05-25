@@ -213,7 +213,7 @@ html {
 .single-photo-page-wrap img {
   max-height: 90%;
 }
-.single-photo-page-wrap-btn {
+.single-photo-page-wrap-btn * {
   cursor: pointer;
   font-size: 20px;
   color: blue;

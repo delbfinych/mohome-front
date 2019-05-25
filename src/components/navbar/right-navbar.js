@@ -8,7 +8,7 @@ const RightNavBar = () => {
   let username = "";
   if (token) {
     payload = token.split(".")[1];
-    username = JSON.parse(atob(payload)).Name;
+    username = payload ? JSON.parse(atob(payload)).Name : "";
   }
   return (
     <div className="navbar__right">
@@ -43,15 +43,9 @@ const RightNavBar = () => {
           to={"/sign-in"}
           className="dropdown-item"
         >
-          Log out
+          Sign out
         </Link>
       </div>
-      {/*<li className="nav-item">*/}
-      {/*    <div className="profile nav-link">*/}
-      {/*        <div className="profile-img rounded-circle mr-2"></div>*/}
-      {/*        <i className="zmdi zmdi-chevron-down zmdi-hc-lg"> </i>*/}
-      {/*    </div>*/}
-      {/*</li>*/}
     </div>
   );
 };

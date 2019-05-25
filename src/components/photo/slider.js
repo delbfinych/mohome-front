@@ -13,18 +13,31 @@ class Slider extends Component {
     currentItem: {},
     currentIndex: 0,
     currentName: "",
-    isLoading: false
+    isLoading: false,
+    albumId: null
   };
 
   componentDidMount() {
-    const { photos, currentName, index } = this.props.location.state;
+    const { photos, currentName, index, albumId } = this.props.location.state;
     this.setState(
       {
         photos,
         currentIndex: index,
-        currentName
+        currentName,
+        albumId
       },
-      this._updateSlide
+      async () => {
+        await this.props
+          .getPhotosByAlbumId()
+          .then(res => {
+            this.setState({
+              photoCount: res.data.response.length,
+              photos: res.data.response
+            });
+          })
+          .catch(err => console.log(err));
+        this._updateSlide();
+      }
     );
 
     window.addEventListener("keyup", this.handleArrowClick);
@@ -187,7 +200,8 @@ function beautifyDate(date) {
 const mapMethodToProps = service => {
   return {
     getPhoto: service.getPhoto,
-    deletePhoto: service.deletePhoto
+    deletePhoto: service.deletePhoto,
+    getPhotosByAlbumId: service.getPhotosByAlbumId
   };
 };
 

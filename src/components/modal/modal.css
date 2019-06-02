@@ -43,3 +43,7 @@
     margin: 0;
   }
 }
+.edit-album-modal .modal-body {
+  max-height: 300px;
+  overflow: auto;
+}

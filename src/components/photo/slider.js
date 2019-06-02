@@ -18,17 +18,17 @@ class Slider extends Component {
   };
 
   componentDidMount() {
-    const { photos, currentName, index, albumId } = this.props.location.state;
+    const { currentName, index, albumId } = this.props.location.state;
     this.setState(
       {
-        photos,
         currentIndex: index,
         currentName,
         albumId
       },
       async () => {
+        console.log(albumId);
         await this.props
-          .getPhotosByAlbumId()
+          .getPhotosByAlbumId(albumId)
           .then(res => {
             this.setState({
               photoCount: res.data.response.length,
@@ -90,11 +90,11 @@ class Slider extends Component {
       this.setState(() => {
         return { isAllowedClick: false };
       });
-      this.props.history.replace(`${photos[newIndex]}`, {
+      this.props.history.replace(`${photos[newIndex].name}`, {
         modal: true,
         photos,
         index: newIndex,
-        currentName: photos[newIndex]
+        currentName: photos[newIndex].name
       });
     }
   };
@@ -110,11 +110,11 @@ class Slider extends Component {
       this.setState(() => {
         return { isAllowedClick: false };
       });
-      this.props.history.replace(`${photos[newIndex]}`, {
+      this.props.history.replace(`${photos[newIndex].name}`, {
         modal: true,
         photos,
         index: newIndex,
-        currentName: photos[newIndex]
+        currentName: photos[newIndex].name
       });
     }
   };
@@ -133,7 +133,7 @@ class Slider extends Component {
     const { currentIndex, photos, currentItem, isLoading } = this.state;
     const description = currentItem ? currentItem.description : null;
     const created = currentItem ? currentItem.created : null;
-    const name = photos[currentIndex];
+    const name = photos.length ? photos[currentIndex].name : null;
 
     return (
       <div className={"slider-wrapper"}>

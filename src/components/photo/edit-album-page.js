@@ -134,7 +134,9 @@ class EditAlbumPage extends Component {
 
         <div className={"edit-album-wrap"}>
           <div className={"edit-album-wrap__cover"}>
-            <div className={"edit-album_wrap__label"}>Use as album cover</div>
+            <div className={"edit-album_wrap__label"}>
+              Use as album cover
+            </div>
             <div
               className={`edit-album-wrap__image`}
               style={{
@@ -143,7 +145,10 @@ class EditAlbumPage extends Component {
                 })`
               }}
             >
-              <Modal title={`Choose a cover for the album «${title}»`}>
+              <Modal
+                className={"edit-album-modal"}
+                title={`Choose a cover for the album «${title}»`}
+              >
                 <div className="edit-album-cover-trigger">
                   <div className={"delete-album"}>
                     <span>
@@ -170,7 +175,9 @@ class EditAlbumPage extends Component {
                 <label htmlFor="title">Title</label>
                 <input
                   id={"title"}
-                  className={`form-control ${titleValid ? "" : "is-invalid"}`}
+                  className={`form-control ${
+                    titleValid ? "" : "is-invalid"
+                  }`}
                   onChange={e => this.onChange(e, "title")}
                   value={title}
                   type={"text"}

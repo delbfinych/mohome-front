@@ -105,7 +105,8 @@ export default class MohomeApiService {
     );
   };
 
-  getPhotosByAlbumId = async (id = "") => {
+  getPhotosByAlbumId = async id => {
+    if (!id) id = "";
     await this._updateToken();
     return axios.get(this._apiBase + "/Photos?albumId=" + id, {
       headers: {

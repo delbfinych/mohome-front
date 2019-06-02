@@ -43,8 +43,12 @@ class SinglePhotoPage extends Component {
         <div className="single-photo-wrap__btns">
           <div className={`single-photo-page-wrap-btn`}>
             <Link to={"/albums/"}>albums</Link>
-            <span>/</span>
-            <Link to={`/albums/${albumId}/`}>{albumId}</Link>
+            {albumId && (
+              <>
+                <span>/</span>
+                <Link to={`/albums/${albumId}/`}>{albumId}</Link>
+              </>
+            )}
           </div>
           <div
             className={`single-photo-page-wrap-btn`}

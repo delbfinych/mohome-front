@@ -14,7 +14,7 @@ class ModalComponent extends Component {
   };
 
   render() {
-    const { children, title } = this.props;
+    const { children, title, className } = this.props;
     const trigger = React.cloneElement(children[0], {
       onClick: this.handleShow
     });
@@ -24,7 +24,12 @@ class ModalComponent extends Component {
     return (
       <React.Fragment>
         {trigger}
-        <Modal centered show={this.state.show} onHide={this.handleClose}>
+        <Modal
+          dialogClassName={className}
+          centered
+          show={this.state.show}
+          onHide={this.handleClose}
+        >
           <Modal.Header>
             <Modal.Title>{title}</Modal.Title>
             <div onClick={this.handleClose} className="modal-close">

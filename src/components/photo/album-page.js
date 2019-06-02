@@ -63,6 +63,7 @@ class AlbumPage extends Component {
     });
   };
   render() {
+    const { albumId } = this.props;
     const { photos, photoCount, albumTitle, description } = this.state;
     const breadCrumbs = [
       {
@@ -93,7 +94,11 @@ class AlbumPage extends Component {
             {photoCount} photos
           </div>
         </div>
-        <PhotoList onPhotoDeleted={this._updateAlbum} photos={photos} />
+        <PhotoList
+          albumId={albumId}
+          onPhotoDeleted={this._updateAlbum}
+          photos={photos}
+        />
       </div>
     );
   }

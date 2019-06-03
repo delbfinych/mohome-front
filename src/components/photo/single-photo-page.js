@@ -40,7 +40,6 @@ class SinglePhotoPage extends Component {
 
     return (
       <div className={"single-photo-page-wrap"}>
-        {isLoading && <Spinner />}
         {notFound ? (
           <div className={"centered-block"}>Not found</div>
         ) : (
@@ -65,6 +64,7 @@ class SinglePhotoPage extends Component {
             <img src={photo} alt="" />
           </>
         )}
+        {isLoading && <Spinner />}
       </div>
     );
   }

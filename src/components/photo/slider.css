@@ -21,11 +21,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  max-height: 96vh;
+  max-height: 88vh;
   width: auto;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 40%;
+  transform: translate(-50%, -40%);
   z-index: 1000;
   color: white;
 }
@@ -57,6 +57,10 @@
 .slider-close:hover {
   background-color: rgba(0, 0, 0, 0.2);
   color: rgba(255, 255, 255, 1);
+}
+.slider-arrow,
+.slider-close {
+  transition: all 0.2s;
 }
 .slider-arrow {
   z-index: 5000;
@@ -116,4 +120,7 @@
   border: none;
   color: white;
   text-align: center;
+}
+.slide-edit-input::placeholder {
+  color: white;
 }

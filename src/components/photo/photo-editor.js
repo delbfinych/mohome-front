@@ -14,8 +14,7 @@ class PhotoEditor extends Component {
 
   componentDidUpdate(prevProps) {
     const { description } = this.props;
-    if (description !== prevProps.description && description)
-      this.setState({ description });
+    if (description !== prevProps.description) this.setState({ description });
   }
 
   onChange = e => {

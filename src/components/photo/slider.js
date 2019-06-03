@@ -26,7 +26,6 @@ class Slider extends Component {
         albumId
       },
       async () => {
-        console.log(albumId);
         await this.props
           .getPhotosByAlbumId(albumId)
           .then(res => {
@@ -130,11 +129,16 @@ class Slider extends Component {
 
   render() {
     const { history } = this.props;
-    const { currentIndex, photos, currentItem, isLoading } = this.state;
-    const description = currentItem ? currentItem.description : null;
+    const {
+      currentIndex,
+      photos,
+      currentItem,
+      isLoading,
+      isAllowedClick
+    } = this.state;
+    const description = currentItem.description || "";
     const created = currentItem ? currentItem.created : null;
     const name = photos.length ? photos[currentIndex].name : null;
-
     return (
       <div className={"slider-wrapper"}>
         <div onClick={history.goBack} className="slider-overlay " />
@@ -166,7 +170,8 @@ class Slider extends Component {
             alt=""
           />
         )}
-        {description ? (
+
+        {isAllowedClick && (
           <div className="slider-photo-description">
             <PhotoEditor
               className={"slide-edit-input"}
@@ -174,7 +179,8 @@ class Slider extends Component {
               description={description}
             />
           </div>
-        ) : null}
+        )}
+
         {created ? (
           <div className="slider-photo-created">{beautifyDate(created)}</div>
         ) : null}

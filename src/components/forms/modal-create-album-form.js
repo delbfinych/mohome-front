@@ -3,6 +3,7 @@ import { withApiService } from "../hoc";
 import "./modal-create-album-form.css";
 import { withRouter } from "react-router-dom";
 import compose from "../../utils/compose";
+
 class ModalCreateAlbumForm extends Component {
   state = {
     title: "",
@@ -36,6 +37,7 @@ class ModalCreateAlbumForm extends Component {
       [type]: e.target.value
     });
   }
+
   render() {
     const { title, description, titleValid } = this.state;
     return (

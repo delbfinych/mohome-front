@@ -40,25 +40,31 @@ class SinglePhotoPage extends Component {
 
     return (
       <div className={"single-photo-page-wrap"}>
-        <div className="single-photo-wrap__btns">
-          <div className={`single-photo-page-wrap-btn`}>
-            <Link to={"/albums/"}>albums</Link>
-            {albumId && (
-              <>
-                <span>/</span>
-                <Link to={`/albums/${albumId}/`}>{albumId}</Link>
-              </>
-            )}
-          </div>
-          <div
-            className={`single-photo-page-wrap-btn`}
-            onClick={() => this.onPhotoDelete(photoName)}
-          >
-            <span>Delete photo</span>
-          </div>
-        </div>
         {isLoading && <Spinner />}
-        {notFound ? <div>Not found</div> : <img src={photo} alt="" />}
+        {notFound ? (
+          <div className={"centered-block"}>Not found</div>
+        ) : (
+          <>
+            <div className="single-photo-wrap__btns">
+              <div className={`single-photo-page-wrap-btn`}>
+                <Link to={"/albums/"}>albums</Link>
+                {albumId && (
+                  <>
+                    <span>/</span>
+                    <Link to={`/albums/${albumId}/`}>{albumId}</Link>
+                  </>
+                )}
+              </div>
+              <div
+                className={`single-photo-page-wrap-btn`}
+                onClick={() => this.onPhotoDelete(photoName)}
+              >
+                <span>Delete photo</span>
+              </div>
+            </div>
+            <img src={photo} alt="" />
+          </>
+        )}
       </div>
     );
   }

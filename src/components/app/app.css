@@ -127,3 +127,9 @@ input.form-control {
   font-size: 21px;
   color: #656c7f;
 }
+.centered-block {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

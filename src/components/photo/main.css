@@ -206,7 +206,6 @@ html {
 .single-photo-page-wrap {
   height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
 }
@@ -219,10 +218,9 @@ html {
   color: blue;
 }
 .single-photo-wrap__btns {
-  position: absolute;
-  top: 0;
   width: 25%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 .delete-album {

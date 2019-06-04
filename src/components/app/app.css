@@ -133,3 +133,6 @@ input.form-control {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.albums-container {
+  margin: 20px 0;
+}

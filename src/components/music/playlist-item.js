@@ -26,7 +26,7 @@ const PlaylistItem = ({ title, count, preview, id, history }) => {
         <i className="zmdi zmdi-edit" />
       </div>
 
-      <div className="ratio ">
+      <div className="ratio ratio1x1">
         <div
           style={style}
           className={`ratio__content playlist__item  ${

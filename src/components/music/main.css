@@ -1,5 +1,9 @@
 .playlist-info {
-  word-break: break-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  color: #959595;
 }
 .playlist__play {
   z-index: 11;
@@ -41,4 +45,7 @@
 .playlist:hover .playlist__count {
   opacity: 0.9;
   color: white;
+}
+.ratio1x1 {
+  padding-top: 100%;
 }

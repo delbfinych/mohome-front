@@ -53,6 +53,7 @@ class Slider extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("asds");
     const { photos, currentName, index } = this.props.location.state;
     if (currentName !== prevProps.location.state.currentName) {
       this.setState(() => {

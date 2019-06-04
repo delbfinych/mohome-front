@@ -8,8 +8,7 @@ html {
 }
 .left-right-bar {
   color: #4582ec;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  margin: 20px 0;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;

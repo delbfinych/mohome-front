@@ -3,7 +3,7 @@ import CryptoJs from "crypto-js";
 import Cookies from "js-cookie";
 export default class MohomeApiService {
   _apiBase = "http://mohome.ml/Api/v1";
-  // _apiBase = "http://localhost/Api";
+
   signIn = async body => {
     body.PasswordHash = CryptoJs.SHA256(body.PasswordHash).toString(
       CryptoJs.enc.Hex

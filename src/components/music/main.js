@@ -84,7 +84,7 @@ class Main extends Component {
                       title={e.name}
                       preview={albumCovers[e.albumId]}
                       id={e.playlistId}
-                      count={e.photoCount}
+                      count={e.musicCount}
                       description={e.description}
                     />
                   ))}
@@ -97,7 +97,7 @@ class Main extends Component {
                             title={e.name}
                             preview={albumCovers[e.albumId]}
                             id={e.playlistId}
-                            count={e.photoCount}
+                            count={e.musicCount}
                             description={e.description}
                           />
                         ))

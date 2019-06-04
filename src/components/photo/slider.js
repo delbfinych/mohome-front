@@ -150,7 +150,7 @@ class Slider extends Component {
     const name = photos.length ? photos[currentIndex].name : null;
     const idleClassName = isIdle ? "idle" : "";
     return (
-      <div className={"slider-wrapper"}>
+      <div className={`slider-wrapper ${isIdle ? "nocursor" : ""}`}>
         <div onClick={history.goBack} className="slider-overlay" />
         <div
           className={`slider-arrow slider-arrow__left ${idleClassName}`}

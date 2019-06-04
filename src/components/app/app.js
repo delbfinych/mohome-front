@@ -13,7 +13,7 @@ import {
 } from "../photo";
 
 import Video from "../video";
-import Music from "../music";
+import { MainMusicPage } from "../music";
 
 import NotFoundPage from "../not-found-page";
 import SignInPage from "../sign-in-page";
@@ -215,7 +215,9 @@ export default class App extends Component {
               return Cookies.get("id_token") ? (
                 <React.Fragment>
                   <NavBar />
-                  <Music />
+                  <AlbumsPageContainer>
+                    <MainMusicPage />
+                  </AlbumsPageContainer>
                 </React.Fragment>
               ) : (
                 <Redirect to={"/sign-in"} />

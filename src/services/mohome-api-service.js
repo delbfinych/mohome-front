@@ -9,18 +9,24 @@ export default class MohomeApiService {
       CryptoJs.enc.Hex
     );
     return axios.post(this._apiBase + "/Token/signin", JSON.stringify(body), {
-      headers: { "Content-Type": "application/json" }
+      headers: {
+        "Content-Type": "application/json"
+      }
     });
   };
   signUp = async body => {
     body.password = CryptoJs.SHA256(body.password).toString(CryptoJs.enc.Hex);
     return axios.post(this._apiBase + "/Token/signup", JSON.stringify(body), {
-      headers: { "Content-Type": "application/json" }
+      headers: {
+        "Content-Type": "application/json"
+      }
     });
   };
   validateUser = async email => {
     return axios.get(this._apiBase + "/users?email=" + email, {
-      headers: { "Content-Type": "application/json" }
+      headers: {
+        "Content-Type": "application/json"
+      }
     });
   };
   getAlbums = async () => {
@@ -124,6 +130,27 @@ export default class MohomeApiService {
       }
     });
   };
+
+  getPlaylists = async () => {
+    await this._updateToken();
+    return axios.get(this._apiBase + "/Playlists", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Cookies.get("id_token")
+      }
+    });
+  };
+
+  createPlaylist = async body => {
+    await this._updateToken();
+    return axios.post(this._apiBase + "/Playlists", JSON.stringify(body), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Cookies.get("id_token")
+      }
+    });
+  };
+
   // Сделать автоматический запуск функции раз в 55 минут
   _updateToken = async () => {
     if (Date.now() >= (Cookies.get("expiresIn") - 60) * 1000) {
@@ -132,12 +159,20 @@ export default class MohomeApiService {
       axios
         .post(
           this._apiBase + "/Token/refresh",
-          JSON.stringify({ refreshToken: Cookies.get("refreshToken") }),
-          { headers: { "Content-Type": "application/json" } }
+          JSON.stringify({
+            refreshToken: Cookies.get("refreshToken")
+          }),
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
         )
         .then(res => {
           console.log(res);
-          Cookies.remove("refreshToken", { path: "/" });
+          Cookies.remove("refreshToken", {
+            path: "/"
+          });
           Cookies.set("id_token", res.data.response.accessToken, { path: "/" });
           Cookies.set("expiresIn", res.data.response.expiresIn, { path: "/" });
           Cookies.set("refreshToken", res.data.response.refreshToken, {

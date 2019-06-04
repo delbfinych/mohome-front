@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import placeholder from "../../img/image_big.png";
+import placeholder from "../../img/photo_placeholder.png";
 import AlbumNavigation from "./album-navigation";
 import { withApiService } from "../hoc";
 import PhotoList from "./photo-list";
@@ -134,9 +134,7 @@ class EditAlbumPage extends Component {
 
         <div className={"edit-album-wrap"}>
           <div className={"edit-album-wrap__cover"}>
-            <div className={"edit-album_wrap__label"}>
-              Use as album cover
-            </div>
+            <div className={"edit-album_wrap__label"}>Use as album cover</div>
             <div
               className={`edit-album-wrap__image`}
               style={{
@@ -175,9 +173,7 @@ class EditAlbumPage extends Component {
                 <label htmlFor="title">Title</label>
                 <input
                   id={"title"}
-                  className={`form-control ${
-                    titleValid ? "" : "is-invalid"
-                  }`}
+                  className={`form-control ${titleValid ? "" : "is-invalid"}`}
                   onChange={e => this.onChange(e, "title")}
                   value={title}
                   type={"text"}

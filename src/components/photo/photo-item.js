@@ -44,7 +44,7 @@ class PhotoItem extends Component {
     };
 
     return (
-      <div className="col-2 album-photo">
+      <div className="col-2 album">
         {isSelecting ? null : (
           <Modal title={"Delete photo"}>
             <div className={"album-change"}>

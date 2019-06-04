@@ -1,3 +1,3 @@
-import Music from './music.js';
+import MainMusicPage from "./main.js";
 
-export default Music;
+export { MainMusicPage };

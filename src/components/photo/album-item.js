@@ -1,4 +1,4 @@
-import placeholder from "../../img/image_big.png";
+import placeholder from "../../img/photo_placeholder.png";
 import { withRouter } from "react-router-dom";
 import React from "react";
 
@@ -12,7 +12,7 @@ const AlbumItem = ({ title, count, preview, id, history }) => {
   };
 
   return (
-    <div onClick={() => history.push(`${id}/`)} className="col-2 album-photo">
+    <div onClick={() => history.push(`${id}/`)} className="col-2 album">
       <div
         onClick={e => {
           e.stopPropagation();

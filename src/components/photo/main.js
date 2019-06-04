@@ -29,6 +29,7 @@ class Main extends Component {
     const { getAlbums, getPhoto, getPhotosByAlbumId } = this.props;
 
     getAlbums().then(res => {
+      console.log(res.data.response);
       this.setState({ album: res.data.response });
       const albums = this.state.album;
 
@@ -95,7 +96,11 @@ class Main extends Component {
                   <i className="zmdi zmdi-collection-folder-image zmdi-hc-lg" />{" "}
                   New album
                 </div>
-                <CreateAlbumForm onUpdateAlbum={this._updateAlbums} />
+                <CreateAlbumForm
+                  submitBtnTitle={"Create album"}
+                  createAlbum={this.props.createAlbum}
+                  onUpdateAlbum={this._updateAlbums}
+                />
               </Modal>
               <div className="add-photos-button">
                 <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
@@ -143,12 +148,9 @@ class Main extends Component {
               <div className={"container"}>
                 <div className={"row"}>
                   <div className={"col-2 album-photo-empty"}>
-                    <div className="ratio">
-                      <div className={"ratio__content"}>
-                        No albums here yet...
-                      </div>
-                    </div>
+                    <div className="ratio" />
                   </div>
+                  <div className={"centered-block"}>No albums here yet...</div>
                 </div>
               </div>
             )}
@@ -183,6 +185,7 @@ class Main extends Component {
 const mapMethodToProps = service => {
   return {
     getAlbums: service.getAlbums,
+    createAlbum: service.createAlbum,
     getPhoto: service.getPhoto,
     uploadPhoto: service.uploadPhoto,
     getPhotosByAlbumId: service.getPhotosByAlbumId,

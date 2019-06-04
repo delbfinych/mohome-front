@@ -20,7 +20,7 @@ class ModalCreateAlbumForm extends Component {
       this.setState({
         title: ""
       });
-      this.props.createAlbum({ albumName: title, description }).then(res => {
+      this.props.createAlbum({ name: title, description }).then(res => {
         history.push(`${res.data.response.albumId}`);
         onUpdateAlbum();
       });
@@ -40,6 +40,8 @@ class ModalCreateAlbumForm extends Component {
 
   render() {
     const { title, description, titleValid } = this.state;
+    const { submitBtnTitle } = this.props;
+
     return (
       <form className={"form"} onSubmit={this.onSubmit}>
         <div className="form-group">
@@ -69,7 +71,7 @@ class ModalCreateAlbumForm extends Component {
           }}
         >
           <button className={"ok-btn"} type={"submit"}>
-            Create album
+            {submitBtnTitle}
           </button>
           <button className={"cancel-btn"} onClick={this.props.onCloseModal}>
             Cancel
@@ -80,13 +82,4 @@ class ModalCreateAlbumForm extends Component {
   }
 }
 
-const mapMethodToProps = service => {
-  return {
-    createAlbum: service.createAlbum
-  };
-};
-
-export default compose(
-  withApiService(mapMethodToProps),
-  withRouter
-)(ModalCreateAlbumForm);
+export default compose(withRouter)(ModalCreateAlbumForm);

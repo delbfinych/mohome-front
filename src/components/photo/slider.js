@@ -218,21 +218,12 @@ class Slider extends Component {
                 onConfirm={() => this.onPhotoDelete(name)}
               />
             </Modal>
-
-            <div
-              onClick={() => {
-                var url = `data:${currentItem.imageType};base64,${
-                  currentItem.image
-                }`.replace(
-                  /^data:image\/[^;]+/,
-                  "data:application/octet-stream"
-                );
-                window.open(url);
-              }}
-              className={"dropdown-item"}
+            <a
+              href={`data:${currentItem.imageType};base64,${currentItem.image}`}
+              download={currentName}
             >
-              Save as...
-            </div>
+              <div className={"dropdown-item"}>Save as...</div>
+            </a>
           </div>
         </div>
       </div>

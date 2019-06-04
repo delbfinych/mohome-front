@@ -4,6 +4,7 @@ import { withApiService } from "../hoc";
 import { ConfirmingForm } from "../forms";
 import Modal from "../modal";
 import Spinner from "../spinner";
+import { Idle } from "../../utils";
 
 import "./slider.css";
 
@@ -14,7 +15,8 @@ class Slider extends Component {
     currentIndex: 0,
     currentName: "",
     isLoading: false,
-    albumId: null
+    albumId: null,
+    isIdle: false
   };
 
   componentDidMount() {
@@ -38,7 +40,11 @@ class Slider extends Component {
         this._updateSlide();
       }
     );
-
+    this.idle = new Idle(
+      2,
+      () => this.setState({ isIdle: true }),
+      () => this.setState({ isIdle: false })
+    );
     window.addEventListener("keyup", this.handleArrowClick);
   }
 
@@ -134,27 +140,34 @@ class Slider extends Component {
       photos,
       currentItem,
       isLoading,
-      isAllowedClick
+      isAllowedClick,
+      currentName,
+      isIdle
     } = this.state;
+    console.log(currentItem);
     const description = currentItem.description || "";
     const created = currentItem ? currentItem.created : null;
     const name = photos.length ? photos[currentIndex].name : null;
+    const idleClassName = isIdle ? "idle" : "";
     return (
       <div className={"slider-wrapper"}>
-        <div onClick={history.goBack} className="slider-overlay " />
+        <div onClick={history.goBack} className="slider-overlay" />
         <div
-          className="slider-arrow slider-arrow__left"
+          className={`slider-arrow slider-arrow__left ${idleClassName}`}
           onClick={() => this.goToPrevSlide()}
         >
           <i className="zmdi zmdi-chevron-left" />
         </div>
         <div
-          className="slider-arrow slider-arrow__right"
+          className={`slider-arrow slider-arrow__right ${idleClassName}`}
           onClick={this.goToNextSlide}
         >
           <i className="zmdi zmdi-chevron-right" />
         </div>
-        <button className={"slider-close"} onClick={history.goBack}>
+        <button
+          className={`slider-close  ${idleClassName}`}
+          onClick={history.goBack}
+        >
           <i className={"zmdi zmdi-close"} />
         </button>
         {isLoading ? (
@@ -172,7 +185,7 @@ class Slider extends Component {
         )}
 
         {isAllowedClick && (
-          <div className="slider-photo-description">
+          <div className={`slider-photo-description  ${idleClassName}`}>
             <PhotoEditor
               className={"slide-edit-input"}
               photoName={name}
@@ -182,23 +195,51 @@ class Slider extends Component {
         )}
 
         {created ? (
-          <div className="slider-photo-created">{beautifyDate(created)}</div>
+          <div className={`slider-photo-created  ${idleClassName}`}>
+            {beautifyDate(created)}
+          </div>
         ) : null}
-        <div className="slider-photo-countOfPhoto">{`Photo ${currentIndex +
-          1} of ${photos.length}`}</div>
+        <div
+          className={`slider-photo-countOfPhoto  ${idleClassName}`}
+        >{`Photo ${currentIndex + 1} of ${photos.length}`}</div>
+        <div className="dropdown">
+          <button
+            type="button"
+            className={`dropdown-slider-btn  ${idleClassName}`}
+          >
+            <i className="zmdi zmdi-more-vert" />
+          </button>
+          <div className="dropdown-slider-content">
+            <Modal title={"Delete photo"}>
+              <div className="slider-photo-delete dropdown-item">Delete</div>
+              <ConfirmingForm
+                body={<p>Are you sure you want to delete this photo?</p>}
+                confirmText={"Delete photo"}
+                onConfirm={() => this.onPhotoDelete(name)}
+              />
+            </Modal>
 
-        <Modal title={"Delete photo"}>
-          <div className="slider-photo-delete">Delete</div>
-          <ConfirmingForm
-            body={<p>Are you sure you want to delete this photo?</p>}
-            confirmText={"Delete photo"}
-            onConfirm={() => this.onPhotoDelete(name)}
-          />
-        </Modal>
+            <div
+              onClick={() => {
+                var url = `data:${currentItem.imageType};base64,${
+                  currentItem.image
+                }`.replace(
+                  /^data:image\/[^;]+/,
+                  "data:application/octet-stream"
+                );
+                window.open(url);
+              }}
+              className={"dropdown-item"}
+            >
+              Save as...
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 }
+
 function beautifyDate(date) {
   const d = new Date(date);
   return `${d.toLocaleDateString()} at ${d.toLocaleTimeString()}`;

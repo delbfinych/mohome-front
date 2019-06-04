@@ -1,2 +1,3 @@
 import compose from "./compose";
-export { compose };
+import Idle from "./idle";
+export { compose, Idle };

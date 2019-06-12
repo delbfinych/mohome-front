@@ -35,7 +35,7 @@ html {
   cursor: pointer;
 }
 .photos-upload-input {
-  visibility: hidden;
+  display: none;
 }
 .add-album-button {
   margin-right: 25px;
@@ -275,10 +275,12 @@ html {
   color: #828282;
 }
 .edit-album-wrap {
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin: 0 auto;
-  max-width: 800px;
 }
 .edit-album-wrap__form {
   margin-bottom: 20px;
@@ -288,6 +290,7 @@ html {
   width: 50px;
 }
 .edit-album-wrap__cover {
+  margin-right: 20px;
   position: relative;
 }
 
@@ -315,10 +318,15 @@ html {
   width: 270px;
   overflow: hidden;
   position: relative;
-
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center 35%;
+}
+
+.edit-album-wrap__image.placeholder {
+  background-size: 40%;
 }
 .edit-album-wrap__image:hover > .edit-album-cover-trigger {
   bottom: 0;

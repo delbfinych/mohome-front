@@ -13,8 +13,7 @@ body {
 }
 
 .form {
-  width: 98%;
-  margin: 0 auto;
+  flex-grow: 1;
 }
 .form input {
 }
@@ -135,4 +134,14 @@ input.form-control {
 }
 .albums-container {
   margin: 20px 0;
+}
+
+.uploadBtn {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }

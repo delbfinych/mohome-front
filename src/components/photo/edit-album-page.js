@@ -22,16 +22,17 @@ class EditAlbumPage extends Component {
 
   _updateAlbum = async () => {
     const { getAlbumInfo, albumId, getPhotosByAlbumId } = this.props;
-
+    console.log(albumId);
     getAlbumInfo(albumId)
       .then(res => {
+        console.log(res.data.response);
         const { coverPhotoName, description, name } = res.data.response;
         this.setCoverPreview(coverPhotoName);
         this.setState({ coverPhotoName, description, title: name });
       })
       .catch(err => console.log(err));
 
-    getPhotosByAlbumId(albumId)
+    getPhotosByAlbumId({ albumId: +albumId })
       .then(res => {
         this.setState({ photos: res.data.response });
       })
@@ -115,7 +116,7 @@ class EditAlbumPage extends Component {
         <AlbumNavigation
           rightContent={
             <Modal title={"Delete album"}>
-              <div className="left-right-bar">
+              <div className="">
                 <div className={"delete-album"}>
                   <i className="zmdi zmdi-delete zmdi-hc-lg" /> Delete album
                   <label htmlFor={"imageDnd"} />
@@ -136,7 +137,9 @@ class EditAlbumPage extends Component {
           <div className={"edit-album-wrap__cover"}>
             <div className={"edit-album_wrap__label"}>Use as album cover</div>
             <div
-              className={`edit-album-wrap__image`}
+              className={`edit-album-wrap__image ${
+                coverPreview ? "" : "placeholder"
+              }`}
               style={{
                 backgroundImage: `url(${
                   coverPreview ? coverPreview : placeholder
@@ -203,6 +206,7 @@ class EditAlbumPage extends Component {
           </div>
         </div>
         <PhotoList
+          albumId={this.props.albumId}
           onPhotoDeleted={this._updateAlbum}
           isEditing
           photos={photos}

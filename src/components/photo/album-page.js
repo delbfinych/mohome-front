@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import AlbumNavigation from "./album-navigation";
 import { withApiService } from "../hoc";
 import PhotoList from "./photo-list";
+import { Link } from "react-router-dom";
 
 class AlbumPage extends Component {
   state = {
@@ -21,12 +22,11 @@ class AlbumPage extends Component {
 
   _updateAlbum = () => {
     const { getPhotosByAlbumId, getAlbumInfo, albumId } = this.props;
-    getPhotosByAlbumId(albumId)
+    getPhotosByAlbumId({ albumId: +albumId })
       .then(res => {
         if (this._isMounted)
           this.setState({
             albumInfo: res.data.response,
-            photoCount: res.data.response.length,
             photos: res.data.response
           });
       })
@@ -34,9 +34,14 @@ class AlbumPage extends Component {
 
     getAlbumInfo(albumId)
       .then(res => {
-        const { name, description } = res.data.response;
+        console.log(res.data.response);
+        const { name, description, photoCount } = res.data.response;
         if (this._isMounted)
-          this.setState({ albumTitle: name, description: description });
+          this.setState({
+            albumTitle: name,
+            description: description,
+            photoCount
+          });
       })
       .catch(err => console.log(err));
   };
@@ -92,6 +97,11 @@ class AlbumPage extends Component {
           <div className={"photos_album_intro__description"}>{description}</div>
           <div className={"photos_album_intro__photo-count"}>
             {photoCount} photos
+          </div>
+          <div>
+            <Link style={{ textAlign: "center" }} to={`edit`}>
+              Edit album
+            </Link>
           </div>
         </div>
         <PhotoList

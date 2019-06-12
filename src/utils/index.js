@@ -1,3 +1,5 @@
 import compose from "./compose";
 import Idle from "./idle";
-export { compose, Idle };
+import serialize from "./serialize";
+
+export { compose, Idle, serialize };

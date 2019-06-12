@@ -1,6 +1,8 @@
 import axios from "axios";
 import CryptoJs from "crypto-js";
 import Cookies from "js-cookie";
+import { serialize } from "../utils";
+
 export default class MohomeApiService {
   _apiBase = "http://mohome.ml/Api/v1";
 
@@ -111,10 +113,21 @@ export default class MohomeApiService {
     );
   };
 
-  getPhotosByAlbumId = async id => {
-    if (!id) id = "";
+  getPhotosByAlbumId = async params => {
     await this._updateToken();
-    return axios.get(this._apiBase + "/Photos?albumId=" + id, {
+    console.log(params);
+    console.log(serialize(params));
+    return axios.get(this._apiBase + "/Photos?" + serialize(params), {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + Cookies.get("id_token")
+      }
+    });
+  };
+
+  getPhotoCount = async () => {
+    await this._updateToken();
+    return axios.get(this._apiBase + "/Photos?", {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: "Bearer " + Cookies.get("id_token")
@@ -150,7 +163,53 @@ export default class MohomeApiService {
       }
     });
   };
+  deletePlaylist = async id => {
+    await this._updateToken();
+    return axios.delete(this._apiBase + "/Playlists/" + id, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Cookies.get("id_token")
+      }
+    });
+  };
+  getPlaylistInfo = async id => {
+    await this._updateToken();
+    return axios.get(this._apiBase + "/Playlists/" + id, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Cookies.get("id_token")
+      }
+    });
+  };
 
+  setPlaylistCover = async (body, id) => {
+    await this._updateToken();
+    return axios.put(this._apiBase + "/playlists/cover/" + id, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + Cookies.get("id_token")
+      }
+    });
+  };
+
+  deletePlaylistCover = async id => {
+    await this._updateToken();
+    return axios.delete(this._apiBase + "/playlists/cover/" + id, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + Cookies.get("id_token")
+      }
+    });
+  };
+  changePlaylist = async (id, body) => {
+    await this._updateToken();
+    return axios.put(this._apiBase + "/Playlists/" + id, JSON.stringify(body), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Cookies.get("id_token")
+      }
+    });
+  };
   // Сделать автоматический запуск функции раз в 55 минут
   _updateToken = async () => {
     if (Date.now() >= (Cookies.get("expiresIn") - 60) * 1000) {

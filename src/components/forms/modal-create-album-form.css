@@ -18,3 +18,42 @@
   background-color: #e8e9ec;
   color: #656c7f;
 }
+.playlist-create-cover-wrap {
+}
+.playlist-create-cover {
+  height: 128px;
+  width: 128px;
+  margin-right: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+}
+.playlist-create-cover .playlist-create-cover__add {
+  color: rgba(69, 130, 236, 0.5);
+  font-size: 5vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.playlist-create-cover:hover .playlist-create-cover__add {
+  color: rgb(69, 130, 236);
+}
+.playlist-create-cover__add + div {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -80%);
+  color: rgb(69, 130, 236);
+}
+.playlist-create-cover label {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}

@@ -72,7 +72,7 @@ class SignInForm extends Component {
               onChange={this.handleUserInput}
               value={email}
               type={"text"}
-              placeholder={"name@exmaple.com"}
+              placeholder={"name@example.com"}
             />
           </div>
           <div className="form-group">

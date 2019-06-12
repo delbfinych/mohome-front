@@ -6,7 +6,7 @@ const PlaylistItem = ({ title, count, preview, id, history }) => {
   const style = {
     backgroundImage: `url(${
       preview
-        ? `data:${preview.imageType};base64,${preview.image}`
+        ? `data:${preview.imageType};base64,${preview.photo}`
         : placeholder
     })`
   };

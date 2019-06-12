@@ -28,7 +28,6 @@ class Main extends Component {
     const { getPlaylists } = this.props;
 
     getPlaylists().then(res => {
-      console.log(res);
       this.setState({ playlists: res.data.response });
     });
   };
@@ -47,6 +46,7 @@ class Main extends Component {
         link: "/music/"
       }
     ];
+    console.log(playlists);
 
     return (
       <div>
@@ -61,8 +61,8 @@ class Main extends Component {
                   playlist
                 </div>
                 <CreateAlbumForm
-                  submitBtnTitle={"Create playlist"}
                   createAlbum={this.props.createPlaylist}
+                  submitBtn={"Create playlist"}
                   onUpdateAlbum={this._updatePlaylists}
                 />
               </Modal>
@@ -82,7 +82,7 @@ class Main extends Component {
                     <PlaylistItem
                       key={e.playlistId}
                       title={e.name}
-                      preview={albumCovers[e.albumId]}
+                      preview={e.coverPhoto}
                       id={e.playlistId}
                       count={e.musicCount}
                       description={e.description}
@@ -95,7 +95,7 @@ class Main extends Component {
                           <PlaylistItem
                             key={e.playlistId}
                             title={e.name}
-                            preview={albumCovers[e.albumId]}
+                            preview={e.coverPhoto}
                             id={e.playlistId}
                             count={e.musicCount}
                             description={e.description}

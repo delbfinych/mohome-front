@@ -70,7 +70,6 @@ class PhotoList extends React.PureComponent {
       photos: photosLinks,
       albumId
     } = this.props;
-
     const { photos } = this.state;
 
     return (

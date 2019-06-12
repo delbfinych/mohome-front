@@ -29,7 +29,7 @@ class Slider extends Component {
       },
       async () => {
         await this.props
-          .getPhotosByAlbumId(albumId)
+          .getPhotosByAlbumId({ albumId: +albumId })
           .then(res => {
             this.setState({
               photoCount: res.data.response.length,
@@ -145,7 +145,6 @@ class Slider extends Component {
       currentName,
       isIdle
     } = this.state;
-    console.log(currentItem);
     const description = currentItem.description || "";
     const created = currentItem ? currentItem.created : null;
     const name = photos.length ? photos[currentIndex].name : null;

@@ -14,13 +14,13 @@ class ModalCreateAlbumForm extends Component {
   onSubmit = e => {
     e.preventDefault();
     const { title, description } = this.state;
-    const { onCloseModal, onUpdateAlbum, history } = this.props;
+    const { onCloseModal, onUpdateAlbum, history, createAlbum } = this.props;
     if (title.trim()) {
       onCloseModal();
       this.setState({
         title: ""
       });
-      this.props.createAlbum({ name: title, description }).then(res => {
+      createAlbum({ name: title, description }).then(res => {
         history.push(`${res.data.response.albumId}`);
         onUpdateAlbum();
       });
@@ -40,7 +40,7 @@ class ModalCreateAlbumForm extends Component {
 
   render() {
     const { title, description, titleValid } = this.state;
-    const { submitBtnTitle } = this.props;
+    const { submitBtn } = this.props;
 
     return (
       <form className={"form"} onSubmit={this.onSubmit}>
@@ -71,7 +71,7 @@ class ModalCreateAlbumForm extends Component {
           }}
         >
           <button className={"ok-btn"} type={"submit"}>
-            {submitBtnTitle}
+            {submitBtn}
           </button>
           <button className={"cancel-btn"} onClick={this.props.onCloseModal}>
             Cancel

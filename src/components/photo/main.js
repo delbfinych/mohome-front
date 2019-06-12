@@ -6,6 +6,7 @@ import Modal from "../modal";
 import AlbumItem from "./album-item";
 import AlbumNavigation from "./album-navigation";
 import PhotoList from "./photo-list";
+import InfiniteScroll from "react-infinite-scroller";
 
 class Main extends Component {
   state = {
@@ -48,8 +49,9 @@ class Main extends Component {
           this.setState({ albumCovers: newCover });
         }
     });
-    getPhotosByAlbumId()
+    getPhotosByAlbumId(null, 0)
       .then(res => {
+        console.log(res.data.response);
         this.setState({
           photoCount: res.data.response.length,
           photos: res.data.response
@@ -97,14 +99,14 @@ class Main extends Component {
                   New album
                 </div>
                 <CreateAlbumForm
-                  submitBtnTitle={"Create album"}
+                  submitBtn={"Create album"}
                   createAlbum={this.props.createAlbum}
                   onUpdateAlbum={this._updateAlbums}
                 />
               </Modal>
               <div className="add-photos-button">
                 <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
-                <label htmlFor={"imageDnd"} />
+                <label className={"uploadBtn"} htmlFor={"imageDnd"} />
               </div>
             </React.Fragment>
           }
@@ -171,12 +173,7 @@ class Main extends Component {
         <div className="left-right-bar">
           <div className="albums-bar-left">My photos {photoCount}</div>
         </div>
-
-        <PhotoList
-          albumId={null}
-          onPhotoDeleted={this._updateAlbums}
-          photos={photos}
-        />
+        <PhotoList onPhotoDeleted={this._updateAlbums} photos={photos} />
       </div>
     );
   }

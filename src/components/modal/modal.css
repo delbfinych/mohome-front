@@ -44,6 +44,12 @@
   }
 }
 .edit-album-modal .modal-body {
-  max-height: 300px;
+  height: 300px;
   overflow: auto;
+}
+
+.edit-album-modal .modal-body::-webkit-scrollbar {
+  width: 0;
+}
+ {
 }

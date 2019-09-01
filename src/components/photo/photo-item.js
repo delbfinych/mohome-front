@@ -5,7 +5,16 @@ import compose from "../../utils/compose";
 import { ConfirmingForm } from "../forms";
 import Modal from "../modal";
 
-class PhotoItem extends Component {
+class PhotoItem extends React.PureComponent {
+  componentDidMount() {
+    console.log("cdm")
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("cdu");
+  }
+
+
   onOpen = (currPhoto, photos, index, albumId) => {
     const { history } = this.props;
 

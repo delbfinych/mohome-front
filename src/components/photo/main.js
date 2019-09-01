@@ -16,6 +16,8 @@ class Main extends Component {
     isExpanded: false
   };
 
+  _isMounted = false;
+
   onExpandToggle = () => {
     this.setState(state => {
       return { isExpanded: !state.isExpanded };
@@ -24,6 +26,11 @@ class Main extends Component {
 
   componentDidMount() {
     this._updateAlbums();
+    this._isMounted = true;
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
+    console.log("kek");
   }
 
   _updateAlbums = () => {
@@ -31,7 +38,7 @@ class Main extends Component {
 
     getAlbums().then(res => {
       console.log(res.data.response);
-      this.setState({ album: res.data.response });
+      if (this._isMounted) this.setState({ album: res.data.response });
       const albums = this.state.album;
 
       for (let i = 0; i < albums.length; i++)
@@ -40,22 +47,23 @@ class Main extends Component {
             .then(res => {
               const newCover = { ...this.state.albumCovers };
               newCover[albums[i].albumId] = res.data.response;
-              this.setState({ albumCovers: newCover });
+              if (this._isMounted) this.setState({ albumCovers: newCover });
             })
             .catch(err => console.log(err));
         else {
           const newCover = { ...this.state.albumCovers };
           newCover[albums[i].albumId] = null;
-          this.setState({ albumCovers: newCover });
+          if (this._isMounted) this.setState({ albumCovers: newCover });
         }
     });
     getPhotosByAlbumId(null, 0)
       .then(res => {
         console.log(res.data.response);
-        this.setState({
-          photoCount: res.data.response.length,
-          photos: res.data.response
-        });
+        if (this._isMounted)
+          this.setState({
+            photoCount: res.data.response.length,
+            photos: res.data.response
+          });
       })
       .catch(err => console.log(err));
   };

@@ -27,28 +27,31 @@ class PhotoList extends React.PureComponent {
     }
   }
 
-  getPhotosByOrder = async photos => {
-    if (photos.length)
+  getPhotosByOrder = photos => {
+    if (photos.length) {
+      this.setState({ photos });
+
       for (let i = 0; i < photos.length; i++)
-        if (
-          this.state.photos.findIndex(el => el.name === photos[i].name) === -1
-        ) {
-          await this.props.getPhoto(photos[i].name, true).then(res => {
-            const image = res.data.response;
-            const obj = {
-              image: `data:${image.imageType};base64,${image.image}`,
-              name: photos[i].name,
-              created: image.created,
-              description: image.description
-            };
-            if (this._isMounted)
-              this.setState(prevState => {
-                return {
-                  photos: [...prevState.photos, obj]
-                };
-              });
-          });
-        }
+        this.props.getPhoto(photos[i].name, true).then(res => {
+          const image = res.data.response;
+          const obj = {
+            image: `data:${image.imageType};base64,${image.image}`,
+            name: photos[i].name,
+            created: image.created,
+            description: image.description
+          };
+          if (this._isMounted)
+            this.setState(prevState => {
+              return {
+                photos: [
+                  ...prevState.photos.slice(0, i),
+                  obj,
+                  ...prevState.photos.slice(i + 1)
+                ]
+              };
+            });
+        });
+    }
   };
 
   onPhotoDelete = name => {

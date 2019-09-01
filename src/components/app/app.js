@@ -15,6 +15,8 @@ import {
 import Video from "../video";
 import { MainMusicPage, PlaylistPage, EditPlaylistPage } from "../music";
 
+import PrivateRoute from "../private-route";
+
 import NotFoundPage from "../not-found-page";
 import SignInPage from "../sign-in-page";
 import SignUpPage from "../sign-up-page";
@@ -53,200 +55,197 @@ export default class App extends Component {
     );
     return (
       <div>
-        {Cookies.get("id_token") ? (
-          <Switch location={isModal ? this.previousLocation : location}>
-            <Route
-              path="/"
-              render={() => {
-                return (
-                  <React.Fragment>
-                    <NavBar />
-                    <Home />
-                  </React.Fragment>
-                );
-              }}
-              exact
-            />
-            <Route
-              path="/albums/"
-              exact
-              render={({ history }) => {
-                return (
-                  <React.Fragment>
-                    <NavBar />
-                    <AlbumsPageContainer>
-                      <MainPhotoPage history={history} />
-                    </AlbumsPageContainer>
-                  </React.Fragment>
-                );
-              }}
-            />
-            <Route
-              path="/albums/photo/:name"
-              render={({ history, location, match }) => {
-                return (
-                  <React.Fragment>
-                    <SinglePhotoPage
-                      photoName={match.params.name}
-                      location={location}
+        <Switch location={isModal ? this.previousLocation : location}>
+          <PrivateRoute
+            path="/"
+            render={() => {
+              return (
+                <React.Fragment>
+                  <NavBar />
+                  <Home />
+                </React.Fragment>
+              );
+            }}
+            exact
+          />
+          <PrivateRoute
+            path="/albums/"
+            exact
+            render={({ history }) => {
+              return (
+                <React.Fragment>
+                  <NavBar />
+                  <AlbumsPageContainer>
+                    <MainPhotoPage history={history} />
+                  </AlbumsPageContainer>
+                </React.Fragment>
+              );
+            }}
+          />
+          <PrivateRoute
+            path="/albums/photo/:name"
+            render={({ history, location, match }) => {
+              return (
+                <React.Fragment>
+                  <SinglePhotoPage
+                    photoName={match.params.name}
+                    location={location}
+                    history={history}
+                  />
+                </React.Fragment>
+              );
+            }}
+            exact
+          />
+          <PrivateRoute
+            path="/albums/:id/edit"
+            render={({ history, match }) => {
+              return (
+                <React.Fragment>
+                  <NavBar />
+                  <AlbumsPageContainer>
+                    <EditAlbumPage
                       history={history}
+                      albumId={match.params.id}
                     />
-                  </React.Fragment>
-                );
-              }}
-              exact
-            />
-            <Route
-              path="/albums/:id/edit"
-              render={({ history, match }) => {
+                  </AlbumsPageContainer>
+                </React.Fragment>
+              );
+            }}
+            exact
+          />
+          <PrivateRoute
+            path="/albums/:albumId/photo/:name"
+            render={({ match, history }) => {
+              const id = match.params.albumId;
+              const name = match.params.name;
+              return (
+                <React.Fragment>
+                  <SinglePhotoPage
+                    albumId={id}
+                    history={history}
+                    photoName={name}
+                  />
+                </React.Fragment>
+              );
+            }}
+            exact
+          />
+          <PrivateRoute
+            path="/albums/upload"
+            exact
+            render={({ location, history }) => {
+              if (this.previousLocation || history.action !== "POP")
                 return (
                   <React.Fragment>
                     <NavBar />
                     <AlbumsPageContainer>
-                      <EditAlbumPage
-                        history={history}
-                        albumId={match.params.id}
-                      />
+                      <AddPhotosPage history={history} {...location.state} />
                     </AlbumsPageContainer>
                   </React.Fragment>
                 );
-              }}
-              exact
-            />
-            <Route
-              path="/albums/:albumId/photo/:name"
-              render={({ match, history }) => {
-                const id = match.params.albumId;
-                const name = match.params.name;
+              else return <Redirect to={"/albums/"} />;
+            }}
+          />
+          <PrivateRoute
+            path="/albums/:albumId/upload"
+            exact
+            render={({ history, location }) => {
+              if (this.previousLocation || history.action !== "POP")
                 return (
                   <React.Fragment>
-                    <SinglePhotoPage
+                    <NavBar />
+                    <AlbumsPageContainer>
+                      <AddPhotosPage history={history} {...location.state} />
+                    </AlbumsPageContainer>
+                  </React.Fragment>
+                );
+              else return <Redirect to={"/albums/"} />;
+            }}
+          />
+          <PrivateRoute
+            path="/albums/:albumId"
+            exact
+            render={({ history, match, location }) => {
+              const id = match.params.albumId;
+              return (
+                <React.Fragment>
+                  <NavBar />
+                  <AlbumsPageContainer>
+                    <AlbumPage
+                      history={history}
+                      {...location.state}
                       albumId={id}
-                      history={history}
-                      photoName={name}
                     />
-                  </React.Fragment>
-                );
-              }}
-              exact
-            />
-            <Route
-              path="/albums/upload"
-              exact
-              render={({ location, history }) => {
-                if (this.previousLocation || history.action !== "POP")
-                  return (
-                    <React.Fragment>
-                      <NavBar />
-                      <AlbumsPageContainer>
-                        <AddPhotosPage history={history} {...location.state} />
-                      </AlbumsPageContainer>
-                    </React.Fragment>
-                  );
-                else return <Redirect to={"/albums/"} />;
-              }}
-            />
-            <Route
-              path="/albums/:albumId/upload"
-              exact
-              render={({ history, location }) => {
-                if (this.previousLocation || history.action !== "POP")
-                  return (
-                    <React.Fragment>
-                      <NavBar />
-                      <AlbumsPageContainer>
-                        <AddPhotosPage history={history} {...location.state} />
-                      </AlbumsPageContainer>
-                    </React.Fragment>
-                  );
-                else return <Redirect to={"/albums/"} />;
-              }}
-            />
-            <Route
-              path="/albums/:albumId"
-              exact
-              render={({ history, match, location }) => {
-                const id = match.params.albumId;
-                return (
-                  <React.Fragment>
-                    <NavBar />
-                    <AlbumsPageContainer>
-                      <AlbumPage
-                        history={history}
-                        {...location.state}
-                        albumId={id}
-                      />
-                    </AlbumsPageContainer>
-                  </React.Fragment>
-                );
-              }}
-            />
-            <Route
-              path="/video"
-              render={() => {
-                return (
-                  <React.Fragment>
-                    <NavBar />
-                    <Video />
-                  </React.Fragment>
-                );
-              }}
-            />
-            <Route
-              path="/music"
-              exact
-              render={() => {
-                return (
-                  <React.Fragment>
-                    <NavBar />
-                    <AlbumsPageContainer>
-                      <MainMusicPage />
-                    </AlbumsPageContainer>
-                  </React.Fragment>
-                );
-              }}
-            />
-            <Route
-              path="/music/:id"
-              exact
-              render={({ history, match, location }) => {
-                const id = match.params.id;
-                return (
-                  <React.Fragment>
-                    <NavBar />
-                    <AlbumsPageContainer>
-                      <PlaylistPage
-                        history={history}
-                        {...location.state}
-                        playlistId={id}
-                      />
-                    </AlbumsPageContainer>
-                  </React.Fragment>
-                );
-              }}
-            />{" "}
-            <Route
-              path="/music/:id/edit"
-              render={({ history, match }) => {
-                return (
-                  <React.Fragment>
-                    <NavBar />
-                    <AlbumsPageContainer>
-                      <EditPlaylistPage
-                        history={history}
-                        albumId={match.params.id}
-                      />
-                    </AlbumsPageContainer>
-                  </React.Fragment>
-                );
-              }}
-              exact
-            />
-            <Route component={NotFoundPage} />
-          </Switch>
-        ) : (
-          <Redirect to={"/sign-in"} />
-        )}
+                  </AlbumsPageContainer>
+                </React.Fragment>
+              );
+            }}
+          />
+          <PrivateRoute
+            path="/video"
+            render={() => {
+              return (
+                <React.Fragment>
+                  <NavBar />
+                  <Video />
+                </React.Fragment>
+              );
+            }}
+          />
+          <PrivateRoute
+            path="/music"
+            exact
+            render={() => {
+              return (
+                <React.Fragment>
+                  <NavBar />
+                  <AlbumsPageContainer>
+                    <MainMusicPage />
+                  </AlbumsPageContainer>
+                </React.Fragment>
+              );
+            }}
+          />
+          <PrivateRoute
+            path="/music/:id"
+            exact
+            render={({ history, match, location }) => {
+              const id = match.params.id;
+              return (
+                <React.Fragment>
+                  <NavBar />
+                  <AlbumsPageContainer>
+                    <PlaylistPage
+                      history={history}
+                      {...location.state}
+                      playlistId={id}
+                    />
+                  </AlbumsPageContainer>
+                </React.Fragment>
+              );
+            }}
+          />{" "}
+          <PrivateRoute
+            path="/music/:id/edit"
+            render={({ history, match }) => {
+              return (
+                <React.Fragment>
+                  <NavBar />
+                  <AlbumsPageContainer>
+                    <EditPlaylistPage
+                      history={history}
+                      albumId={match.params.id}
+                    />
+                  </AlbumsPageContainer>
+                </React.Fragment>
+              );
+            }}
+            exact
+          />
+          <PrivateRoute component={NotFoundPage} />
+        </Switch>
+
         <Route
           path="/sign-in"
           render={() => {
@@ -268,10 +267,10 @@ export default class App extends Component {
           }}
         />
         {isModal ? (
-          <Route
+          <PrivateRoute
             path={prevPathName + "photo/:name"}
             render={({ history, location }) => {
-              return Cookies.get("id_token") ? (
+              return (
                 <React.Fragment>
                   <Slider
                     prevPath={this.previousLocation}
@@ -279,8 +278,6 @@ export default class App extends Component {
                     history={history}
                   />
                 </React.Fragment>
-              ) : (
-                <Redirect to={"/sign-in"} />
               );
             }}
           />

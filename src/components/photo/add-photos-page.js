@@ -7,7 +7,10 @@ import PhotoList from "./photo-list";
 class AddPhotosPage extends Component {
   state = {
     previewPhoto: [],
-    photos: []
+    photos: [],
+    progressBar: 0,
+    isLoading: false,
+    toLoading: 0
   };
 
   _isMounted = false;
@@ -24,7 +27,12 @@ class AddPhotosPage extends Component {
 
   onUpload = async files => {
     const { albumId, uploadPhoto } = this.props;
-
+    if (this._isMounted)
+      this.setState({
+        progressBar: 0,
+        isLoading: true,
+        toLoading: files.length
+      });
     for (let i = 0; i < files.length; i++) {
       const formData = new FormData();
       formData.append("Photo", files[i]);
@@ -35,6 +43,8 @@ class AddPhotosPage extends Component {
           if (this._isMounted)
             this.setState(prevState => {
               return {
+                progressBar: prevState.progressBar + 1,
+                isLoading: prevState.progressBar + 1 !== prevState.toLoading,
                 photos: [
                   ...prevState.photos,
                   { name: res.data.response.fileName }
@@ -47,14 +57,32 @@ class AddPhotosPage extends Component {
   };
 
   render() {
+    const { isLoading, progressBar, toLoading } = this.state;
+
     return (
       <div>
         <AlbumNavigation
           rightContent={
-            <div className="add-photos-button">
-              <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
-              <label htmlFor={"imageDnd"} />
-            </div>
+            !isLoading ? (
+              <div className="add-photos-button">
+                <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
+                <label htmlFor={"imageDnd"} />
+              </div>
+            ) : (
+              <div className="add-photos-button">
+                <progress value={progressBar} max={toLoading} />
+                <div
+                  style={{
+                    textAlign: "center",
+                    position: "absolute",
+                    width: "100%",
+                    left: "50%",
+                    top: "80%",
+                    transform: "translate(-50%, 0)"
+                  }}
+                >{`${progressBar} of ${toLoading} loaded`}</div>
+              </div>
+            )
           }
           onUpload={this.onUpload}
           breadCrumbs={this.props.breadCrumbs}

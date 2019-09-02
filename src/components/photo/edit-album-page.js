@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+  import React, { Component } from "react";
 import placeholder from "../../img/photo_placeholder.png";
 import AlbumNavigation from "./album-navigation";
 import { withApiService } from "../hoc";
@@ -22,10 +22,8 @@ class EditAlbumPage extends Component {
 
   _updateAlbum = async () => {
     const { getAlbumInfo, albumId, getPhotosByAlbumId } = this.props;
-    console.log(albumId);
     getAlbumInfo(albumId)
       .then(res => {
-        console.log(res.data.response);
         const { coverPhotoName, description, name } = res.data.response;
         this.setCoverPreview(coverPhotoName);
         this.setState({ coverPhotoName, description, title: name });

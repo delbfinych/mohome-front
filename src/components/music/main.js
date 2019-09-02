@@ -46,7 +46,7 @@ class Main extends Component {
         link: "/music/"
       }
     ];
-    console.log(playlists);
+
 
     return (
       <div>

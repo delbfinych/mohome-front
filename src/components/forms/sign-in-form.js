@@ -32,7 +32,6 @@ class SignInForm extends Component {
           this.props.history.push("/");
         })
         .catch(err => {
-          console.log(err.response);
           if (err.response) {
             if (err.response.status / 100 === 4)
               this.setState({

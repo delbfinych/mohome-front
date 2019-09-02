@@ -26,7 +26,6 @@ class EditPlaylistPage extends Component {
 
     getPlaylistInfo(albumId)
       .then(res => {
-        console.log(res.data.response);
         const { coverPhoto, description, name } = res.data.response;
         this.setCoverPreview(coverPhoto);
         this.setState({
@@ -36,12 +35,6 @@ class EditPlaylistPage extends Component {
         });
       })
       .catch(err => console.log(err));
-
-    // getPhotosByAlbumId({ albumId: +albumId })
-    //   .then(res => {
-    //     this.setState({ photos: res.data.response });
-    //   })
-    //   .catch(err => console.log(err.response));
   };
 
   setCoverPreview = photo => {

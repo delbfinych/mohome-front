@@ -14,7 +14,6 @@ class PhotoItem extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    console.log(this.props);
     const { getPhoto, photo } = this.props;
 
     if (this._isMounted) this.setState({ photo });

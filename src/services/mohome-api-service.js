@@ -115,8 +115,6 @@ export default class MohomeApiService {
 
   getPhotosByAlbumId = async params => {
     await this._updateToken();
-    console.log(params);
-    console.log(serialize(params));
     return axios.get(this._apiBase + "/Photos?" + serialize(params), {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -228,7 +226,6 @@ export default class MohomeApiService {
           }
         )
         .then(res => {
-          console.log(res);
           Cookies.remove("refreshToken", {
             path: "/"
           });

@@ -30,14 +30,12 @@ class Main extends Component {
   }
   componentWillUnmount() {
     this._isMounted = false;
-    console.log("kek");
   }
 
   _updateAlbums = () => {
     const { getAlbums, getPhoto, getPhotosByAlbumId } = this.props;
 
     getAlbums().then(res => {
-      console.log(res.data.response);
       if (this._isMounted) this.setState({ album: res.data.response });
       const albums = this.state.album;
 
@@ -58,7 +56,6 @@ class Main extends Component {
     });
     getPhotosByAlbumId(null, 0)
       .then(res => {
-        console.log(res.data.response);
         if (this._isMounted)
           this.setState({
             photoCount: res.data.response.length,

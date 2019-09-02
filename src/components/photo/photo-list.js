@@ -48,7 +48,6 @@ class PhotoList extends React.PureComponent {
       albumId
     } = this.props;
     const { photos } = this.state.photos.length > 0 ? this.state : this.props;
-    console.log(photos);
     return (
       <div className="albums-container">
         <div className="albums-panel">

@@ -34,7 +34,6 @@ class PlaylistPage extends Component {
     getPlaylistInfo(playlistId)
       .then(res => {
         const { name, description, musicCount } = res.data.response;
-        console.log(res.data.response);
         if (this._isMounted)
           this.setState({
             playlistTitle: name,
@@ -82,12 +81,6 @@ class PlaylistPage extends Component {
     return (
       <div>
         <AlbumNavigation
-          // rightContent={
-          //   <div className="add-photos-button">
-          //     <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
-          //     <label htmlFor={"imageDnd"} />
-          //   </div>
-          // }
           onUpload={this.onUpload}
           breadCrumbs={breadCrumbs}
         />

@@ -34,7 +34,6 @@ class AlbumPage extends Component {
 
     getAlbumInfo(albumId)
       .then(res => {
-        console.log(res.data.response);
         const { name, description, photoCount } = res.data.response;
         if (this._isMounted)
           this.setState({

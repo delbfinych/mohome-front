@@ -32,7 +32,7 @@ class PhotoEditor extends Component {
 
   render() {
     const { description, isFocused } = this.state;
-    console.log(description);
+
     return (
       <React.Fragment>
         <input

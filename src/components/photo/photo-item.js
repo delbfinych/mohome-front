@@ -4,16 +4,40 @@ import { withApiService } from "../hoc";
 import compose from "../../utils/compose";
 import { ConfirmingForm } from "../forms";
 import Modal from "../modal";
+import PhotoEditor from "./photo-editor";
 
-class PhotoItem extends React.PureComponent {
+class PhotoItem extends Component {
+  state = {
+    photo: {}
+  };
+  _isMounted = false;
+
   componentDidMount() {
-    console.log("cdm")
+    this._isMounted = true;
+    console.log(this.props);
+    const { getPhoto, photo } = this.props;
+
+    if (this._isMounted) this.setState({ photo });
+
+    getPhoto(photo.name, true).then(res => {
+      const image = res.data.response;
+      const newPhoto = {
+        image: `data:${image.imageType};base64,${image.image}`,
+        name: photo.name,
+        created: image.created,
+        description: image.description
+      };
+      if (this._isMounted) this.setState({ photo: newPhoto });
+    }).catch((err)=>console.log(err));
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("cdu");
-  }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.photo !== nextState.photo;
+  }
 
   onOpen = (currPhoto, photos, index, albumId) => {
     const { history } = this.props;
@@ -36,10 +60,8 @@ class PhotoItem extends React.PureComponent {
   };
   render() {
     const {
-      photo,
       photos,
       index,
-      children,
       isSelecting,
       onSelect,
       onCloseModal,
@@ -47,8 +69,10 @@ class PhotoItem extends React.PureComponent {
       albumId
     } = this.props;
 
+    const { image, name, description } = this.state.photo;
+
     const style = {
-      backgroundImage: `url(${photo.image})`,
+      backgroundImage: `url(${image})`,
       borderRadius: `${!isEditing ? "5px 5px 5px 5px" : "5px 5px 0 0"} `
     };
 
@@ -62,7 +86,7 @@ class PhotoItem extends React.PureComponent {
             <ConfirmingForm
               body={<p>Are you sure you want to delete this photo?</p>}
               confirmText={"Delete photo"}
-              onConfirm={() => this.onPhotoDelete(photo.name)}
+              onConfirm={() => this.onPhotoDelete(name)}
             />
           </Modal>
         )}
@@ -71,17 +95,23 @@ class PhotoItem extends React.PureComponent {
           <div
             onClick={() => {
               if (isSelecting) {
-                onSelect(photo.name);
+                onSelect(name);
                 onCloseModal();
               } else {
-                this.onOpen(photo, photos, index, albumId);
+                this.onOpen(this.state.photo, photos, index, albumId);
               }
             }}
             className={`ratio__content album-photo-item`}
             style={style}
           />
         </div>
-        {children}
+        {isEditing ? (
+          <PhotoEditor
+            className={"photo-edit-input"}
+            description={description}
+            photoName={name}
+          />
+        ) : null}
       </div>
     );
   }

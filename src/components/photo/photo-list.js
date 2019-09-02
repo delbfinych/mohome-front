@@ -13,7 +13,7 @@ class PhotoList extends React.PureComponent {
   componentDidMount() {
     this._isMounted = true;
     const { photos } = this.props;
-    this.getPhotosByOrder(photos);
+    if(photos) this.setState({ photos });
   }
 
   componentWillUnmount() {
@@ -23,36 +23,10 @@ class PhotoList extends React.PureComponent {
   componentDidUpdate(prevProps) {
     const { photos } = this.props;
     if (prevProps.photos.length !== photos.length) {
-      this.getPhotosByOrder(photos);
+      if(photos) this.setState({ photos });
     }
   }
 
-  getPhotosByOrder = photos => {
-    if (photos.length) {
-      this.setState({ photos });
-
-      for (let i = 0; i < photos.length; i++)
-        this.props.getPhoto(photos[i].name, true).then(res => {
-          const image = res.data.response;
-          const obj = {
-            image: `data:${image.imageType};base64,${image.image}`,
-            name: photos[i].name,
-            created: image.created,
-            description: image.description
-          };
-          if (this._isMounted)
-            this.setState(prevState => {
-              return {
-                photos: [
-                  ...prevState.photos.slice(0, i),
-                  obj,
-                  ...prevState.photos.slice(i + 1)
-                ]
-              };
-            });
-        });
-    }
-  };
 
   onPhotoDelete = name => {
     const idx = this.state.photos.findIndex(item => item.name === name);
@@ -73,8 +47,8 @@ class PhotoList extends React.PureComponent {
       photos: photosLinks,
       albumId
     } = this.props;
-    const { photos } = this.state;
-
+    const { photos } = this.state.photos.length > 0 ? this.state : this.props;
+    console.log(photos);
     return (
       <div className="albums-container">
         <div className="albums-panel">
@@ -93,15 +67,7 @@ class PhotoList extends React.PureComponent {
                       isEditing={isEditing}
                       onDelete={this.onPhotoDelete}
                       albumId={albumId}
-                    >
-                      {isEditing ? (
-                        <PhotoEditor
-                          className={"photo-edit-input"}
-                          description={e.description}
-                          photoName={e.name}
-                        />
-                      ) : null}
-                    </PhotoItem>
+                    />
                   </React.Fragment>
                 ))}
               </div>

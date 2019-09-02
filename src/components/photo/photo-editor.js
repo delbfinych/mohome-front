@@ -9,12 +9,13 @@ class PhotoEditor extends Component {
 
   componentDidMount() {
     const { description } = this.props;
-    if (description) this.setState({ description });
+    if (description)
+      this.setState({ description });
   }
 
   componentDidUpdate(prevProps) {
     const { description } = this.props;
-    if (description !== prevProps.description) this.setState({ description });
+    if (description != prevProps.description) this.setState({ description });
   }
 
   onChange = e => {
@@ -31,7 +32,7 @@ class PhotoEditor extends Component {
 
   render() {
     const { description, isFocused } = this.state;
-
+    console.log(description);
     return (
       <React.Fragment>
         <input
@@ -45,9 +46,9 @@ class PhotoEditor extends Component {
           size={description.length}
         />
         {isFocused ? (
-          <div style={{ textAlign: "center" }}>{`${
-            description.length
-          } of 100 symbols`}</div>
+          <div
+            style={{ textAlign: "center" }}
+          >{`${description.length} of 100 symbols`}</div>
         ) : null}
       </React.Fragment>
     );

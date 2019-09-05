@@ -54,6 +54,7 @@ class DropArea extends Component {
       document.addEventListener(
         eventName,
         () => {
+          console.log(eventName);
           this.unhighlight();
         },
         false
@@ -69,11 +70,14 @@ class DropArea extends Component {
   }
 
   render() {
-    const { id, title, accept } = this.props;
+    const { id, title, accept, imageUrl } = this.props;
     return (
       <div className="drop-area-wrap">
         <div className="drop-area">
-          <span>{title}</span>
+          <div className="content">
+            <img src={imageUrl} alt="" />
+            <span>{title}</span>
+          </div>
           <input
             id={id}
             value={""}

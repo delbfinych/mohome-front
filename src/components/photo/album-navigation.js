@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import DropArea from "../drop-area";
 import { withRouter } from "react-router-dom";
 import BreadCrumbs from "./breadcrumbs";
+import dropUploadImg from "../../img/drop_upload.png"
+
 import "./main.css";
 
 class AlbumNavigation extends Component {
@@ -23,6 +25,7 @@ class AlbumNavigation extends Component {
         <DropArea
           id={"imageDnd"}
           title={"Upload photos"}
+          imageUrl={dropUploadImg}
           onUpload={onUpload}
           accept={"image/*"}
         />

@@ -24,8 +24,12 @@ class SignInForm extends Component {
           PasswordHash: password
         })
         .then(res => {
-          Cookies.set("id_token", res.data.response.accessToken, { path: "/" });
-          Cookies.set("expiresIn", res.data.response.expiresIn, { path: "/" });
+          Cookies.set("id_token", res.data.response.accessToken, {
+            path: "/"
+          });
+          Cookies.set("expiresIn", res.data.response.expiresIn, {
+            path: "/"
+          });
           Cookies.set("refreshToken", res.data.response.refreshToken, {
             path: "/"
           });
@@ -33,7 +37,7 @@ class SignInForm extends Component {
         })
         .catch(err => {
           if (err.response) {
-            if (err.response.status / 100 === 4)
+            if (Math.trunc(err.response.status / 100) === 4)
               this.setState({
                 authError: true,
                 isLoading: false,

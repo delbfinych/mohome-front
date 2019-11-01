@@ -1,15 +1,14 @@
 import axios from "axios";
-import CryptoJs from "crypto-js";
 import Cookies from "js-cookie";
 import { serialize } from "../utils";
 
 export default class MohomeApiService {
+  constructor() {
+    this._updateToken();
+  }
   _apiBase = "http://mohome.ml/Api/v1";
 
   signIn = async body => {
-    body.PasswordHash = CryptoJs.SHA256(body.PasswordHash).toString(
-      CryptoJs.enc.Hex
-    );
     return axios.post(this._apiBase + "/Token/signin", JSON.stringify(body), {
       headers: {
         "Content-Type": "application/json"
@@ -17,7 +16,6 @@ export default class MohomeApiService {
     });
   };
   signUp = async body => {
-    body.password = CryptoJs.SHA256(body.password).toString(CryptoJs.enc.Hex);
     return axios.post(this._apiBase + "/Token/signup", JSON.stringify(body), {
       headers: {
         "Content-Type": "application/json"

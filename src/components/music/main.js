@@ -5,6 +5,7 @@ import { withApiService } from "../hoc";
 import AlbumNavigation from "../photo/album-navigation";
 import Modal from "../modal";
 import { CreateAlbumForm } from "../forms";
+import NotAvailable from "../_temp-not-available-page";
 
 class Main extends Component {
   state = {
@@ -47,90 +48,9 @@ class Main extends Component {
       }
     ];
 
-
     return (
-      <div>
-        <AlbumNavigation
-          onUpload={this.onUpload}
-          breadCrumbs={breadCrumbs}
-          rightContent={
-            <React.Fragment>
-              <Modal title={"New playlist"}>
-                <div className="add-album-button">
-                  <i className="zmdi zmdi-playlist-plus zmdi-hc-lg" /> New
-                  playlist
-                </div>
-                <CreateAlbumForm
-                  createAlbum={this.props.createPlaylist}
-                  submitBtn={"Create playlist"}
-                  onUpdateAlbum={this._updatePlaylists}
-                />
-              </Modal>
-            </React.Fragment>
-          }
-        />
-        <div className="albums-container">
-          <div
-            className={`albums-panel ${
-              playlists.length > 5 ? "able-to-expanded" : ""
-            }`}
-          >
-            {playlists.length > 0 ? (
-              <div className="container">
-                <div className="row">
-                  {playlists.slice(0, 5).map((e, i) => (
-                    <PlaylistItem
-                      key={e.playlistId}
-                      title={e.name}
-                      preview={e.coverPhoto}
-                      id={e.playlistId}
-                      count={e.musicCount}
-                      description={e.description}
-                    />
-                  ))}
-                  {isExpanded
-                    ? playlists
-                        .slice(5)
-                        .map((e, i) => (
-                          <PlaylistItem
-                            key={e.playlistId}
-                            title={e.name}
-                            preview={e.coverPhoto}
-                            id={e.playlistId}
-                            count={e.musicCount}
-                            description={e.description}
-                          />
-                        ))
-                    : null}
-                </div>
-              </div>
-            ) : (
-              <div className={"container"}>
-                <div className={"row"}>
-                  <div className={"col-2 album-photo-empty"}>
-                    <div className="ratio">
-                      <div className={"ratio__content"} />
-                    </div>
-                  </div>
-                  <div className={"centered-block"}>
-                    No playlists here yet...
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-          {playlists.length > 5 ? (
-            <div
-              onClick={this.onExpandToggle}
-              title={isExpanded ? "Hide" : "Expand"}
-              className="album-expand-btn"
-            >
-              <span className={"expand-text"}>
-                {isExpanded ? <div>Show less</div> : <div>Show more</div>}
-              </span>
-            </div>
-          ) : null}
-        </div>
+      <div className="main-container container bg-white">
+        <NotAvailable />
       </div>
     );
   }

@@ -195,12 +195,11 @@ export default class App extends Component {
           />
           <PrivateRoute
             path="/music"
-          
             render={() => {
               return (
                 <React.Fragment>
                   <NavBar />
-                    <MainMusicPage />
+                  <MainMusicPage />
                 </React.Fragment>
               );
             }}

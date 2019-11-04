@@ -3,9 +3,16 @@ import "./home.css";
 import NotAvailable from "../_temp-not-available-page";
 export default class Home extends Component {
   render() {
+    const styles = {
+      margin:"0 auto",
+      fontSize:"2rem",
+      textAlign:"center",
+      marginBottom: "150px"
+    }
     return (
       <div className="main-container container bg-white">
-        <NotAvailable />
+        <div style={styles}>Welcome to mohome!</div>
+        <NotAvailable/>
       </div>
     );
   }

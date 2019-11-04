@@ -232,7 +232,8 @@ export default class MohomeApiService {
           Cookies.set("refreshToken", res.data.response.refreshToken, {
             path: "/"
           });
-        });
+        })
+        .catch(e => console.log(e));
     }
   };
 }

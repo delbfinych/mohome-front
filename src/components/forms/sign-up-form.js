@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withApiService } from "../hoc";
-import Cookies from "js-cookie";
 import { withRouter } from "react-router-dom";
 import { compose } from "../../utils";
 
@@ -88,19 +87,11 @@ class SignUpForm extends Component {
       setTimeout(() => {
         this.props
           .signUp({ username, password, email })
-          .then(res => {
-            Cookies.set("id_token", res.data.response.accessToken, {
-              path: "/"
-            });
-            Cookies.set("expiresIn", res.data.response.expiresIn, {
-              path: "/"
-            });
-            Cookies.set("refreshToken", res.data.response.refreshToken, {
-              path: "/"
-            });
+          .then(() => {
             this.props.history.push("/");
           })
-          .catch(() => {
+          .catch((err) => {
+            console.log("sad");
             this.setState({ isLoading: false });
           });
       }, 500);

@@ -9,18 +9,42 @@ export default class MohomeApiService {
   _apiBase = "http://mohome.ml/Api/v1";
 
   signIn = async body => {
-    return axios.post(this._apiBase + "/Token/signin", JSON.stringify(body), {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
+    return axios
+      .post(this._apiBase + "/Token/signin", JSON.stringify(body), {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(function(res) {
+        Cookies.set("id_token", res.data.response.accessToken, {
+          path: "/"
+        });
+        Cookies.set("expiresIn", res.data.response.expiresIn, {
+          path: "/"
+        });
+        Cookies.set("refreshToken", res.data.response.refreshToken, {
+          path: "/"
+        });
+      });
   };
   signUp = async body => {
-    return axios.post(this._apiBase + "/Token/signup", JSON.stringify(body), {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
+    return axios
+      .post(this._apiBase + "/Token/signup", JSON.stringify(body), {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(function(res) {
+        Cookies.set("id_token", res.data.response.accessToken, {
+          path: "/"
+        });
+        Cookies.set("expiresIn", res.data.response.expiresIn, {
+          path: "/"
+        });
+        Cookies.set("refreshToken", res.data.response.refreshToken, {
+          path: "/"
+        });
+      });
   };
   validateUser = async email => {
     return axios.get(this._apiBase + "/users?email=" + email, {

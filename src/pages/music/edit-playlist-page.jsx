@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import AlbumNavigation from "../photo/album-navigation";
-import { withApiService } from "../hoc";
-import { ConfirmingForm } from "../forms";
-import Modal from "../modal";
+import AlbumNavigation from "../../components/photo/album-navigation";
+import { withApiService } from "../../components/hoc";
+import { ConfirmingForm } from "../../components/forms";
+import Modal from "../../components/modal";
 
 class EditPlaylistPage extends Component {
   state = {

@@ -1,14 +1,14 @@
 import React from "react";
-import { SignInForm } from "../forms";
+import { SignUpForm } from "../../components/forms";
 import { Logo } from "../../constants";
-const SignIn = () => {
+const SignUpPage = () => {
   return (
     <div>
       <img className="sign-page-logo" height={"60px"} src={Logo} alt="" />
-      <div className={"logo-text"}>Sign in to Mohome</div>
-      <SignInForm />
+      <div className={"logo-text"}>Join Mohome</div>
+      <SignUpForm />
     </div>
   );
 };
 
-export default SignIn;
+export default SignUpPage;

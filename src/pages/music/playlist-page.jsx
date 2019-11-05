@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import AlbumNavigation from "../photo/album-navigation";
-import { withApiService } from "../hoc";
+import AlbumNavigation from "../../components/photo/album-navigation";
+import { withApiService } from "../../components/hoc";
 
 class PlaylistPage extends Component {
   state = {

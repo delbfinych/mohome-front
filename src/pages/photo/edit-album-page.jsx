@@ -1,10 +1,10 @@
   import React, { Component } from "react";
 import placeholder from "../../img/photo_placeholder.png";
-import AlbumNavigation from "./album-navigation";
-import { withApiService } from "../hoc";
-import PhotoList from "./photo-list";
-import { ConfirmingForm } from "../forms";
-import Modal from "../modal";
+import AlbumNavigation from "../../components/photo/album-navigation";
+import { withApiService } from "../../components/hoc";
+import PhotoList from "../../components/photo/photo-list";
+import { ConfirmingForm } from "../../components/forms";
+import Modal from "../../components/modal";
 
 class EditAlbumPage extends Component {
   state = {

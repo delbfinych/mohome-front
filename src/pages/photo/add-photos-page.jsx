@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-import AlbumNavigation from "./album-navigation";
-import { withApiService } from "../hoc";
-import PhotoList from "./photo-list";
+import AlbumNavigation from "../../components/photo/album-navigation";
+import { withApiService } from "../../components/hoc";
+import PhotoList from "../../components/photo/photo-list";
 
 class AddPhotosPage extends Component {
   state = {

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "./main.css";
-import { withApiService } from "../hoc";
-import { CreateAlbumForm } from "../forms";
-import Modal from "../modal";
-import AlbumItem from "./album-item";
-import AlbumNavigation from "./album-navigation";
-import PhotoList from "./photo-list";
+import { withApiService } from "../../components/hoc";
+import { CreateAlbumForm } from "../../components/forms";
+import Modal from "../../components/modal";
+import AlbumItem from "../../components/photo/album-item";
+import AlbumNavigation from "../../components/photo/album-navigation";
+import PhotoList from "../../components/photo/photo-list";
 import InfiniteScroll from "react-infinite-scroller";
 
 class Main extends Component {

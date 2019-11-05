@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import BreadCrumbs from "./breadcrumbs";
 import dropUploadImg from "../../img/drop_upload.png"
 
-import "./main.css";
+// import "./main.css";
 
 class AlbumNavigation extends Component {
   _isMounted = false;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./video.css";
-import NotAvailable from "../_temp-not-available-page";
+import NotAvailable from "../../components/_temp-not-available-section";
 
 export default class Video extends Component {
   render() {

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "./main.css";
 import PlaylistItem from "./playlist-item";
-import { withApiService } from "../hoc";
-import AlbumNavigation from "../photo/album-navigation";
-import Modal from "../modal";
-import { CreateAlbumForm } from "../forms";
-import NotAvailable from "../_temp-not-available-page";
+import { withApiService } from "../../components/hoc";
+import AlbumNavigation from "../../components/photo/album-navigation";
+import Modal from "../../components/modal";
+import { CreateAlbumForm } from "../../components/forms";
+import NotAvailable from "../../components/_temp-not-available-section";
 
 class Main extends Component {
   state = {

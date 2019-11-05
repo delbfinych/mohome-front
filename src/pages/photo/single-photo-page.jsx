@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { withApiService } from "../hoc";
-import Spinner from "../spinner";
+import { withApiService } from "../../components/hoc";
+import Spinner from "../../components/spinner";
 import { Link } from "react-router-dom";
 
 class SinglePhotoPage extends Component {

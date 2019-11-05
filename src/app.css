@@ -15,21 +15,20 @@ body {
 .form {
   flex-grow: 1;
 }
-.form input {
-}
+
 input.invalid {
   border: 1px solid red;
 }
 .form-control.is-invalid {
-  background-image: url("../../img/error.png");
+  background-image: url("./img/error.png");
   background-size: unset;
 }
 .form-control.is-valid {
-  background-image: url("../../img/success.png");
+  background-image: url("./img/success.png");
   background-size: unset;
 }
 .form-control-validation {
-  background-image: url("../../img/validationSpinner.gif");
+  background-image: url("./img/validationSpinner.gif");
   background-repeat: no-repeat;
   background-position: center right calc(0.375em + 0.25rem);
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./home.css";
-import NotAvailable from "../_temp-not-available-page";
+import NotAvailable from "../../components/_temp-not-available-section";
 export default class Home extends Component {
   render() {
     const styles = {

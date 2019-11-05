@@ -1,25 +1,24 @@
 import React, { Component } from "react";
-import NavBar from "../navbar";
-import Home from "../home";
+import NavBar from "./components/navbar";
+import Home from "./pages/home";
 
+import { Slider, AlbumsPageWrapper } from "./components/photo";
 import {
   MainPhotoPage,
-  Slider,
   AddPhotosPage,
   AlbumPage,
-  AlbumsPageWrapper,
   EditAlbumPage,
   SinglePhotoPage
-} from "../photo";
+} from "./pages/photo";
 
-import Video from "../video";
-import { MainMusicPage, PlaylistPage, EditPlaylistPage } from "../music";
+import Video from "./pages/video";
+import { MainMusicPage, PlaylistPage, EditPlaylistPage } from "./pages/music";
 
-import PrivateRoute from "../private-route";
+import PrivateRoute from "./components/private-route";
 
-import NotFoundPage from "../not-found-page";
-import SignInPage from "../sign-in-page";
-import SignUpPage from "../sign-up-page";
+import NotFoundPage from "./pages/not-found-page";
+import SignInPage from "./pages/sign-in";
+import SignUpPage from "./pages/sign-up";
 import Cookies from "js-cookie";
 
 import { Route, Switch, Redirect } from "react-router-dom";

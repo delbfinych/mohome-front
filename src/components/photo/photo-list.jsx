@@ -1,6 +1,5 @@
 import React from "react";
 import PhotoItem from "./photo-item";
-import PhotoEditor from "./photo-editor";
 import { withApiService } from "../hoc";
 
 class PhotoList extends React.PureComponent {

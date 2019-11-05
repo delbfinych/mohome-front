@@ -7,7 +7,7 @@ import {
   Slider,
   AddPhotosPage,
   AlbumPage,
-  AlbumsPageContainer,
+  AlbumsPageWrapper,
   EditAlbumPage,
   SinglePhotoPage
 } from "../photo";
@@ -75,9 +75,9 @@ export default class App extends Component {
               return (
                 <React.Fragment>
                   <NavBar />
-                  <AlbumsPageContainer>
+                  <AlbumsPageWrapper>
                     <MainPhotoPage history={history} />
-                  </AlbumsPageContainer>
+                  </AlbumsPageWrapper>
                 </React.Fragment>
               );
             }}
@@ -103,12 +103,12 @@ export default class App extends Component {
               return (
                 <React.Fragment>
                   <NavBar />
-                  <AlbumsPageContainer>
+                  <AlbumsPageWrapper>
                     <EditAlbumPage
                       history={history}
                       albumId={match.params.id}
                     />
-                  </AlbumsPageContainer>
+                  </AlbumsPageWrapper>
                 </React.Fragment>
               );
             }}
@@ -139,9 +139,9 @@ export default class App extends Component {
                 return (
                   <React.Fragment>
                     <NavBar />
-                    <AlbumsPageContainer>
+                    <AlbumsPageWrapper>
                       <AddPhotosPage history={history} {...location.state} />
-                    </AlbumsPageContainer>
+                    </AlbumsPageWrapper>
                   </React.Fragment>
                 );
               else return <Redirect to={"/albums/"} />;
@@ -155,9 +155,9 @@ export default class App extends Component {
                 return (
                   <React.Fragment>
                     <NavBar />
-                    <AlbumsPageContainer>
+                    <AlbumsPageWrapper>
                       <AddPhotosPage history={history} {...location.state} />
-                    </AlbumsPageContainer>
+                    </AlbumsPageWrapper>
                   </React.Fragment>
                 );
               else return <Redirect to={"/albums/"} />;
@@ -171,13 +171,13 @@ export default class App extends Component {
               return (
                 <React.Fragment>
                   <NavBar />
-                  <AlbumsPageContainer>
+                  <AlbumsPageWrapper>
                     <AlbumPage
                       history={history}
                       {...location.state}
                       albumId={id}
                     />
-                  </AlbumsPageContainer>
+                  </AlbumsPageWrapper>
                 </React.Fragment>
               );
             }}
@@ -212,13 +212,13 @@ export default class App extends Component {
               return (
                 <React.Fragment>
                   <NavBar />
-                  <AlbumsPageContainer>
+                  <AlbumsPageWrapper>
                     <PlaylistPage
                       history={history}
                       {...location.state}
                       playlistId={id}
                     />
-                  </AlbumsPageContainer>
+                  </AlbumsPageWrapper>
                 </React.Fragment>
               );
             }}
@@ -229,12 +229,12 @@ export default class App extends Component {
               return (
                 <React.Fragment>
                   <NavBar />
-                  <AlbumsPageContainer>
+                  <AlbumsPageWrapper>
                     <EditPlaylistPage
                       history={history}
                       albumId={match.params.id}
                     />
-                  </AlbumsPageContainer>
+                  </AlbumsPageWrapper>
                 </React.Fragment>
               );
             }}

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import placeholder from "../../img/music_placeholder.svg";
 import AlbumNavigation from "../photo/album-navigation";
 import { withApiService } from "../hoc";
-import Spinner from "../spinner";
 import { ConfirmingForm } from "../forms";
 import Modal from "../modal";
 
@@ -22,7 +20,7 @@ class EditPlaylistPage extends Component {
   }
 
   _updateAlbum = async () => {
-    const { getPlaylistInfo, albumId, getPhotosByAlbumId } = this.props;
+    const { getPlaylistInfo, albumId } = this.props;
 
     getPlaylistInfo(albumId)
       .then(res => {
@@ -45,7 +43,7 @@ class EditPlaylistPage extends Component {
   };
 
   onSubmit = () => {
-    const { description, title, coverPhotoName } = this.state;
+    const { description, title } = this.state;
     const { albumId, changePlaylist } = this.props;
     changePlaylist(albumId, {
       description,
@@ -112,9 +110,7 @@ class EditPlaylistPage extends Component {
       title,
       description,
       titleValid,
-      photos,
-      coverPreview,
-      isLoading
+      coverPreview
     } = this.state;
     const breadCrumbs = [
       {

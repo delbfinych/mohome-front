@@ -11,7 +11,7 @@ export default class Home extends Component {
         fontSize: "2rem",
         flexDirection: "column"
     }}>
-        <div>This page is not available.</div>
+        <div>This section is not available.</div>
         <div>We are working on it.</div>
         <ProcessingSpinner />
       </div>

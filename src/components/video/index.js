@@ -1,3 +1,3 @@
-import Video from './video.js';
+import Video from './video.jsx';
 
 export default Video;

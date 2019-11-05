@@ -106,12 +106,7 @@ class EditPlaylistPage extends Component {
     );
   };
   render() {
-    const {
-      title,
-      description,
-      titleValid,
-      coverPreview
-    } = this.state;
+    const { title, description, titleValid, coverPreview } = this.state;
     const breadCrumbs = [
       {
         text: `My photos`,

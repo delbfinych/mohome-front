@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { withApiService } from '../../components/hoc';
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from '../../utils';
-
+import routes from '../../routes';
 class SignInForm extends Component {
   state = {
     email: '',
     password: '',
     isLoading: false,
     authError: false,
-    errMsg: '',
+    errMsg: ''
   };
 
   onSubmit = e => {
@@ -20,10 +20,10 @@ class SignInForm extends Component {
       this.props
         .signIn({
           email,
-          PasswordHash: password,
+          PasswordHash: password
         })
         .then(() => {
-          this.props.history.push('/');
+          this.props.history.push(routes.root.path);
         })
         .catch(err => {
           if (err.response) {
@@ -32,13 +32,13 @@ class SignInForm extends Component {
               this.setState({
                 authError: true,
                 isLoading: false,
-                errMsg: 'Incorrect username or password.',
+                errMsg: 'Incorrect username or password.'
               });
           } else
             this.setState({
               authError: true,
               isLoading: false,
-              errMsg: err.message,
+              errMsg: err.message
             });
         });
     }, 500);
@@ -47,7 +47,7 @@ class SignInForm extends Component {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
-      [name]: value,
+      [name]: value
     });
   };
   render() {
@@ -104,7 +104,7 @@ class SignInForm extends Component {
             </div>
           ) : null}
           <div className={'create-account-callout'}>
-            New to Mohome? <Link to={'/sign-up'}>Create an account.</Link>
+            New to Mohome? <Link to={routes.signUp.path}>Create an account.</Link>
           </div>
         </form>
       </div>
@@ -114,7 +114,7 @@ class SignInForm extends Component {
 
 const mapMethodToProps = service => {
   return {
-    signIn: service.signIn,
+    signIn: service.signIn
   };
 };
 

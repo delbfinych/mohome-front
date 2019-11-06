@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { withApiService } from "../../components/hoc";
 import Spinner from "../../components/spinner";
 import { Link } from "react-router-dom";
+import routes from '../../routes';
 
-class SinglePhotoPage extends Component {
+class SinglePhoto extends Component {
   state = {
     isLoading: false,
     photosName: "",
@@ -46,11 +47,11 @@ class SinglePhotoPage extends Component {
           <>
             <div className="single-photo-wrap__btns">
               <div className={`single-photo-page-wrap-btn`}>
-                <Link to={"/albums/"}>albums</Link>
+                <Link to={routes.app.photo.main.path}>albums</Link>
                 {albumId && (
                   <>
                     <span>/</span>
-                    <Link to={`/albums/${albumId}/`}>{albumId}</Link>
+                    <Link to={`${routes.app.photo.main.path}${albumId}/`}>{albumId}</Link>
                   </>
                 )}
               </div>
@@ -77,4 +78,4 @@ const mapMethodToProps = service => {
   };
 };
 
-export default withApiService(mapMethodToProps)(SinglePhotoPage);
+export default withApiService(mapMethodToProps)(SinglePhoto);

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
+import routes from "../../routes"
 
 export default class LeftNavBar extends Component {
   state = {
@@ -8,7 +9,7 @@ export default class LeftNavBar extends Component {
   render() {
     return (
       <div className={"navbar__left"}>
-        <Link to="/" className="navbar__logo">
+        <Link to={routes.root.path} className="navbar__logo">
           <img src="/temp_content/brand.png" className="logo" alt="Mohome" />
         </Link>
         <div
@@ -48,7 +49,7 @@ const Menu = ({ isMenuOpened, onClick }) => {
           onClick={onClick}
           activeClassName={"link-active"}
           className="navbar__link"
-          to="/"
+          to={routes.root.path}
           exact
         >
           <i className="zmdi zmdi-home zmdi-hc-lg" /> Home
@@ -59,7 +60,7 @@ const Menu = ({ isMenuOpened, onClick }) => {
           onClick={onClick}
           activeClassName={"link-active"}
           className="navbar__link"
-          to="/albums/"
+          to={routes.app.photo.main.path}
         >
           <i className="zmdi zmdi-image zmdi-hc-lg" /> Photo
         </NavLink>
@@ -69,7 +70,7 @@ const Menu = ({ isMenuOpened, onClick }) => {
           onClick={onClick}
           activeClassName={"link-active"}
           className="navbar__link"
-          to="/video/"
+          to={routes.app.video.main.path}
         >
           <i className="zmdi zmdi-movie zmdi-hc-lg" /> Video
         </NavLink>
@@ -79,7 +80,7 @@ const Menu = ({ isMenuOpened, onClick }) => {
           onClick={onClick}
           activeClassName={"link-active"}
           className="navbar__link"
-          to="/music/"
+          to={routes.app.music.main.path}
         >
           <i className="zmdi zmdi-audio zmdi-hc-lg" /> Music
         </NavLink>

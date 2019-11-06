@@ -7,6 +7,7 @@ import AlbumItem from '../../components/photo/album-item';
 import AlbumNavigation from '../../components/photo/album-navigation';
 import PhotoList from '../../components/photo/photo-list';
 import InfiniteScroll from 'react-infinite-scroller';
+import routes from '../../routes';
 
 class MainView extends Component {
   state = {
@@ -68,12 +69,12 @@ class MainView extends Component {
   onUpload = async files => {
     const { history } = this.props;
 
-    history.push('upload', {
+    history.push(routes.app.photo.upload.relativePath, {
       files,
       breadCrumbs: [
         {
           text: `My photos`,
-          link: '/albums/'
+          link: routes.app.photo.main.path
         },
         {
           text: 'Add photos'
@@ -87,7 +88,7 @@ class MainView extends Component {
     const breadCrumbs = [
       {
         text: `My albums ${album.length}`,
-        link: '/albums/'
+        link: routes.app.photo.main.path
       }
     ];
 

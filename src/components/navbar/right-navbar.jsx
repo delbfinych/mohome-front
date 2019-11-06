@@ -1,6 +1,7 @@
 import React from "react";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
+import routes from "../../routes"
 
 const RightNavBar = () => {
   const token = Cookies.get("id_token");
@@ -40,7 +41,7 @@ const RightNavBar = () => {
             Cookies.remove("expiresIn", { path: "/" });
             Cookies.remove("refreshToken", { path: "/" });
           }}
-          to={"/sign-in"}
+          to={routes.signIn}
           className="dropdown-item"
         >
           Sign out

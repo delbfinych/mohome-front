@@ -5,6 +5,7 @@ import compose from "../../utils/compose";
 import { ConfirmingForm } from "../forms";
 import Modal from "../modal";
 import PhotoEditor from "./photo-editor";
+import routes from "../../routes"
 
 class PhotoItem extends Component {
   state = {
@@ -41,7 +42,7 @@ class PhotoItem extends Component {
   onOpen = (currPhoto, photos, index, albumId) => {
     const { history } = this.props;
 
-    history.push(`photo/${currPhoto.name}`, {
+    history.push(`${routes.app.photo.slider.relativePath}/${currPhoto.name}`, {
       modal: true,
       currentName: currPhoto.name,
       index,

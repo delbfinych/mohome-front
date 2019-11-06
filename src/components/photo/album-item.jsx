@@ -1,6 +1,7 @@
 import placeholder from '../../img/photo_placeholder.png';
 import { withRouter } from 'react-router-dom';
 import React from 'react';
+import routes from "../../routes"
 
 const AlbumItem = ({ title, count, preview, id, history }) => {
   const style = {
@@ -14,7 +15,7 @@ const AlbumItem = ({ title, count, preview, id, history }) => {
       <div
         onClick={e => {
           e.stopPropagation();
-          history.push(`${id}/edit`);
+          history.push(`${id}/${routes.app.photo.albums.edit.relativePath}`);
         }}
         className="album-change"
       >

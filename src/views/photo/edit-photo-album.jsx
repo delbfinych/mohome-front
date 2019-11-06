@@ -5,8 +5,8 @@ import { withApiService } from '../../components/hoc';
 import PhotoList from '../../components/photo/photo-list';
 import { ConfirmingForm } from '../../components/forms';
 import Modal from '../../components/modal';
-
-class EditAlbumPage extends Component {
+import routes from '../../routes';
+class EditPhotoAlbum extends Component {
   state = {
     coverPhotoName: null,
     description: '',
@@ -70,22 +70,22 @@ class EditAlbumPage extends Component {
 
   onAlbumDelete = () => {
     const { deleteAlbum, albumId, history } = this.props;
-    deleteAlbum(albumId).then(() => history.push('/albums/'));
+    deleteAlbum(albumId).then(() => history.push(routes.app.photo.main.path));
   };
 
   onUpload = async files => {
     const { albumId, history } = this.props;
-    history.push('upload', {
+    history.push(routes.app.photo.upload.relativePath, {
       albumId,
       files,
       breadCrumbs: [
         {
           text: `My photos`,
-          link: '/albums/'
+          link: routes.app.photo.main.path
         },
         {
           text: `${this.state.title}`,
-          link: `/albums/${this.props.albumId}/`
+          link: `${routes.app.photo.main.path}${this.props.albumId}/`
         },
         {
           text: 'Add photos'
@@ -99,11 +99,11 @@ class EditAlbumPage extends Component {
     const breadCrumbs = [
       {
         text: `My photos`,
-        link: '/albums/'
+        link: routes.app.photo.main.path
       },
       {
         text: `${this.state.title}`,
-        link: `/albums/${this.props.albumId}/`
+        link: `${routes.app.photo.main.path}${this.props.albumId}/`
       },
       {
         text: 'Manage album'
@@ -221,4 +221,4 @@ const mapMethodToProps = service => {
   };
 };
 
-export default withApiService(mapMethodToProps)(EditAlbumPage);
+export default withApiService(mapMethodToProps)(EditPhotoAlbum);

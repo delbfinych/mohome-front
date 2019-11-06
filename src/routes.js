@@ -29,6 +29,7 @@ export default {
       albums: {
         edit: {
           path: '/albums/:id/edit',
+          relativePath: 'edit',
           view: EditPhotoAlbum
         },
         photo: {
@@ -46,6 +47,7 @@ export default {
       },
       slider: {
         path: 'photo/:name',
+        relativePath: 'photo',
         view: PhotoSlider
       },
       photo: {
@@ -54,6 +56,7 @@ export default {
       },
       upload: {
         path: '/albums/upload',
+        relativePath: 'upload',
         view: AddPhotos
       }
     },

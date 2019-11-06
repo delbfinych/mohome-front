@@ -1,10 +1,11 @@
-import React, { Component } from "react";
-import AlbumNavigation from "../../components/photo/album-navigation";
-import { withApiService } from "../../components/hoc";
-import PhotoList from "../../components/photo/photo-list";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import AlbumNavigation from '../../components/photo/album-navigation';
+import { withApiService } from '../../components/hoc';
+import PhotoList from '../../components/photo/photo-list';
+import { Link } from 'react-router-dom';
+import routes from '../../routes';
 
-class AlbumPage extends Component {
+class PhotoAlbum extends Component {
   state = {
     photos: [],
     albumInfo: null,
@@ -48,20 +49,20 @@ class AlbumPage extends Component {
   onUpload = async files => {
     const { albumId, history } = this.props;
 
-    history.push("upload", {
+    history.push(routes.app.photo.upload.relativePath, {
       albumId,
       files,
       breadCrumbs: [
         {
           text: `My photos`,
-          link: "/albums/"
+          link: routes.app.photo.main.path
         },
         {
           text: `${this.state.albumTitle}`,
-          link: `/albums/${albumId}/`
+          link: `${routes.app.photo.main.path}${albumId}/`
         },
         {
-          text: "Add photos"
+          text: 'Add photos'
         }
       ]
     });
@@ -72,10 +73,10 @@ class AlbumPage extends Component {
     const breadCrumbs = [
       {
         text: `My photos`,
-        link: "/albums/"
+        link: routes.app.photo.main.path
       },
       {
-        text: `${albumTitle} ${photoCount ? photoCount : ""}`
+        text: `${albumTitle} ${photoCount ? photoCount : ''}`
       }
     ];
 
@@ -85,29 +86,23 @@ class AlbumPage extends Component {
           rightContent={
             <div className="add-photos-button">
               <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
-              <label htmlFor={"imageDnd"} />
+              <label htmlFor={'imageDnd'} />
             </div>
           }
           onUpload={this.onUpload}
           breadCrumbs={breadCrumbs}
         />
         <div className="photos_album_intro">
-          <div className={"photos_album_intro__title"}>{albumTitle}</div>
-          <div className={"photos_album_intro__description"}>{description}</div>
-          <div className={"photos_album_intro__photo-count"}>
-            {photoCount} photos
-          </div>
+          <div className={'photos_album_intro__title'}>{albumTitle}</div>
+          <div className={'photos_album_intro__description'}>{description}</div>
+          <div className={'photos_album_intro__photo-count'}>{photoCount} photos</div>
           <div>
-            <Link style={{ textAlign: "center" }} to={`edit`}>
+            <Link style={{ textAlign: 'center' }} to={routes.app.photo.albums.edit.relativePath}>
               Edit album
             </Link>
           </div>
         </div>
-        <PhotoList
-          albumId={albumId}
-          onPhotoDeleted={this._updateAlbum}
-          photos={photos}
-        />
+        <PhotoList albumId={albumId} onPhotoDeleted={this._updateAlbum} photos={photos} />
       </div>
     );
   }
@@ -120,4 +115,4 @@ const mapMethodToProps = service => {
   };
 };
 
-export default withApiService(mapMethodToProps)(AlbumPage);
+export default withApiService(mapMethodToProps)(PhotoAlbum);

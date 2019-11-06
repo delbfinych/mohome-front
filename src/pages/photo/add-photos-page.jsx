@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import AlbumNavigation from "../../components/photo/album-navigation";
-import { withApiService } from "../../components/hoc";
-import PhotoList from "../../components/photo/photo-list";
+import AlbumNavigation from '../../components/photo/album-navigation';
+import { withApiService } from '../../components/hoc';
+import PhotoList from '../../components/photo/photo-list';
 
 class AddPhotosPage extends Component {
   state = {
@@ -35,8 +35,8 @@ class AddPhotosPage extends Component {
       });
     for (let i = 0; i < files.length; i++) {
       const formData = new FormData();
-      formData.append("Photo", files[i]);
-      if (albumId) formData.append("AlbumId", albumId);
+      formData.append('Photo', files[i]);
+      if (albumId) formData.append('AlbumId', albumId);
 
       await uploadPhoto(formData)
         .then(res => {
@@ -45,10 +45,7 @@ class AddPhotosPage extends Component {
               return {
                 progressBar: prevState.progressBar + 1,
                 isLoading: prevState.progressBar + 1 !== prevState.toLoading,
-                photos: [
-                  ...prevState.photos,
-                  { name: res.data.response.fileName }
-                ]
+                photos: [...prevState.photos, { name: res.data.response.fileName }]
               };
             });
         })
@@ -66,19 +63,19 @@ class AddPhotosPage extends Component {
             !isLoading ? (
               <div className="add-photos-button">
                 <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
-                <label htmlFor={"imageDnd"} />
+                <label htmlFor={'imageDnd'} />
               </div>
             ) : (
               <div className="add-photos-button">
                 <progress value={progressBar} max={toLoading} />
                 <div
                   style={{
-                    textAlign: "center",
-                    position: "absolute",
-                    width: "100%",
-                    left: "50%",
-                    top: "80%",
-                    transform: "translate(-50%, 0)"
+                    textAlign: 'center',
+                    position: 'absolute',
+                    width: '100%',
+                    left: '50%',
+                    top: '80%',
+                    transform: 'translate(-50%, 0)'
                   }}
                 >{`${progressBar} of ${toLoading} loaded`}</div>
               </div>

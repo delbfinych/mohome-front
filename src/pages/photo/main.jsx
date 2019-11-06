@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import "./main.css";
-import { withApiService } from "../../components/hoc";
-import { CreateAlbumForm } from "../../components/forms";
-import Modal from "../../components/modal";
-import AlbumItem from "../../components/photo/album-item";
-import AlbumNavigation from "../../components/photo/album-navigation";
-import PhotoList from "../../components/photo/photo-list";
-import InfiniteScroll from "react-infinite-scroller";
+import React, { Component } from 'react';
+import './main.css';
+import { withApiService } from '../../components/hoc';
+import { CreateAlbumForm } from '../../components/forms';
+import Modal from '../../components/modal';
+import AlbumItem from '../../components/photo/album-item';
+import AlbumNavigation from '../../components/photo/album-navigation';
+import PhotoList from '../../components/photo/photo-list';
+import InfiniteScroll from 'react-infinite-scroller';
 
 class Main extends Component {
   state = {
@@ -68,15 +68,15 @@ class Main extends Component {
   onUpload = async files => {
     const { history } = this.props;
 
-    history.push("upload", {
+    history.push('upload', {
       files,
       breadCrumbs: [
         {
           text: `My photos`,
-          link: "/albums/"
+          link: '/albums/'
         },
         {
-          text: "Add photos"
+          text: 'Add photos'
         }
       ]
     });
@@ -87,7 +87,7 @@ class Main extends Component {
     const breadCrumbs = [
       {
         text: `My albums ${album.length}`,
-        link: "/albums/"
+        link: '/albums/'
       }
     ];
 
@@ -98,30 +98,25 @@ class Main extends Component {
           breadCrumbs={breadCrumbs}
           rightContent={
             <React.Fragment>
-              <Modal title={"New album"}>
+              <Modal title={'New album'}>
                 <div className="add-album-button">
-                  <i className="zmdi zmdi-collection-folder-image zmdi-hc-lg" />{" "}
-                  New album
+                  <i className="zmdi zmdi-collection-folder-image zmdi-hc-lg" /> New album
                 </div>
                 <CreateAlbumForm
-                  submitBtn={"Create album"}
+                  submitBtn={'Create album'}
                   createAlbum={this.props.createAlbum}
                   onUpdateAlbum={this._updateAlbums}
                 />
               </Modal>
               <div className="add-photos-button">
                 <i className="zmdi zmdi-camera-add zmdi-hc-lg" /> Add photos
-                <label className={"uploadBtn"} htmlFor={"imageDnd"} />
+                <label className={'uploadBtn'} htmlFor={'imageDnd'} />
               </div>
             </React.Fragment>
           }
         />
         <div className="albums-container">
-          <div
-            className={`albums-panel ${
-              album.length > 5 ? "able-to-expanded" : ""
-            }`}
-          >
+          <div className={`albums-panel ${album.length > 5 ? 'able-to-expanded' : ''}`}>
             {album.length > 0 ? (
               <div className="container">
                 <div className="row">
@@ -152,12 +147,12 @@ class Main extends Component {
                 </div>
               </div>
             ) : (
-              <div className={"container"}>
-                <div className={"row"}>
-                  <div className={"col-2 album-photo-empty"}>
+              <div className={'container'}>
+                <div className={'row'}>
+                  <div className={'col-2 album-photo-empty'}>
                     <div className="ratio" />
                   </div>
-                  <div className={"centered-block"}>No albums here yet...</div>
+                  <div className={'centered-block'}>No albums here yet...</div>
                 </div>
               </div>
             )}
@@ -165,10 +160,10 @@ class Main extends Component {
           {album.length > 5 ? (
             <div
               onClick={this.onExpandToggle}
-              title={isExpanded ? "Hide" : "Expand"}
+              title={isExpanded ? 'Hide' : 'Expand'}
               className="album-expand-btn"
             >
-              <span className={"expand-text"}>
+              <span className={'expand-text'}>
                 {isExpanded ? <div>Show less</div> : <div>Show more</div>}
               </span>
             </div>

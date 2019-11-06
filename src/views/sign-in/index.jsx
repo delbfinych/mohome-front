@@ -1,5 +1,5 @@
 import React from "react";
-import { SignInForm } from "../../components/forms";
+import  SignInForm  from "./sign-in-form";
 import { Logo } from "../../constants";
 const SignIn = () => {
   return (

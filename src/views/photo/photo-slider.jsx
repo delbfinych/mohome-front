@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import PhotoEditor from "./photo-editor";
-import { withApiService } from "../hoc";
-import { ConfirmingForm } from "../forms";
-import Modal from "../modal";
-import Spinner from "../spinner";
+import PhotoEditor from "../../components/photo/photo-editor";
+import { withApiService } from "../../components/hoc";
+import { ConfirmingForm } from "../../components/forms";
+import Modal from "../../components/modal";
+import Spinner from "../../components/spinner";
 import { Idle } from "../../utils";
 
-import "./slider.css";
+import "./photo-slider.css";
 
 class Slider extends Component {
   state = {

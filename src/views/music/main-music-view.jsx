@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import "./main.css";
-import PlaylistItem from "./playlist-item";
+import "./main-music-view.css";
+import PlaylistItem from "../../components/music/playlist-item";
 import { withApiService } from "../../components/hoc";
 import AlbumNavigation from "../../components/photo/album-navigation";
 import Modal from "../../components/modal";
 import { CreateAlbumForm } from "../../components/forms";
 import NotAvailable from "../../components/_temp-not-available-section";
 
-class Main extends Component {
+class MainMusicView extends Component {
   state = {
     playlists: [],
     photos: [],
@@ -62,4 +62,4 @@ const mapMethodToProps = service => {
   };
 };
 
-export default withApiService(mapMethodToProps)(Main);
+export default withApiService(mapMethodToProps)(MainMusicView);

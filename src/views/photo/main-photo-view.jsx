@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './main.css';
+import './main-photo-view.css';
 import { withApiService } from '../../components/hoc';
 import { CreateAlbumForm } from '../../components/forms';
 import Modal from '../../components/modal';
@@ -8,7 +8,7 @@ import AlbumNavigation from '../../components/photo/album-navigation';
 import PhotoList from '../../components/photo/photo-list';
 import InfiniteScroll from 'react-infinite-scroller';
 
-class Main extends Component {
+class MainView extends Component {
   state = {
     album: [],
     photos: [],
@@ -190,4 +190,4 @@ const mapMethodToProps = service => {
   };
 };
 
-export default withApiService(mapMethodToProps)(Main);
+export default withApiService(mapMethodToProps)(MainView);

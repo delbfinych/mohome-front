@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withApiService } from "../hoc";
+import { withApiService } from "../../components/hoc";
 import { withRouter } from "react-router-dom";
 import { compose } from "../../utils";
 

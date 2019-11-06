@@ -1,44 +1,44 @@
-import React, { Component } from "react";
-import { withApiService } from "../hoc";
-import { Link, withRouter } from "react-router-dom";
-import { compose } from "../../utils";
+import React, { Component } from 'react';
+import { withApiService } from '../../components/hoc';
+import { Link, withRouter } from 'react-router-dom';
+import { compose } from '../../utils';
 
 class SignInForm extends Component {
   state = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     isLoading: false,
     authError: false,
-    errMsg: ""
+    errMsg: '',
   };
 
   onSubmit = e => {
     e.preventDefault();
     const { password, email } = this.state;
-    this.setState({ authError: false, isLoading: true, errMsg: "" });
+    this.setState({ authError: false, isLoading: true, errMsg: '' });
     setTimeout(() => {
       this.props
         .signIn({
           email,
-          PasswordHash: password
+          PasswordHash: password,
         })
         .then(() => {
-          this.props.history.push("/");
+          this.props.history.push('/');
         })
         .catch(err => {
           if (err.response) {
-            console.log("Auth request status: ", err.response.status);
+            console.log('Auth request status: ', err.response.status);
             if (Math.trunc(err.response.status / 100) === 4)
               this.setState({
                 authError: true,
                 isLoading: false,
-                errMsg: "Incorrect username or password."
+                errMsg: 'Incorrect username or password.',
               });
           } else
             this.setState({
               authError: true,
               isLoading: false,
-              errMsg: err.message
+              errMsg: err.message,
             });
         });
     }, 500);
@@ -47,53 +47,53 @@ class SignInForm extends Component {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
   render() {
     const { email, password, isLoading, authError, errMsg } = this.state;
     return (
-      <div className={"sign-in-form"}>
-        <form className={"form"} onSubmit={this.onSubmit}>
+      <div className={'sign-in-form'}>
+        <form className={'form'} onSubmit={this.onSubmit}>
           <div className="form-group">
-            <label className={"sign-in-form__label"} htmlFor="email">
+            <label className={'sign-in-form__label'} htmlFor="email">
               Email address
             </label>
             <input
-              name={"email"}
-              id={"email"}
+              name={'email'}
+              id={'email'}
               className={`form-control`}
               onChange={this.handleUserInput}
               value={email}
-              type={"text"}
-              placeholder={"name@example.com"}
+              type={'text'}
+              placeholder={'name@example.com'}
             />
           </div>
           <div className="form-group">
-            <label className={"sign-in-form__label"} htmlFor="password">
+            <label className={'sign-in-form__label'} htmlFor="password">
               Password
             </label>
             <input
-              name={"password"}
-              id={"password"}
+              name={'password'}
+              id={'password'}
               className={`form-control`}
               onChange={this.handleUserInput}
               value={password}
-              type={"password"}
-              placeholder={"password"}
+              type={'password'}
+              placeholder={'password'}
             />
           </div>
           {isLoading ? (
-            <button disabled className={"ok-btn"} type={"submit"}>
+            <button disabled className={'ok-btn'} type={'submit'}>
               Signing in
             </button>
           ) : (
-            <button className={"ok-btn"} type={"submit"}>
+            <button className={'ok-btn'} type={'submit'}>
               Sign in
             </button>
           )}
           {authError ? (
-            <div className={"error"}>
+            <div className={'error'}>
               <i
                 onClick={() => {
                   this.setState({ authError: false });
@@ -103,8 +103,8 @@ class SignInForm extends Component {
               <span>{errMsg}</span>
             </div>
           ) : null}
-          <div className={"create-account-callout"}>
-            New to Mohome? <Link to={"/sign-up"}>Create an account.</Link>
+          <div className={'create-account-callout'}>
+            New to Mohome? <Link to={'/sign-up'}>Create an account.</Link>
           </div>
         </form>
       </div>
@@ -114,7 +114,7 @@ class SignInForm extends Component {
 
 const mapMethodToProps = service => {
   return {
-    signIn: service.signIn
+    signIn: service.signIn,
   };
 };
 

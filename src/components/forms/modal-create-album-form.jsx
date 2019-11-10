@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./modal-create-album-form.css";
 import { withRouter } from "react-router-dom";
-import compose from "../../utils/compose";
+import compose from "../../helpers/compose";
 
 class ModalCreateAlbumForm extends Component {
   state = {

@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { withApiService } from "../../components/hoc";
-import Spinner from "../../components/spinner";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { withApiService } from '../../components/hoc';
+import Spinner from '../../components/spinner';
+import { Link } from 'react-router-dom';
 import routes from '../../routes';
 
 class SinglePhoto extends Component {
   state = {
     isLoading: false,
-    photosName: "",
+    photosName: '',
     notFound: false
   };
 
@@ -17,9 +17,7 @@ class SinglePhoto extends Component {
     getPhoto(photoName)
       .then(res => {
         this.setState({
-          photo: `data:${res.data.response.imageType};base64,${
-            res.data.response.image
-          }`
+          photo: `data:${res.data.response.imageType};base64,${res.data.response.image}`
         });
       })
       .catch(err => this.setState({ notFound: true }))
@@ -40,9 +38,9 @@ class SinglePhoto extends Component {
     const { albumId, photoName } = this.props;
 
     return (
-      <div className={"single-photo-page-wrap"}>
+      <div className={'single-photo-page-wrap'}>
         {notFound ? (
-          <div className={"centered-block"}>Not found</div>
+          <div className={'centered-block'}>Not found</div>
         ) : (
           <>
             <div className="single-photo-wrap__btns">

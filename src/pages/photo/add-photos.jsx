@@ -4,7 +4,7 @@ import AlbumNavigation from '../../components/photo/album-navigation';
 import { withApiService } from '../../components/hoc';
 import PhotoList from '../../components/photo/photo-list';
 
-class AddPhotosPage extends Component {
+class AddPhotos extends Component {
   state = {
     previewPhoto: [],
     photos: [],
@@ -96,4 +96,4 @@ const mapMethodToProps = service => {
   };
 };
 
-export default withApiService(mapMethodToProps)(AddPhotosPage);
+export default withApiService(mapMethodToProps)(AddPhotos);

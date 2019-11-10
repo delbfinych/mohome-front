@@ -4,7 +4,7 @@ import { withApiService } from "../../components/hoc";
 import { ConfirmingForm } from "../../components/forms";
 import Modal from "../../components/modal";
 
-class EditPlaylistPage extends Component {
+class EditMusicPlaylist extends Component {
   state = {
     coverPhoto: null,
     description: "",
@@ -221,4 +221,4 @@ const mapMethodToProps = service => {
   };
 };
 
-export default withApiService(mapMethodToProps)(EditPlaylistPage);
+export default withApiService(mapMethodToProps)(EditMusicPlaylist);

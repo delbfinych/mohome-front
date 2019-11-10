@@ -1,16 +1,15 @@
-import React, { Component } from "react";
-import { withApiService } from "../hoc";
+import React, { Component } from 'react';
+import { withApiService } from '../hoc';
 
 class PhotoEditor extends Component {
   state = {
-    description: "",
+    description: '',
     isFocused: false
   };
 
   componentDidMount() {
     const { description } = this.props;
-    if (description)
-      this.setState({ description });
+    if (description) this.setState({ description });
   }
 
   componentDidUpdate(prevProps) {
@@ -42,13 +41,11 @@ class PhotoEditor extends Component {
           onChange={this.onChange}
           type="text"
           value={description}
-          placeholder={"Add a description..."}
+          placeholder={'Add a description...'}
           size={description.length}
         />
         {isFocused ? (
-          <div
-            style={{ textAlign: "center" }}
-          >{`${description.length} of 100 symbols`}</div>
+          <div style={{ textAlign: 'center' }}>{`${description.length} of 100 symbols`}</div>
         ) : null}
       </React.Fragment>
     );

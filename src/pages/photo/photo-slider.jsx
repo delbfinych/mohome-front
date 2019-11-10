@@ -4,11 +4,11 @@ import { withApiService } from "../../components/hoc";
 import { ConfirmingForm } from "../../components/forms";
 import Modal from "../../components/modal";
 import Spinner from "../../components/spinner";
-import { Idle } from "../../utils";
+import { Idle } from "../../helpers";
 
 import "./photo-slider.css";
 
-class Slider extends Component {
+class PhotoSlider extends Component {
   state = {
     photos: [],
     currentItem: {},
@@ -242,4 +242,4 @@ const mapMethodToProps = service => {
   };
 };
 
-export default withApiService(mapMethodToProps)(Slider);
+export default withApiService(mapMethodToProps)(PhotoSlider);

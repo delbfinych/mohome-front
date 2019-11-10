@@ -1,7 +1,7 @@
 import placeholder from '../../img/photo_placeholder.png';
 import { withRouter } from 'react-router-dom';
 import React from 'react';
-import routes from "../../routes"
+import routes from '../../routes';
 
 const AlbumItem = ({ title, count, preview, id, history }) => {
   const style = {

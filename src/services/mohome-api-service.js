@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { serialize } from "../utils";
+import { serialize } from "../helpers";
 
 export default class MohomeApiService {
   constructor() {

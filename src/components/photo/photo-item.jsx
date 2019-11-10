@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { withApiService } from "../hoc";
-import compose from "../../utils/compose";
+import compose from "../../helpers/compose";
 import { ConfirmingForm } from "../forms";
 import Modal from "../modal";
 import PhotoEditor from "./photo-editor";

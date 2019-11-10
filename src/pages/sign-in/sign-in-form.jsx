@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withApiService } from '../../components/hoc';
 import { Link, withRouter } from 'react-router-dom';
-import { compose } from '../../utils';
+import { compose } from '../../helpers';
 import routes from '../../routes';
 class SignInForm extends Component {
   state = {

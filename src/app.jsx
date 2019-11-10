@@ -8,8 +8,6 @@ import PrivateRoute from './components/private-route';
 
 import routes from './routes';
 
-
-
 import './app.css';
 
 export default class App extends Component {
@@ -28,7 +26,6 @@ export default class App extends Component {
     if (prevPathName && prevPathName[prevPathName.length - 1] != '/') {
       prevPathName = prevPathName.slice(0, prevPathName.lastIndexOf('/') + 1);
     }
-    console.log(routes);
     let { location } = this.props;
     let isModal = !!(location.state && location.state.modal && this.previousLocation !== location);
     return (

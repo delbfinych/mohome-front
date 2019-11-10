@@ -1,7 +1,7 @@
 import React from "react";
 import  SignUpForm  from "./sign-up-form";
 import { Logo } from "../../constants";
-const SignUpPage = () => {
+const SignUp = () => {
   return (
     <div>
       <img className="sign-page-logo" height={"60px"} src={Logo} alt="" />
@@ -11,4 +11,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default SignUp;

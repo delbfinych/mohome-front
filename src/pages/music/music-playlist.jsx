@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AlbumNavigation from "../../components/photo/album-navigation";
 import { withApiService } from "../../components/hoc";
 
-class PlaylistPage extends Component {
+class MusicPlaylist extends Component {
   state = {
     music: [],
     playlistInfo: null,
@@ -103,4 +103,4 @@ const mapMethodToProps = service => {
   };
 };
 
-export default withApiService(mapMethodToProps)(PlaylistPage);
+export default withApiService(mapMethodToProps)(MusicPlaylist);

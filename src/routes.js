@@ -1,4 +1,4 @@
-import Home from './views/home';
+import Home from './pages/home';
 import {
   MainPhotoView,
   AddPhotos,
@@ -6,12 +6,12 @@ import {
   EditPhotoAlbum,
   SinglePhoto,
   PhotoSlider
-} from './views/photo';
-import Video from './views/video';
-import { MainMusicView, MusicPlaylist, EditMusicPlaylist } from './views/music';
+} from './pages/photo';
+import Video from './pages/video';
+import { MainMusicView, MusicPlaylist, EditMusicPlaylist } from './pages/music';
 
-import SignIn from './views/sign-in';
-import SignUp from './views/sign-up';
+import SignIn from './pages/sign-in';
+import SignUp from './pages/sign-up';
 
 export default {
   root: {

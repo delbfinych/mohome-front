@@ -1,0 +1,341 @@
+.photo-section-container {
+  font-size: 15px;
+  width: 100%;
+}
+html {
+  width: 100vw;
+  overflow-x: hidden;
+}
+.left-right-bar {
+  color: #4582ec;
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.albums-count {
+  color: #747474;
+  margin-left: 5px;
+}
+.albums-bar-left {
+  margin-right: 10px;
+}
+.add-photos-button {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+}
+.add-photos-button label {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.photos-upload-input {
+  display: none;
+}
+.add-album-button {
+  margin-right: 25px;
+  display: inline-block;
+  cursor: pointer;
+}
+.album {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+.albums-panel {
+  background-color: white;
+  width: 100%;
+  position: relative;
+  padding: 7px;
+  border-radius: 5px;
+}
+.albums-panel.able-to-expanded {
+  border-radius: 5px 5px 0 0;
+}
+.albums-panel-empty {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 7px;
+}
+
+.albums-panel-empty .ratio__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.album-photo-empty {
+  padding: 0 7px;
+  flex: 0 0 20%;
+  max-width: 20%;
+  margin: 7px auto;
+}
+.album-photo-empty > div > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.album {
+  padding: 0 7px;
+  margin: 7px 0;
+}
+.border-top {
+  border-radius: 5px 5px 0 0;
+}
+.border-bottom {
+  border-radius: 0 0 5px 5px;
+}
+.album-photo-item,
+.playlist__item {
+  border-radius: 5px;
+  cursor: pointer;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-color: #f3f4f5;
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 35%;
+}
+.photos_album_no_cover {
+  background-size: 40%;
+  background-position: center 50%;
+}
+.album-expand-btn {
+  color: #4582ec;
+  font-size: 2rem;
+  border: none;
+  background-color: white;
+  border-radius: 0 0 5px 5px;
+  border-top: 1px solid #f3f4f5;
+  width: 100%;
+  height: 50px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+.album-expand-btn:hover {
+  background-color: #f1f2f6;
+}
+.album-expand-btn span {
+}
+.album-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+.album-info {
+  display: flex;
+  font-weight: bold;
+  justify-content: space-between;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 35px 5px 5px 5px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.53) 100%
+  );
+}
+.album-info span {
+  color: white;
+}
+.album-info-wo_shadow {
+  background: none;
+}
+.album-info-wo_shadow span {
+  color: #959595;
+}
+.album-photo-item img,
+.playlist__item img {
+  width: 100%;
+}
+.album-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.album-title_black {
+  color: #959595;
+  font-weight: bold;
+}
+.album-count {
+  color: #959595;
+  font-weight: bold;
+}
+.album-photo-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 500;
+}
+.ratio__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.ratio {
+  padding-top: 75%;
+  position: relative;
+}
+.expand-text {
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
+.breadcrumbs {
+  display: flex;
+  align-items: stretch;
+}
+.single-photo-page-wrap {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.single-photo-page-wrap img {
+  max-height: 90%;
+}
+.single-photo-page-wrap-btn * {
+  cursor: pointer;
+  font-size: 20px;
+  color: blue;
+}
+.single-photo-wrap__btns {
+  width: 25%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.delete-album {
+  cursor: pointer;
+}
+.album-change {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  top: 3%;
+  right: 6%;
+  width: 30px;
+  height: 30px;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+  z-index: 10;
+  border-radius: 50%;
+  font-size: 15px;
+  color: white;
+  color: rgba(255, 255, 255, 0.5);
+}
+.album-change:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.album:hover .album-change {
+  opacity: 1;
+}
+.photos_album_intro {
+  margin-bottom: 20px;
+}
+.photos_album_intro div {
+  text-align: center;
+}
+.photos_album_intro__photo-count {
+  color: #939393;
+}
+.photos_album_intro__title {
+  font-size: 1.6rem;
+}
+.photo-edit-input {
+  width: 100%;
+  padding: 6px 7px;
+  border: 1px solid #dce2e8;
+  border-radius: 0 0 5px 5px;
+
+  text-overflow: ellipsis;
+  color: #828282;
+}
+.edit-album-wrap {
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+.edit-album-wrap__form {
+  margin-bottom: 20px;
+  width: 50%;
+}
+.edit-album-cover {
+  width: 50px;
+}
+.edit-album-wrap__cover {
+  margin-right: 20px;
+  position: relative;
+}
+
+.edit-album-cover-trigger {
+  display: flex;
+  align-items: center;
+  transition: opacity 0.2s ease, bottom 0.2s ease;
+  position: absolute;
+  bottom: -25px;
+  height: 25px;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+}
+.edit-album-cover-trigger i {
+  margin: 0 5px;
+}
+.edit-album-cover-trigger span {
+  opacity: 0.7;
+}
+.edit-album-cover-trigger span:hover {
+  opacity: 1;
+}
+.edit-album-wrap__image {
+  height: 202px;
+  width: 270px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 35%;
+}
+
+.edit-album-wrap__image.placeholder {
+  background-size: 40%;
+}
+.edit-album-wrap__image:hover > .edit-album-cover-trigger {
+  bottom: 0;
+  color: #fff;
+  opacity: 1;
+}
+.edit-album_wrap__label {
+  font-size: 15px;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}

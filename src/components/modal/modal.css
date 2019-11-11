@@ -1,0 +1,55 @@
+.modal-header {
+  border-radius: 5px 5px 0 0;
+  background-color: #4582ec;
+  color: white;
+  padding: 12px 17px;
+  border: none;
+}
+.modal-close {
+  opacity: 0.75;
+  cursor: pointer;
+}
+.modal-close:hover {
+  opacity: 1;
+}
+.modal-title {
+  font-weight: bold;
+  font-size: 14px !important;
+}
+.modal-content {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  background-color: transparent;
+}
+.modal-body {
+  font-size: 14px;
+  color: #656c7f;
+  padding: 20px;
+  background-color: white;
+  border-radius: 0 0 5px 5px;
+}
+
+.modal-dialog {
+  width: 100%;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+}
+.modal-backdrop {
+  opacity: 0.6 !important;
+}
+@media all and (max-width: 600px) {
+  .modal-dialog {
+    margin: 0;
+  }
+}
+.edit-album-modal .modal-body {
+  height: 300px;
+  overflow: auto;
+}
+
+.edit-album-modal .modal-body::-webkit-scrollbar {
+  width: 0;
+}
+ {
+}

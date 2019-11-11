@@ -1,3 +1,2 @@
-import Music from './music.js';
-
-export default Music;
+import PlayListItem from './playlist-item';
+export { PlayListItem };

@@ -1,4 +1,2 @@
-import Photo from './photo.js';
-
-export default Photo;
-
+import AlbumsPageWrapper from "./albums-page-wrapper";
+export {  AlbumsPageWrapper };

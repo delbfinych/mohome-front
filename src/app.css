@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto:100");
+body {
+  background-color: #e5edf4;
+  font-family: "Inconsolata", monospace;
+}
+
+.panel {
+  overflow: auto;
+  height: 20vh;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.form {
+  flex-grow: 1;
+}
+
+input.invalid {
+  border: 1px solid red;
+}
+.form-control.is-invalid {
+  background-image: url("./img/error.png");
+  background-size: unset;
+}
+.form-control.is-valid {
+  background-image: url("./img/success.png");
+  background-size: unset;
+}
+.form-control-validation {
+  background-image: url("./img/validationSpinner.gif");
+  background-repeat: no-repeat;
+  background-position: center right calc(0.375em + 0.25rem);
+}
+.form-text__error {
+  background-color: red;
+  color: red;
+}
+.form-control {
+  box-shadow: none !important;
+  padding: 5px 9px;
+}
+.form-group {
+  font-weight: bold;
+}
+input.form-control {
+  height: 30px;
+  border-radius: 5px;
+}
+.form-control {
+  font-size: 14px;
+}
+.sign-in-form,
+.sign-up-form {
+  border-radius: 5px;
+  background-color: white;
+  padding: 20px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.sign-in-form__label,
+.sign-up-form__label {
+  font-size: 14px;
+  color: #0b8df4;
+}
+
+.sign-up-form__label:after {
+  color: #cb2431;
+  content: "*";
+  padding-left: 5px;
+}
+.user-input-error {
+  font-size: 13px;
+  color: #cb2431;
+}
+.create-account-callout {
+  font-size: 13px;
+  text-align: center;
+  margin-top: 20px;
+  color: #656c7f;
+}
+.create-account-callout a {
+  font-weight: bold;
+}
+.sign-page-logo {
+  display: block;
+  margin: 40px auto 20px auto;
+}
+.logo-text {
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  color: #4582ec;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.error {
+  background-color: #ffdce0;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 10px;
+  color: #86181d;
+  position: relative;
+}
+.error i {
+  cursor: pointer;
+  position: absolute;
+  right: 5%;
+  top: 20%;
+  opacity: 0.6;
+}
+.error i:hover {
+  opacity: 1;
+}
+
+.crumb-sep {
+  position: relative;
+  margin: 0 10px;
+}
+
+.crumb-sep i {
+  position: absolute;
+  top: 8%;
+  right: -3px;
+  font-size: 21px;
+  color: #656c7f;
+}
+.centered-block {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.albums-container {
+  margin: 20px 0;
+}
+
+.uploadBtn {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}

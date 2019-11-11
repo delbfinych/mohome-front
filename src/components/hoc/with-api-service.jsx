@@ -1,5 +1,5 @@
-import React from "react";
-import { ApiServiceConsumer } from "../../services/api-service-context"
+import React from 'react';
+import { ApiServiceConsumer } from '../../services/api-service-context';
 
 const withApiService = mapMethodsToProps => Wrapped => {
   return props => {

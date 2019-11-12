@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
-import routes from "../../routes"
+import routes from "../../routes";
+import { Brand } from "../../constants";
 
 export default class LeftNavBar extends Component {
   state = {
@@ -10,7 +11,7 @@ export default class LeftNavBar extends Component {
     return (
       <div className={"navbar__left"}>
         <Link to={routes.root.path} className="navbar__logo">
-          <img src="/temp_content/brand.png" className="logo" alt="Mohome" />
+          <img src={Brand} className="logo" alt="Mohome" />
         </Link>
         <div
           onClick={() =>

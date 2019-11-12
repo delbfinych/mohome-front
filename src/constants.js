@@ -1,2 +1,3 @@
 import Logo from "./img/brand_blue.png";
-export { Logo };
+import Brand from "./img/brand.png";
+export { Logo, Brand };

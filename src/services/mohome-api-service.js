@@ -6,7 +6,7 @@ export default class MohomeApiService {
   constructor() {
     this._updateToken();
   }
-  _apiBase = "http://mohome.ml/Api/v1";
+  _apiBase = "https://cors-anywhere.herokuapp.com/http://mohome.ml/Api/v1";
 
   signIn = async body => {
     return axios

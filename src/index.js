@@ -10,7 +10,7 @@ const apiService = new MohomeApiService();
 
 ReactDOM.render(
   <ApiServiceProvider value={apiService}>
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Route component={App} />
     </Router>
   </ApiServiceProvider>,

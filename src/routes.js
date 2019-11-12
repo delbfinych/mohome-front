@@ -13,9 +13,11 @@ import { MainMusicView, MusicPlaylist, EditMusicPlaylist } from './pages/music';
 import SignIn from './pages/sign-in';
 import SignUp from './pages/sign-up';
 
+const baseURl = process.env.PUBLIC_URL + '/';
+
 export default {
   root: {
-    path: '/',
+    path: baseURl,
     view: Home
   },
   signIn: { path: '/sign-in', view: SignIn },

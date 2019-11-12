@@ -4,7 +4,7 @@ import App from "./app";
 
 import { ApiServiceProvider } from "./services/api-service-context";
 import { MohomeApiService } from "./services";
-import { Route, HashRouter as Router } from "react-router-dom";
+import { Route, BrowserRouter as Router } from "react-router-dom";
 
 const apiService = new MohomeApiService();
 

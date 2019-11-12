@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import routes from "../../routes";
 import { Brand } from "../../constants";
-<<<<<<< HEAD
-=======
-
->>>>>>> develop
 export default class LeftNavBar extends Component {
   state = {
     isMenuOpened: false

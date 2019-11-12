@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "17155014fa8236634487d496f2284de2",
+    "revision": "70af4e611f44131308a9a181410661d2",
     "url": "/mohome-front/index.html"
   },
   {
-    "revision": "fc8d1a83d40cbe62d06a",
+    "revision": "1e94316743e20d5f4aa1",
     "url": "/mohome-front/static/css/main.bfc12b49.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/mohome-front/static/js/2.648d676d.chunk.js"
   },
   {
-    "revision": "fc8d1a83d40cbe62d06a",
-    "url": "/mohome-front/static/js/main.fb63a94d.chunk.js"
+    "revision": "1e94316743e20d5f4aa1",
+    "url": "/mohome-front/static/js/main.eb073e28.chunk.js"
   },
   {
     "revision": "5cc46f9f47dc048c7715",

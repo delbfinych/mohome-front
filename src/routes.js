@@ -5,7 +5,7 @@ import {
   PhotoAlbum,
   EditPhotoAlbum,
   SinglePhoto,
-  PhotoSlider
+  PhotoSlider,
 } from './pages/photo';
 import Video from './pages/video';
 import { MainMusicView, MusicPlaylist, EditMusicPlaylist } from './pages/music';
@@ -13,12 +13,10 @@ import { MainMusicView, MusicPlaylist, EditMusicPlaylist } from './pages/music';
 import SignIn from './pages/sign-in';
 import SignUp from './pages/sign-up';
 
-const baseURl = process.env.PUBLIC_URL + '/';
-
 export default {
   root: {
-    path: baseURl,
-    view: Home
+    path: '/',
+    view: Home,
   },
   signIn: { path: '/sign-in', view: SignIn },
   signUp: { path: '/sign-up', view: SignUp },
@@ -26,53 +24,53 @@ export default {
     photo: {
       main: {
         path: '/albums/',
-        view: MainPhotoView
+        view: MainPhotoView,
       },
       albums: {
         edit: {
           path: '/albums/:id/edit',
           relativePath: 'edit',
-          view: EditPhotoAlbum
+          view: EditPhotoAlbum,
         },
         photo: {
           path: '/albums/:albumId/photo/:name',
-          view: SinglePhoto
+          view: SinglePhoto,
         },
         upload: {
           path: '/albums/:albumId/upload',
-          view: AddPhotos
+          view: AddPhotos,
         },
         album: {
           path: '/albums/:albumId',
-          view: PhotoAlbum
-        }
+          view: PhotoAlbum,
+        },
       },
       slider: {
         path: 'photo/:name',
         relativePath: 'photo',
-        view: PhotoSlider
+        view: PhotoSlider,
       },
       photo: {
         path: '/albums/photo/:name',
-        view: SinglePhoto
+        view: SinglePhoto,
       },
       upload: {
         path: '/albums/upload',
         relativePath: 'upload',
-        view: AddPhotos
-      }
+        view: AddPhotos,
+      },
     },
     music: {
       main: {
         path: '/music',
-        view: MainMusicView
-      }
+        view: MainMusicView,
+      },
     },
     video: {
       main: {
         path: '/video',
-        view: Video
-      }
-    }
-  }
+        view: Video,
+      },
+    },
+  },
 };

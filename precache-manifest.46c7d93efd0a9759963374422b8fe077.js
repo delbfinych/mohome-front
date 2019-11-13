@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7d46ccd61f794a705ef3957ee8cde4b6",
+    "revision": "a6c5fa0f13fe393f18719567eca53759",
     "url": "/mohome-front/index.html"
   },
   {
-    "revision": "a00a118242bceb913cf3",
+    "revision": "5303a32c25ff868171d2",
     "url": "/mohome-front/static/css/main.58c8634f.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/mohome-front/static/js/2.2a68d27f.chunk.js"
   },
   {
-    "revision": "a00a118242bceb913cf3",
-    "url": "/mohome-front/static/js/main.dbe0ea59.chunk.js"
+    "revision": "5303a32c25ff868171d2",
+    "url": "/mohome-front/static/js/main.2ca7e9ee.chunk.js"
   },
   {
     "revision": "5cc46f9f47dc048c7715",
@@ -24,8 +24,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/mohome-front/static/media/brand_blue.0f7353a0.png"
   },
   {
-    "revision": "e3e53d9712c63011cb4479f8ffd84a2a",
-    "url": "/mohome-front/static/media/cogs.e3e53d97.svg"
+    "revision": "1c591751173feb573526bcfbae72eb5c",
+    "url": "/mohome-front/static/media/cogs.1c591751.svg"
   },
   {
     "revision": "0ef4e888dcf2d5fa227b60a3bceaffa2",

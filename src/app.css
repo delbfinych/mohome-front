@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700");
-@import url("https://fonts.googleapis.com/css?family=Roboto:100");
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:400,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100');
 body {
   background-color: #e5edf4;
-  font-family: "Inconsolata", monospace;
+  font-family: 'Inconsolata', monospace;
 }
 
 .panel {
@@ -20,15 +20,15 @@ input.invalid {
   border: 1px solid red;
 }
 .form-control.is-invalid {
-  background-image: url("./img/error.png");
+  background-image: url('./img/error.png');
   background-size: unset;
 }
 .form-control.is-valid {
-  background-image: url("./img/success.png");
+  background-image: url('./img/success.png');
   background-size: unset;
 }
 .form-control-validation {
-  background-image: url("./img/validationSpinner.gif");
+  background-image: url('./img/validationSpinner.gif');
   background-repeat: no-repeat;
   background-position: center right calc(0.375em + 0.25rem);
 }
@@ -66,7 +66,7 @@ input.form-control {
 
 .sign-up-form__label:after {
   color: #cb2431;
-  content: "*";
+  content: '*';
   padding-left: 5px;
 }
 .user-input-error {
@@ -87,7 +87,7 @@ input.form-control {
   margin: 40px auto 20px auto;
 }
 .logo-text {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   text-align: center;
   color: #4582ec;
   font-size: 20px;
@@ -143,4 +143,11 @@ input.form-control {
   width: 100%;
   height: 100%;
   cursor: pointer;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }

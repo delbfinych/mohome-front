@@ -49,7 +49,7 @@ class MainMusicView extends Component {
     ];
 
     return (
-      <div className="main-container container bg-white">
+      <div className="centered main-container container bg-white">
         <NotAvailable />
       </div>
     );

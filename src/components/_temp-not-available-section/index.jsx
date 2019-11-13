@@ -12,9 +12,9 @@ export default class Home extends Component {
           flexDirection: 'column',
         }}
       >
-        <div style={{ color: '#4582ec' }}>This section is not available.</div>
-        <div style={{ color: '#4582ec' }}>We are working on it.</div>
-        <img style={{ width: '150px', stroke: '#4582ec' }} src={Cogs} alt="" />
+        <div style={{ color: '#5779b4' }}>This section is not available.</div>
+        <div style={{ color: '#5779b4' }}>We are working on it.</div>
+        <img style={{ width: '150px' }} src={Cogs} alt="" />
       </div>
     );
   }
